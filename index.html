@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>Dark Edgy Portfolio</title>
 <style>
-  /* DARK THEME BASE */
   :root {
     --bg-color: #0e0e0e;
     --text-color: #f0f0f0;
@@ -93,23 +92,14 @@
 
   h2 {
     font-size: 2.5rem;
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
     font-weight: 900;
     letter-spacing: 1.5px;
     color: var(--accent-color);
     text-shadow: 0 0 8px var(--accent-glow);
   }
 
-  p {
-    font-size: 1.1rem;
-    line-height: 1.6;
-    color: #ccc;
-    max-width: 700px;
-  }
-
-  /* Skills bars */
   .skills-bar {
-    margin-top: 2rem;
     max-width: 700px;
   }
 
@@ -129,7 +119,6 @@
     border-radius: 8px;
   }
 
-  /* Projects grid */
   .projects-grid {
     display: grid;
     grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
@@ -151,15 +140,10 @@
   }
 
   .project-card h3 {
-    margin: 0 0 0.5rem 0;
+    margin: 0;
     color: var(--accent-color);
   }
 
-  .project-card p {
-    color: #bbb;
-  }
-
-  /* Footer */
   footer {
     text-align: center;
     padding: 2rem;
@@ -168,7 +152,6 @@
     user-select: none;
   }
 
-  /* Scrollbar for dark theme */
   ::-webkit-scrollbar {
     width: 8px;
   }
@@ -196,7 +179,6 @@
 <main>
   <section id="about">
     <h2>About Me</h2>
-    <p>Welcome to my dark and edgy portfolio. I build insane, mind-blowing projects with bold style and mysterious vibes. Creativity meets clean design.</p>
   </section>
 
   <section id="skills">
@@ -207,35 +189,20 @@
       <div><div style="width: 70%"></div></div>
       <div><div style="width: 85%"></div></div>
     </div>
-    <p>HTML / CSS / JavaScript / React / Node.js</p>
   </section>
 
   <section id="projects">
     <h2>Projects</h2>
     <div class="projects-grid">
-      <div class="project-card">
-        <h3>Neon Chat App</h3>
-        <p>A blazing fast real-time chat app with neon aesthetics and insane animations.</p>
-      </div>
-      <div class="project-card">
-        <h3>Dark Portfolio</h3>
-        <p>Clean, bold, and mysterious portfolio design with smooth scrolling and glowing highlights.</p>
-      </div>
-      <div class="project-card">
-        <h3>AI Music Generator</h3>
-        <p>Mind-blowing AI-powered music generator with edgy UI and custom soundscapes.</p>
-      </div>
-      <div class="project-card">
-        <h3>3D Cube Game</h3>
-        <p>Insane 3D cube platformer with fluid controls and dark neon graphics.</p>
-      </div>
+      <div class="project-card"><h3>Neon Chat App</h3></div>
+      <div class="project-card"><h3>Dark Portfolio</h3></div>
+      <div class="project-card"><h3>AI Music Generator</h3></div>
+      <div class="project-card"><h3>3D Cube Game</h3></div>
     </div>
   </section>
 
   <section id="contact">
     <h2>Contact</h2>
-    <p>Want to collaborate or just say hi? Drop me a message!</p>
-    <p>Email: <a href="mailto:hello@bblamed.com" style="color: var(--accent-color)">hello@bblamed.com</a></p>
   </section>
 </main>
 
@@ -244,57 +211,48 @@
 </footer>
 
 <script>
-// Animate skill bars on scroll into view
-function animateSkills() {
-  const skillsSection = document.getElementById('skills');
-  const bars = document.querySelectorAll('.skills-bar > div > div');
-  const triggerPoint = window.innerHeight * 0.8;
-  const rect = skillsSection.getBoundingClientRect();
+  // Skill bars animation
+  function animateSkills() {
+    const skillsSection = document.getElementById('skills');
+    const bars = document.querySelectorAll('.skills-bar > div > div');
+    const triggerPoint = window.innerHeight * 0.8;
+    const rect = skillsSection.getBoundingClientRect();
 
-  if (rect.top < triggerPoint) {
-    bars.forEach(bar => {
-      const width = bar.getAttribute('style').match(/width:\s*(\d+)%/)[1];
-      bar.style.width = '0';
-      setTimeout(() => {
+    if (rect.top < triggerPoint) {
+      bars.forEach(bar => {
+        const width = bar.getAttribute('style').match(/width:\s*(\d+)%/)[1];
         bar.style.width = width + '%';
-      }, 100);
+      });
+    }
+  }
+
+  // Navigation link highlighting on scroll
+  function highlightNav() {
+    const sections = document.querySelectorAll('main section');
+    const navLinks = document.querySelectorAll('nav a');
+    let scrollPos = window.scrollY + window.innerHeight / 3;
+
+    sections.forEach((section, index) => {
+      const top = section.offsetTop;
+      const bottom = top + section.offsetHeight;
+
+      if (scrollPos >= top && scrollPos < bottom) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        navLinks[index].classList.add('active');
+      }
     });
   }
-}
 
-// Highlight nav links based on scroll
-const sections = document.querySelectorAll('main section');
-const navLinks = document.querySelectorAll('nav a');
-
-function onScroll() {
-  let current = '';
-  const scrollY = window.pageYOffset + 120; // offset for header height + padding
-
-  sections.forEach(section => {
-    const sectionTop = section.offsetTop;
-    if (scrollY >= sectionTop) {
-      current = section.getAttribute('id');
-    }
+  window.addEventListener('scroll', () => {
+    animateSkills();
+    highlightNav();
   });
 
-  navLinks.forEach(link => {
-    link.classList.remove('active');
-    if (link.getAttribute('href').slice(1) === current) {
-      link.classList.add('active');
-    }
+  // Initialize on load
+  window.addEventListener('load', () => {
+    animateSkills();
+    highlightNav();
   });
-}
-
-window.addEventListener('scroll', () => {
-  animateSkills();
-  onScroll();
-});
-
-// Animate skills bars once on page load if visible
-window.addEventListener('load', () => {
-  animateSkills();
-  onScroll();
-});
 </script>
 
 </body>

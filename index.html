@@ -3,106 +3,190 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>bblamed - Portfolio</title>
-<link rel="icon" href="favicon.ico" />
+<title>Dark Edgy Portfolio</title>
 <style>
-  body {
-    font-family: Arial, sans-serif;
-    margin: 0; padding: 0;
-    background: #fff;
-    color: #222;
+  /* DARK THEME BASE */
+  :root {
+    --bg-color: #0e0e0e;
+    --text-color: #f0f0f0;
+    --accent-color: #ff0055;
+    --accent-glow: #ff0055aa;
+    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   }
+
+  * {
+    box-sizing: border-box;
+  }
+
+  body {
+    margin: 0; padding: 0;
+    background: var(--bg-color);
+    color: var(--text-color);
+    font-family: var(--font-family);
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+  }
+
   header {
-    background: #007acc;
-    color: white;
+    position: fixed;
+    width: 100%;
+    background: #111;
     padding: 1rem 2rem;
-    position: sticky;
-    top: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
+    border-bottom: 1px solid #222;
     z-index: 1000;
+    box-shadow: 0 0 15px var(--accent-glow);
   }
+
+  header h1 {
+    font-weight: 900;
+    font-size: 1.8rem;
+    letter-spacing: 2px;
+    color: var(--accent-color);
+    user-select: none;
+  }
+
   nav a {
-    color: white;
-    margin-left: 1rem;
+    color: var(--text-color);
+    margin-left: 2rem;
     text-decoration: none;
+    font-weight: 700;
+    position: relative;
+    transition: color 0.3s ease;
   }
-  nav a:hover {
-    text-decoration: underline;
+
+  nav a:hover, nav a.active {
+    color: var(--accent-color);
   }
+
+  nav a::after {
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 2px;
+    background: var(--accent-color);
+    left: 0;
+    bottom: -6px;
+    transition: width 0.3s ease;
+  }
+
+  nav a:hover::after, nav a.active::after {
+    width: 100%;
+  }
+
   main {
+    padding-top: 5rem;
     max-width: 900px;
-    margin: 2rem auto;
-    padding: 0 1rem;
+    margin: 0 auto;
   }
+
   section {
-    margin-bottom: 2.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #ccc;
+    padding: 4rem 1rem;
+    border-bottom: 1px solid #222;
   }
+
+  section:last-child {
+    border-bottom: none;
+  }
+
   h2 {
+    font-size: 2.5rem;
     margin-bottom: 1rem;
-    color: #007acc;
+    font-weight: 900;
+    letter-spacing: 1.5px;
+    color: var(--accent-color);
+    text-shadow: 0 0 8px var(--accent-glow);
   }
-  ul {
-    list-style: none;
-    padding: 0;
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ccc;
+    max-width: 700px;
   }
-  ul li {
-    margin-bottom: 0.5rem;
-  }
+
+  /* Skills bars */
   .skills-bar {
-    background: #eee;
-    border-radius: 10px;
-    overflow: hidden;
-    margin-bottom: 0.7rem;
+    margin-top: 2rem;
+    max-width: 700px;
   }
-  .skills-bar div {
-    height: 15px;
-    background: #007acc;
+
+  .skills-bar > div {
+    background: #222;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1rem;
+  }
+
+  .skills-bar > div > div {
+    height: 25px;
+    background: var(--accent-color);
     width: 0;
     transition: width 1.5s ease-in-out;
+    box-shadow: 0 0 10px var(--accent-glow);
+    border-radius: 8px;
   }
-  .project {
-    margin-bottom: 1rem;
+
+  /* Projects grid */
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
+    gap: 1.5rem;
   }
-  .contact-form label {
-    display: block;
-    margin-bottom: 0.3rem;
-  }
-  .contact-form input, .contact-form textarea {
-    width: 100%;
-    padding: 0.5rem;
-    margin-bottom: 1rem;
-    border: 1px solid #aaa;
-    border-radius: 4px;
-  }
-  .contact-form button {
-    background: #007acc;
-    color: white;
-    border: none;
-    padding: 0.7rem 1.5rem;
+
+  .project-card {
+    background: #121212;
+    border-radius: 12px;
+    padding: 1.5rem;
+    box-shadow: 0 0 20px #55003355 inset;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
     cursor: pointer;
-    border-radius: 4px;
   }
-  .contact-form button:hover {
-    background: #005f99;
+
+  .project-card:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 30px var(--accent-glow);
   }
+
+  .project-card h3 {
+    margin: 0 0 0.5rem 0;
+    color: var(--accent-color);
+  }
+
+  .project-card p {
+    color: #bbb;
+  }
+
+  /* Footer */
   footer {
     text-align: center;
-    padding: 1rem 0;
-    background: #007acc;
-    color: white;
+    padding: 2rem;
+    color: #555;
+    font-size: 0.9rem;
+    user-select: none;
+  }
+
+  /* Scrollbar for dark theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #111;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: var(--accent-color);
+    border-radius: 10px;
   }
 </style>
 </head>
 <body>
 
 <header>
-  <h1>bblamed</h1>
+  <h1>BBLAMED</h1>
   <nav>
-    <a href="#about">About</a>
+    <a href="#about" class="active">About</a>
     <a href="#skills">Skills</a>
     <a href="#projects">Projects</a>
     <a href="#contact">Contact</a>
@@ -110,134 +194,107 @@
 </header>
 
 <main>
-
-  <!-- 1. About Me -->
   <section id="about">
     <h2>About Me</h2>
-    <p>Hi! I'm bblamed, a passionate developer focused on building clean and practical web applications.</p>
+    <p>Welcome to my dark and edgy portfolio. I build insane, mind-blowing projects with bold style and mysterious vibes. Creativity meets clean design.</p>
   </section>
 
-  <!-- 2. Skills -->
   <section id="skills">
     <h2>Skills</h2>
-    <ul>
-      <li>JavaScript <div class="skills-bar"><div style="width:90%"></div></div></li>
-      <li>HTML & CSS <div class="skills-bar"><div style="width:95%"></div></div></li>
-      <li>Python <div class="skills-bar"><div style="width:80%"></div></div></li>
-      <li>Git & GitHub <div class="skills-bar"><div style="width:85%"></div></div></li>
-      <li>React <div class="skills-bar"><div style="width:75%"></div></div></li>
-      <!-- Add more skill bars here -->
-    </ul>
+    <div class="skills-bar">
+      <div><div style="width: 90%"></div></div>
+      <div><div style="width: 80%"></div></div>
+      <div><div style="width: 70%"></div></div>
+      <div><div style="width: 85%"></div></div>
+    </div>
+    <p>HTML / CSS / JavaScript / React / Node.js</p>
   </section>
 
-  <!-- 3. Projects -->
   <section id="projects">
     <h2>Projects</h2>
-
-    <div class="project">
-      <h3><a href="https://github.com/bblamed/project1" target="_blank" rel="noopener">Project One</a></h3>
-      <p>A responsive web app for task management using React and Firebase.</p>
+    <div class="projects-grid">
+      <div class="project-card">
+        <h3>Neon Chat App</h3>
+        <p>A blazing fast real-time chat app with neon aesthetics and insane animations.</p>
+      </div>
+      <div class="project-card">
+        <h3>Dark Portfolio</h3>
+        <p>Clean, bold, and mysterious portfolio design with smooth scrolling and glowing highlights.</p>
+      </div>
+      <div class="project-card">
+        <h3>AI Music Generator</h3>
+        <p>Mind-blowing AI-powered music generator with edgy UI and custom soundscapes.</p>
+      </div>
+      <div class="project-card">
+        <h3>3D Cube Game</h3>
+        <p>Insane 3D cube platformer with fluid controls and dark neon graphics.</p>
+      </div>
     </div>
-
-    <div class="project">
-      <h3><a href="https://github.com/bblamed/project2" target="_blank" rel="noopener">Project Two</a></h3>
-      <p>Python script automating data analysis and visualization.</p>
-    </div>
-
-    <!-- Add more projects as needed -->
-
   </section>
 
-  <!-- 4. Blog (sample posts) -->
-  <section id="blog">
-    <h2>Latest Blog Posts</h2>
-    <ul>
-      <li><a href="#">How I Improved My JavaScript Skills</a> - May 2025</li>
-      <li><a href="#">Tips for Writing Clean Code</a> - April 2025</li>
-      <li><a href="#">My Journey Learning React</a> - March 2025</li>
-      <!-- Add more blog posts -->
-    </ul>
-  </section>
-
-  <!-- 5. Contact -->
   <section id="contact">
-    <h2>Contact Me</h2>
-    <form class="contact-form" onsubmit="event.preventDefault(); alert('Form submission is disabled on this demo.');">
-      <label for="name">Name</label>
-      <input type="text" id="name" name="name" placeholder="Your name" required />
-
-      <label for="email">Email</label>
-      <input type="email" id="email" name="email" placeholder="your.email@example.com" required />
-
-      <label for="message">Message</label>
-      <textarea id="message" name="message" rows="5" placeholder="Your message here..." required></textarea>
-
-      <button type="submit">Send</button>
-    </form>
+    <h2>Contact</h2>
+    <p>Want to collaborate or just say hi? Drop me a message!</p>
+    <p>Email: <a href="mailto:hello@bblamed.com" style="color: var(--accent-color)">hello@bblamed.com</a></p>
   </section>
-
-  <!-- 6. Social Links -->
-  <section id="social">
-    <h2>Connect with Me</h2>
-    <p>
-      <a href="https://github.com/bblamed" target="_blank" rel="noopener">GitHub</a> |
-      <a href="https://linkedin.com/in/bblamed" target="_blank" rel="noopener">LinkedIn</a> |
-      <a href="https://twitter.com/bblamed" target="_blank" rel="noopener">Twitter</a>
-    </p>
-  </section>
-
-  <!-- 7. Resume Download -->
-  <section id="resume">
-    <h2>Resume</h2>
-    <p><a href="resume.pdf" download>Download my resume (PDF)</a></p>
-  </section>
-
-  <!-- 8. FAQ -->
-  <section id="faq">
-    <h2>FAQ</h2>
-    <ul>
-      <li><strong>Q:</strong> What technologies do you specialize in?<br><strong>A:</strong> Mainly JavaScript, React, Python, and web development tools.</li>
-      <li><strong>Q:</strong> How can I contact you?<br><strong>A:</strong> Use the contact form or email me at bblamed@example.com.</li>
-      <!-- Add more FAQ items -->
-    </ul>
-  </section>
-
-  <!-- 9. Fun Facts -->
-  <section id="funfacts">
-    <h2>Fun Facts</h2>
-    <ul>
-      <li>I’ve contributed to 50+ open source projects.</li>
-      <li>I love hiking and outdoor adventures.</li>
-      <li>Favorite programming language is Python.</li>
-      <!-- Add more facts -->
-    </ul>
-  </section>
-
-  <!-- 10. Timeline -->
-  <section id="timeline">
-    <h2>My Journey</h2>
-    <ul>
-      <li><strong>2018:</strong> Started learning coding</li>
-      <li><strong>2020:</strong> Built first full web app</li>
-      <li><strong>2023:</strong> Started freelancing</li>
-      <li><strong>2025:</strong> Working full-time as a developer</li>
-    </ul>
-  </section>
-
 </main>
 
 <footer>
-  &copy; 2025 bblamed. All rights reserved.
+  &copy; 2025 BBLAMED. All rights reserved.
 </footer>
 
 <script>
-  // Animate skill bars on page load
-  window.addEventListener('DOMContentLoaded', () => {
-    const bars = document.querySelectorAll('.skills-bar div');
+// Animate skill bars on scroll into view
+function animateSkills() {
+  const skillsSection = document.getElementById('skills');
+  const bars = document.querySelectorAll('.skills-bar > div > div');
+  const triggerPoint = window.innerHeight * 0.8;
+  const rect = skillsSection.getBoundingClientRect();
+
+  if (rect.top < triggerPoint) {
     bars.forEach(bar => {
-      bar.style.width = bar.style.width; // triggers CSS transition
+      const width = bar.getAttribute('style').match(/width:\s*(\d+)%/)[1];
+      bar.style.width = '0';
+      setTimeout(() => {
+        bar.style.width = width + '%';
+      }, 100);
     });
+  }
+}
+
+// Highlight nav links based on scroll
+const sections = document.querySelectorAll('main section');
+const navLinks = document.querySelectorAll('nav a');
+
+function onScroll() {
+  let current = '';
+  const scrollY = window.pageYOffset + 120; // offset for header height + padding
+
+  sections.forEach(section => {
+    const sectionTop = section.offsetTop;
+    if (scrollY >= sectionTop) {
+      current = section.getAttribute('id');
+    }
   });
+
+  navLinks.forEach(link => {
+    link.classList.remove('active');
+    if (link.getAttribute('href').slice(1) === current) {
+      link.classList.add('active');
+    }
+  });
+}
+
+window.addEventListener('scroll', () => {
+  animateSkills();
+  onScroll();
+});
+
+// Animate skills bars once on page load if visible
+window.addEventListener('load', () => {
+  animateSkills();
+  onScroll();
+});
 </script>
 
 </body>

@@ -70,6 +70,7 @@
       justify-content: center;
       gap: 1.6rem;
       margin-bottom: 3rem;
+      align-items: center;
     }
 
     /* Main button style */
@@ -99,33 +100,24 @@
       transform: translateY(-3px);
     }
 
-    /* Roblox button with rainbow glow border and transparent background */
+    /* Roblox button without rainbow border */
     .btn-roblox {
       width: 64px;
       height: 64px;
       border-radius: 50%;
-      border: 3px solid;
-      border-image-slice: 1;
-      border-image-source: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);
+      border: none;
       background: transparent;
       padding: 8px;
       cursor: pointer;
-      filter: drop-shadow(0 0 5px #4ade80);
-      animation: rainbowGlow 10s linear infinite;
+      filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
       display: flex;
       align-items: center;
       justify-content: center;
-      transition: box-shadow 0.3s ease;
+      transition: filter 0.3s ease, transform 0.3s ease;
     }
     .btn-roblox:hover {
-      box-shadow: 0 0 18px 6px;
-      filter: drop-shadow(0 0 15px);
-      transform: scale(1.05);
-    }
-    @keyframes rainbowGlow {
-      0% {border-image-source: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);}
-      50% {border-image-source: linear-gradient(270deg, #4ade80, #ff6ec4, #7873f5, #4ade80);}
-      100% {border-image-source: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);}
+      filter: drop-shadow(0 0 10px #999);
+      transform: scale(1.07);
     }
 
     /* Roblox logo style */
@@ -135,7 +127,6 @@
       pointer-events: none;
       user-select: none;
       object-fit: contain;
-      filter: drop-shadow(0 0 1px black);
     }
 
     /* Contact view styling */
@@ -202,7 +193,7 @@
     <!-- Main View -->
     <div id="main-view" aria-label="Main homepage view">
       <h1 class="title" aria-label="Site title Blamed">Blamed</h1>
-      <p class="subtitle">Creating clean and stylish digital spaces.</p>
+      <p class="subtitle">idk what to add lmao</p>
       <div class="buttons">
         <button id="contact-btn" class="btn" aria-haspopup="dialog" aria-controls="contact-view" aria-expanded="false">Contact</button>
         <button id="roblox-btn" class="btn-roblox" aria-label="Visit Roblox Profile" title="Visit Roblox Profile">

@@ -5,83 +5,72 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>blamed WIP</title>
     <style>
-        /* Animated gradient background */
         body {
             margin: 0;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(-45deg, #0d0d0d, #1a1a1a, #111, #222);
-            background-size: 400% 400%;
-            animation: gradientBG 15s ease infinite;
+            background: #0d0d0d;
             color: white;
             text-align: center;
-            opacity: 0;
-            animation: fadeIn 2s ease forwards, gradientBG 20s ease infinite;
         }
-
-        @keyframes gradientBG {
-            0% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
-            100% { background-position: 0% 50%; }
-        }
-
-        @keyframes fadeIn {
-            to { opacity: 1; }
-        }
-
         header {
-            padding: 120px 20px 60px;
+            padding: 80px 20px;
         }
-
         h1 {
             font-size: 4rem;
             background: linear-gradient(to right, #00b0f4, #7289da, #00b0f4);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
-            background-size: 200% auto;
-            animation: rainbow-text 5s linear infinite;
+            animation: rainbow-text 5s infinite alternate;
         }
-
         @keyframes rainbow-text {
             0% {background-position: 0%;}
             100% {background-position: 100%;}
         }
-
         p {
-            color: #aaa;
-            font-size: 1.4rem;
-            margin-top: 10px;
+            color: #888;
+            font-size: 1.3rem;
         }
-
         .button-container {
-            margin-top: 60px;
+            margin-top: 50px;
             display: flex;
             justify-content: center;
             gap: 50px;
+            flex-wrap: wrap;
         }
-
         .icon-button {
             background: none;
             border: none;
             cursor: pointer;
-            transition: transform 0.4s ease, filter 0.4s ease;
+            transition: transform 0.3s ease, filter 0.3s ease;
         }
-
         .icon-button:hover {
-            transform: scale(1.15);
-            filter: drop-shadow(0 0 25px #7289da);
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px #7289da);
         }
-
         .icon-button img {
             width: 100px;
             height: 100px;
         }
-
-        footer {
-            margin-top: 120px;
-            font-size: 0.9rem;
-            color: #666;
+        .contact-btn {
+            margin-top: 60px;
+            background: #7289da;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
         }
-
+        .contact-btn:hover {
+            background: #5865F2;
+            transform: scale(1.05);
+        }
+        footer {
+            margin-top: 100px;
+            font-size: 0.9rem;
+            color: #555;
+        }
     </style>
 </head>
 <body>
@@ -97,6 +86,8 @@
                 <img src="https://cdn.discordapp.com/attachments/1103413079409186938/1240982991022137404/discordlogo.png" alt="Discord Logo">
             </button>
         </div>
+
+        <button class="contact-btn" onclick="window.location.href='contact.html'">Contact</button>
     </header>
 
     <footer>

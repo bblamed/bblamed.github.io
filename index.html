@@ -18,25 +18,32 @@
   }
 
   body {
-    margin: 0; padding: 0;
+    margin: 0; padding: 2rem;
     background: var(--bg-color);
     color: var(--text-color);
     font-family: var(--font-family);
     height: 100vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  }
+
+  .title-container {
+    user-select: none;
   }
 
   h1 {
     font-weight: 900;
-    font-size: 5rem;
+    font-size: 4rem;
     letter-spacing: 4px;
     color: var(--accent-color);
     text-shadow: 0 0 20px var(--accent-glow);
+    margin: 0 0 0.2rem 0;
+  }
+
+  .subtitle {
+    font-weight: 400;
+    font-size: 1rem;
+    color: #bbb;
+    letter-spacing: 1px;
     user-select: none;
-    margin: 0;
   }
 
   footer {
@@ -55,7 +62,10 @@
 </head>
 <body>
 
-<h1>ZGames</h1>
+<div class="title-container">
+  <h1>ZGames</h1>
+  <div class="subtitle">made by ahmad</div>
+</div>
 
 <footer>
   &copy; 2025 ZGames. All rights reserved.

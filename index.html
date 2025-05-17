@@ -14,31 +14,86 @@
   body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: #121212;
+    background: linear-gradient(135deg, #1e1e2f, #121212);
     color: #eee;
     display: flex;
     flex-direction: column;
     min-height: 100vh;
     text-align: center;
-    padding: 40px 20px;
+    padding: 60px 20px;
+    overflow-x: hidden;
+  }
+
+  header {
+    position: relative;
+    z-index: 1;
   }
 
   h1 {
-    font-size: 4.5rem;
+    font-size: 5rem;
     margin: 0;
-    font-weight: 600;
-    text-shadow: 0 0 8px #7289daaa;
+    font-weight: 700;
+    text-shadow: 0 0 15px #7289daaa;
+    background: linear-gradient(90deg, #7289da, #99a9f1);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: pulse 3s ease-in-out infinite;
   }
 
   p {
-    margin: 10px 0 40px;
-    color: #aaa;
-    font-size: 1.3rem;
+    margin: 15px 0 50px;
+    color: #bbb;
+    font-size: 1.4rem;
+    font-style: italic;
+  }
+
+  /* Subtle floating shapes for style */
+  .floating-shape {
+    position: fixed;
+    border-radius: 50%;
+    opacity: 0.1;
+    filter: blur(30px);
+    animation: floatUpDown 6s ease-in-out infinite alternate;
+  }
+
+  .shape1 {
+    width: 150px;
+    height: 150px;
+    background: #7289da;
+    bottom: 10%;
+    left: 15%;
+    animation-delay: 0s;
+  }
+  .shape2 {
+    width: 100px;
+    height: 100px;
+    background: #99a9f1;
+    top: 20%;
+    right: 20%;
+    animation-delay: 2s;
+  }
+  .shape3 {
+    width: 180px;
+    height: 180px;
+    background: #4a62c7;
+    top: 50%;
+    left: 70%;
+    animation-delay: 4s;
+  }
+
+  @keyframes pulse {
+    0%, 100% { text-shadow: 0 0 15px #7289daaa; }
+    50% { text-shadow: 0 0 30px #99a9f1; }
+  }
+
+  @keyframes floatUpDown {
+    0% { transform: translateY(0); opacity: 0.12; }
+    100% { transform: translateY(-30px); opacity: 0.08; }
   }
 
   footer {
     margin-top: auto;
-    padding: 25px 10px;
+    padding: 20px 10px;
     color: #555;
     font-size: 0.9rem;
     user-select: none;
@@ -47,12 +102,16 @@
   /* Responsive */
   @media (max-width: 480px) {
     h1 {
-      font-size: 3.5rem;
+      font-size: 3.8rem;
     }
   }
 </style>
 </head>
 <body>
+
+  <div class="floating-shape shape1"></div>
+  <div class="floating-shape shape2"></div>
+  <div class="floating-shape shape3"></div>
 
   <header>
     <h1>blamed</h1>

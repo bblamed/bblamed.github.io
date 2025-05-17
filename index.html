@@ -57,7 +57,6 @@
     .buttons {
       display: flex;
       gap: 1.5rem;
-      flex-wrap: wrap;
       justify-content: center;
       margin-bottom: 3rem;
       transition: opacity 0.4s ease;
@@ -74,7 +73,7 @@
       text-decoration: none;
       transition: all 0.3s ease;
       user-select: none;
-      flex: 1 1 120px;
+      min-width: 140px;
     }
     .btn:hover {
       background: #4ade80;
@@ -82,6 +81,39 @@
       color: #0f0f0f;
       box-shadow: 0 0 10px #4ade80;
       transform: translateY(-3px);
+    }
+
+    /* Roblox button with glowing rainbow border */
+    .btn-roblox {
+      background: transparent;
+      border: 3px solid;
+      border-image: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4) 1;
+      border-radius: 50%;
+      width: 60px;
+      height: 60px;
+      padding: 5px;
+      cursor: pointer;
+      transition: box-shadow 0.3s ease;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      filter: drop-shadow(0 0 5px #ff6ec4);
+      animation: rainbowGlow 10s linear infinite;
+    }
+    .btn-roblox:hover {
+      box-shadow: 0 0 15px 5px;
+      filter: drop-shadow(0 0 15px);
+    }
+    @keyframes rainbowGlow {
+      0% {border-image-source: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);}
+      50% {border-image-source: linear-gradient(270deg, #4ade80, #ff6ec4, #7873f5, #4ade80);}
+      100% {border-image-source: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);}
+    }
+    .roblox-logo {
+      width: 40px;
+      height: 40px;
+      user-select: none;
+      pointer-events: none;
     }
 
     /* Contact view styles */
@@ -121,6 +153,7 @@
       transition: background 0.3s ease;
       cursor: pointer;
       border: none;
+      min-width: 140px;
     }
     .btn-back:hover {
       background: #34c759;
@@ -137,16 +170,22 @@
       }
       .btn {
         font-size: 4vw;
-        flex: 1 1 100%;
-      }
-      .contact-view h1 {
-        font-size: 10vw;
+        min-width: auto;
       }
       .btn-back {
         font-size: 4vw;
+        min-width: auto;
       }
       .discord-logo {
         width: 80px;
+      }
+      .btn-roblox {
+        width: 50px;
+        height: 50px;
+      }
+      .roblox-logo {
+        width: 30px;
+        height: 30px;
       }
     }
   </style>
@@ -158,9 +197,13 @@
       <h1>Blamed</h1>
       <p class="tagline">Creating clean and stylish digital spaces.</p>
       <div class="buttons">
-        <a href="#" class="btn" tabindex="0">About Me</a>
-        <a href="#" class="btn" tabindex="0">Projects</a>
         <button id="contact-btn" class="btn" tabindex="0">Contact</button>
+        <button id="roblox-btn" class="btn-roblox" aria-label="Roblox Profile">
+          <img 
+            src="https://upload.wikimedia.org/wikipedia/commons/6/6a/Roblox_Logo_2017.svg" 
+            alt="Roblox Logo" 
+            class="roblox-logo" />
+        </button>
       </div>
     </div>
 
@@ -181,6 +224,7 @@
     const backBtn = document.getElementById('back-btn');
     const mainView = document.getElementById('main-view');
     const contactView = document.getElementById('contact-view');
+    const robloxBtn = document.getElementById('roblox-btn');
 
     contactBtn.addEventListener('click', () => {
       mainView.style.opacity = 0;
@@ -204,6 +248,10 @@
           mainView.style.opacity = 1;
         }, 50);
       }, 300);
+    });
+
+    robloxBtn.addEventListener('click', () => {
+      window.open('https://www.roblox.com/de/users/1712999257/profile', '_blank');
     });
   </script>
 </body>

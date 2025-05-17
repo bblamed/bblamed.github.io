@@ -23,10 +23,60 @@
     color: var(--text-color);
     font-family: var(--font-family);
     height: 100vh;
+    position: relative;
+    overflow: hidden;
+  }
+
+  /* Glowing edges */
+  body::before,
+  body::after {
+    content: '';
+    position: fixed;
+    pointer-events: none;
+    z-index: 9999;
+  }
+
+  /* Top and bottom glow */
+  body::before {
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, var(--accent-color), transparent, var(--accent-color));
+    filter: drop-shadow(0 0 8px var(--accent-color));
+  }
+
+  body::after {
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 6px;
+    background: linear-gradient(to right, var(--accent-color), transparent, var(--accent-color));
+    filter: drop-shadow(0 0 8px var(--accent-color));
+  }
+
+  /* Left and right glow */
+  .glow-side {
+    position: fixed;
+    top: 0;
+    width: 6px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--accent-color), transparent, var(--accent-color));
+    filter: drop-shadow(0 0 8px var(--accent-color));
+    pointer-events: none;
+    z-index: 9999;
+  }
+  .glow-left {
+    left: 0;
+  }
+  .glow-right {
+    right: 0;
   }
 
   .title-container {
     user-select: none;
+    position: relative;
+    z-index: 1;
   }
 
   h1 {
@@ -34,8 +84,8 @@
     font-size: 4rem;
     letter-spacing: 4px;
     color: var(--accent-color);
-    text-shadow: 0 0 20px var(--accent-glow);
     margin: 0 0 0.2rem 0;
+    text-shadow: none; /* Removed glowing text shadow */
   }
 
   .subtitle {
@@ -57,6 +107,7 @@
     user-select: none;
     background: #111;
     box-shadow: 0 0 15px var(--accent-glow);
+    z-index: 1;
   }
 </style>
 </head>
@@ -66,6 +117,9 @@
   <h1>ZGames</h1>
   <div class="subtitle">made by ahmad</div>
 </div>
+
+<div class="glow-side glow-left"></div>
+<div class="glow-side glow-right"></div>
 
 <footer>
   &copy; 2025 ZGames. All rights reserved.

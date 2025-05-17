@@ -7,14 +7,10 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
 
-  /* Base */
-  * {
-    box-sizing: border-box;
-  }
   body {
     margin: 0;
     font-family: 'Poppins', sans-serif;
-    background: #0a0a14; /* dark blue background */
+    background: #0a0a14;
     color: #eee;
     display: flex;
     flex-direction: column;
@@ -76,22 +72,18 @@
     filter: drop-shadow(0 0 10px #7289daaa);
   }
 
-  /* Roblox logo style with same gradient & glow */
+  /* Roblox R logo with same gradient & glow */
   .roblox-logo {
-    width: 100px;
+    width: 120px;
+    height: 120px;
     margin: 30px auto 10px;
-    background: linear-gradient(270deg, #7289da, #99a9f1, #4a62c7, #7289da);
-    background-size: 600% 600%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: flowColor 12s ease infinite;
-    filter: drop-shadow(0 0 8px #7289dacc);
+    filter: drop-shadow(0 0 12px #7289dacc);
   }
-  /* We use an inline SVG for crisp scaling */
   .roblox-logo svg {
     width: 100%;
-    height: auto;
-    fill: currentColor;
+    height: 100%;
+    fill: url(#gradient);
+    animation: flowColor 12s ease infinite;
   }
 
   p {
@@ -111,13 +103,13 @@
     z-index: 1;
   }
 
-  /* Responsive */
   @media (max-width: 480px) {
     h1 {
       font-size: 3.8rem;
     }
     .roblox-logo {
-      width: 70px;
+      width: 90px;
+      height: 90px;
       margin: 20px auto 8px;
     }
   }
@@ -138,10 +130,18 @@
   <header>
     <h1>blamed</h1>
 
-    <!-- Roblox Logo SVG with gradient -->
     <div class="roblox-logo" aria-label="Roblox Logo">
-      <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
-        <path d="M2.25 4.5L12 0l9.75 4.5v15L12 24 2.25 19.5v-15z"/>
+      <svg viewBox="0 0 256 256" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img">
+        <defs>
+          <linearGradient id="gradient" x1="0%" y1="50%" x2="100%" y2="50%">
+            <stop offset="0%" stop-color="#7289da" />
+            <stop offset="25%" stop-color="#99a9f1" />
+            <stop offset="50%" stop-color="#4a62c7" />
+            <stop offset="75%" stop-color="#7289da" />
+            <stop offset="100%" stop-color="#99a9f1" />
+          </linearGradient>
+        </defs>
+        <path d="M241.6 102.88 153.6 48a15.999 15.999 0 0 0-19.2 5.44L70.4 154.88a16.008 16.008 0 0 0 3.2 22.08l50.4 39.04a16 16 0 0 0 22.4-2.24l94.08-115.2a15.997 15.997 0 0 0-3.84-15.84z"/>
       </svg>
     </div>
 

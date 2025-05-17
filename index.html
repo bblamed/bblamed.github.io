@@ -36,7 +36,7 @@
     z-index: 9999;
   }
 
-  /* Top and bottom glow */
+  /* Top glow only */
   body::before {
     top: 0;
     left: 0;
@@ -45,9 +45,7 @@
     background: linear-gradient(to right, var(--accent-color), transparent, var(--accent-color));
     filter: drop-shadow(0 0 8px var(--accent-color));
   }
-
   body::after {
-    /* Removed bottom glow */
     display: none;
   }
 
@@ -81,7 +79,7 @@
     letter-spacing: 4px;
     color: var(--accent-color);
     margin: 0 0 0.2rem 0;
-    text-shadow: none; /* Removed glowing text shadow */
+    text-shadow: none;
   }
 
   .subtitle {
@@ -102,8 +100,25 @@
     font-size: 0.9rem;
     user-select: none;
     background: #111;
-    /* Removed box-shadow */
     z-index: 1;
+  }
+
+  /* 1v1.lol logo container */
+  .game-link {
+    margin-top: 3rem;
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    transition: transform 0.2s ease;
+  }
+  .game-link:hover {
+    transform: scale(1.05);
+  }
+  .game-link img {
+    height: 80px;
+    width: auto;
+    display: block;
+    filter: drop-shadow(0 0 5px var(--accent-color));
   }
 </style>
 </head>
@@ -113,6 +128,10 @@
   <h1>ZGames</h1>
   <div class="subtitle">made by ahmad</div>
 </div>
+
+<a href="https://1-v-1lol-unblocked.github.io/" target="_blank" rel="noopener noreferrer" class="game-link" title="Play 1v1.lol">
+  <img src="https://raw.githubusercontent.com/1-v-1lol-unblocked/1-v-1lol-unblocked.github.io/main/logo.png" alt="1v1.lol Logo" />
+</a>
 
 <div class="glow-side glow-left"></div>
 <div class="glow-side glow-right"></div>

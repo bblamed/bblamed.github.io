@@ -1,291 +1,98 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Blamed - Stunning Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap" rel="stylesheet" />
-  <style>
-    /* Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-    }
-
-    body, html {
-      height: 100%;
-      font-family: 'Poppins', sans-serif;
-      background: #0d0d0d;
-      color: #eee;
-      overflow-x: hidden;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      padding: 20px;
-    }
-
-    .container {
-      max-width: 480px;
-      width: 100%;
-      text-align: center;
-      user-select: none;
-    }
-
-    /* Rainbow animated text */
-    h1.title {
-      font-size: clamp(3.5rem, 10vw, 7rem);
-      font-weight: 700;
-      background: linear-gradient(270deg, #ff6ec4, #7873f5, #4ade80, #ff6ec4);
-      background-size: 800% 800%;
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      animation: rainbowMove 12s ease infinite;
-      margin-bottom: 0.25em;
-      letter-spacing: -0.05em;
-      transition: transform 0.3s ease;
-      cursor: default;
-    }
-    h1.title:hover {
-      transform: scale(1.07);
-    }
-
-    @keyframes rainbowMove {
-      0% {background-position: 0% 50%;}
-      50% {background-position: 100% 50%;}
-      100% {background-position: 0% 50%;}
-    }
-
-    /* Subtitle */
-    p.subtitle {
-      font-size: 1.25rem;
-      color: #aaa;
-      margin-bottom: 3rem;
-      font-weight: 500;
-    }
-
-    /* Buttons container */
-    .buttons {
-      display: flex;
-      justify-content: center;
-      gap: 1.6rem;
-      margin-bottom: 3rem;
-      align-items: center;
-    }
-
-    /* Main button style */
-    button.btn, button.btn-back {
-      font-weight: 600;
-      font-size: 1.1rem;
-      padding: 0.7rem 2.4rem;
-      border-radius: 30px;
-      border: 2.5px solid #4ade80;
-      background: transparent;
-      color: #4ade80;
-      cursor: pointer;
-      transition: all 0.25s ease;
-      box-shadow: 0 0 10px rgba(74, 222, 128, 0.5);
-      user-select: none;
-      outline-offset: 4px;
-      outline-color: transparent;
-    }
-    button.btn:focus, button.btn-back:focus {
-      outline-color: #4ade80;
-      outline-style: solid;
-    }
-    button.btn:hover, button.btn-back:hover {
-      background: #4ade80;
-      color: #0d0d0d;
-      box-shadow: 0 0 20px #4ade80;
-      transform: translateY(-3px);
-    }
-
-    /* Roblox button without rainbow border */
-    .btn-roblox {
-      width: 64px;
-      height: 64px;
-      border-radius: 50%;
-      border: none;
-      background: transparent;
-      padding: 8px;
-      cursor: pointer;
-      filter: drop-shadow(0 0 4px rgba(0,0,0,0.8));
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      transition: filter 0.3s ease, transform 0.3s ease;
-    }
-    .btn-roblox:hover {
-      filter: drop-shadow(0 0 10px #999);
-      transform: scale(1.07);
-    }
-
-    /* Roblox logo style */
-    .roblox-logo {
-      width: 44px;
-      height: 44px;
-      pointer-events: none;
-      user-select: none;
-      object-fit: contain;
-    }
-
-    /* Contact view styling */
-    #contact-view {
-      display: none;
-      flex-direction: column;
-      align-items: center;
-      color: #eee;
-      user-select: none;
-      max-width: 400px;
-      margin: 0 auto;
-      animation: fadeIn 0.4s ease forwards;
-    }
-    #contact-view.active {
-      display: flex;
-    }
-
-    /* Discord logo */
-    .discord-logo {
-      width: 140px;
-      margin-bottom: 1rem;
-      filter: drop-shadow(0 0 4px #5865f2);
-      user-select: none;
-    }
-
-    /* Blurple text */
-    .discord-handle {
-      font-weight: 700;
-      font-size: clamp(2.5rem, 8vw, 4rem);
-      color: #5865F2;
-      margin-bottom: 2.5rem;
-      letter-spacing: 0.03em;
-      user-select: text;
-      cursor: default;
-      text-shadow: 0 0 6px rgba(88, 101, 242, 0.7);
-    }
-
-    /* Back button */
-    button.btn-back {
-      border-color: #5865f2;
-      color: #5865f2;
-      box-shadow: 0 0 12px rgba(88, 101, 242, 0.6);
-      padding-left: 2.8rem;
-      padding-right: 2.8rem;
-      transition: all 0.3s ease;
-    }
-    button.btn-back:hover {
-      background: #5865f2;
-      color: #fff;
-      box-shadow: 0 0 20px #5865f2;
-      transform: translateY(-3px);
-    }
-
-    /* Fade animation */
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
-    }
-
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>blamed WIP</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: #0d0d0d;
+            color: white;
+            text-align: center;
+        }
+        header {
+            padding: 80px 20px;
+        }
+        h1 {
+            font-size: 4rem;
+            background: linear-gradient(to right, #00b0f4, #7289da, #00b0f4);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: rainbow-text 5s infinite alternate;
+        }
+        @keyframes rainbow-text {
+            0% {background-position: 0%;}
+            100% {background-position: 100%;}
+        }
+        p {
+            color: #888;
+            font-size: 1.3rem;
+        }
+        .button-container {
+            margin-top: 50px;
+            display: flex;
+            justify-content: center;
+            gap: 50px;
+            flex-wrap: wrap;
+        }
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+        .icon-button:hover {
+            transform: scale(1.1);
+            filter: drop-shadow(0 0 15px #7289da);
+        }
+        .icon-button img {
+            width: 100px;
+            height: 100px;
+        }
+        .contact-btn {
+            margin-top: 60px;
+            background: #7289da;
+            color: white;
+            border: none;
+            padding: 15px 40px;
+            font-size: 1rem;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background 0.3s ease, transform 0.3s ease;
+        }
+        .contact-btn:hover {
+            background: #5865F2;
+            transform: scale(1.05);
+        }
+        footer {
+            margin-top: 100px;
+            font-size: 0.9rem;
+            color: #555;
+        }
+    </style>
 </head>
 <body>
-  <div class="container">
-    <!-- Main View -->
-    <div id="main-view" aria-label="Main homepage view">
-      <h1 class="title" aria-label="Site title Blamed">Blamed</h1>
-      <p class="subtitle">idk what to add lmao</p>
-      <div class="buttons">
-        <button id="contact-btn" class="btn" aria-haspopup="dialog" aria-controls="contact-view" aria-expanded="false">Contact</button>
-        <button id="roblox-btn" class="btn-roblox" aria-label="Visit Roblox Profile" title="Visit Roblox Profile">
-          <img
-            src="https://images-wixmp-ed30a86b8c4ca887773594c2.wixmp.com/f/3d326ba6-1412-40d2-becb-99c74b70e94a/dee9axc-aecdbcad-ad43-4446-9c62-92493e137ea9.png"
-            alt="Roblox Logo Grey"
-            class="roblox-logo"
-            loading="lazy"
-          />
-        </button>
-      </div>
-    </div>
 
-    <!-- Contact View -->
-    <div id="contact-view" role="dialog" aria-modal="true" aria-labelledby="contact-label" tabindex="-1">
-      <img
-        src="https://logos-world.net/wp-content/uploads/2020/12/Discord-Logo-700x394.png"
-        alt="Discord Logo"
-        class="discord-logo"
-        loading="lazy"
-      />
-      <h1 class="discord-handle" id="contact-label">b1amed</h1>
-      <button id="back-btn" class="btn-back" aria-label="Back to main site">Back</button>
-    </div>
-  </div>
+    <header>
+        <h1>blamed</h1>
+        <p>idk what to add lmao</p>
+        <div class="button-container">
+            <button class="icon-button" onclick="window.location.href='https://www.roblox.com/users/1712999257/profile'">
+                <img src="https://cdn.discordapp.com/attachments/1103413079409186938/1241020993453940847/robloxlogo.png" alt="Roblox Logo">
+            </button>
+            <button class="icon-button" onclick="window.location.href='https://discord.com'">
+                <img src="https://cdn.discordapp.com/attachments/1103413079409186938/1240982991022137404/discordlogo.png" alt="Discord Logo">
+            </button>
+        </div>
 
-  <script>
-    const contactBtn = document.getElementById('contact-btn');
-    const backBtn = document.getElementById('back-btn');
-    const mainView = document.getElementById('main-view');
-    const contactView = document.getElementById('contact-view');
-    const robloxBtn = document.getElementById('roblox-btn');
+        <button class="contact-btn" onclick="window.location.href='contact.html'">Contact</button>
+    </header>
 
-    // Show contact view with fade
-    contactBtn.addEventListener('click', () => {
-      contactBtn.setAttribute('aria-expanded', 'true');
-      mainView.style.transition = 'opacity 0.35s ease';
-      mainView.style.opacity = 0;
-      setTimeout(() => {
-        mainView.style.display = 'none';
-        contactView.style.display = 'flex';
-        contactView.style.opacity = 0;
-        setTimeout(() => {
-          contactView.style.opacity = 1;
-          contactView.focus();
-        }, 50);
-      }, 350);
-    });
+    <footer>
+        blamed © 2025 - All Rights Reserved.
+    </footer>
 
-    // Return to main view with fade
-    backBtn.addEventListener('click', () => {
-      contactBtn.setAttribute('aria-expanded', 'false');
-      contactView.style.transition = 'opacity 0.35s ease';
-      contactView.style.opacity = 0;
-      setTimeout(() => {
-        contactView.style.display = 'none';
-        mainView.style.display = 'block';
-        mainView.style.opacity = 0;
-        setTimeout(() => {
-          mainView.style.opacity = 1;
-          contactBtn.focus();
-        }, 50);
-      }, 350);
-    });
-
-    // Roblox button click opens new tab
-    robloxBtn.addEventListener('click', () => {
-      window.open('https://www.roblox.com/de/users/1712999257/profile', '_blank', 'noopener');
-    });
-
-    // Accessibility: trap focus in contact dialog
-    contactView.addEventListener('keydown', (e) => {
-      if (e.key === 'Tab') {
-        const focusable = contactView.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])');
-        const first = focusable[0];
-        const last = focusable[focusable.length - 1];
-        if (e.shiftKey) {
-          if (document.activeElement === first) {
-            e.preventDefault();
-            last.focus();
-          }
-        } else {
-          if (document.activeElement === last) {
-            e.preventDefault();
-            first.focus();
-          }
-        }
-      }
-      if (e.key === 'Escape') {
-        backBtn.click();
-      }
-    });
-  </script>
 </body>
 </html>

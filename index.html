@@ -1,42 +1,45 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-    <meta charset="UTF-8">
-    <title>Fearmessor</title>
-    <style>
-        body {
-            background: #fefefe;
-            color: #111;
-            font-family: Helvetica, Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-        }
-        h1 {
-            font-size: 3em;
-            letter-spacing: -1px;
-        }
-        a {
-            text-decoration: none;
-            color: #111;
-            font-weight: bold;
-            font-size: 1.2em;
-            transition: opacity 0.3s;
-        }
-        a:hover {
-            opacity: 0.5;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Blamed</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@700&display=swap');
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #111;
+      color: #eee;
+      font-family: 'Montserrat', sans-serif;
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      padding: 1rem;
+    }
+    h1 {
+      font-size: 8vw;
+      letter-spacing: -0.05em;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.6; }
+    }
+    /* Responsive */
+    @media (max-width: 600px) {
+      h1 {
+        font-size: 12vw;
+      }
+    }
+  </style>
 </head>
 <body>
-    <div class="container">
-        <h1>Fearmessor</h1>
-        <a href="https://instagram.com/yourhandle" target="_blank">Instagram</a>
-    </div>
+  <h1>Blamed</h1>
 </body>
 </html>

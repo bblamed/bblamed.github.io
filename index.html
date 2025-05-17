@@ -103,17 +103,27 @@
     z-index: 1;
   }
 
-  /* 1v1.lol logo container */
-  .game-link {
+  /* Container for game logos */
+  .game-links {
     margin-top: 3rem;
+    display: flex;
+    gap: 3rem;
+    align-items: center;
+  }
+
+  /* Common styles for game link */
+  .game-link {
     display: inline-block;
     cursor: pointer;
     user-select: none;
     transition: transform 0.2s ease;
+    position: relative;
   }
   .game-link:hover {
     transform: scale(1.05);
   }
+
+  /* 1v1.lol logo styles */
   .game-link img {
     height: 80px;
     width: auto;
@@ -121,6 +131,19 @@
     filter: drop-shadow(0 0 5px var(--accent-color));
     border-radius: 8px;
   }
+
+  /* Minecraft logo special style - glowing outline without full fill */
+  .minecraft-logo {
+    filter: drop-shadow(0 0 5px var(--accent-color));
+    border-radius: 8px;
+    /* Add subtle glow outline */
+    box-shadow:
+      0 0 8px var(--accent-color),
+      0 0 15px var(--accent-color),
+      0 0 20px var(--accent-color);
+    background: transparent;
+  }
+
 </style>
 </head>
 <body>
@@ -130,9 +153,15 @@
   <div class="subtitle">made by ahmad</div>
 </div>
 
-<a href="https://1-v-1lol-unblocked.github.io/" target="_blank" rel="noopener noreferrer" class="game-link" title="Play 1v1.lol">
-  <img src="https://wallpaperaccess.com/full/9050657.jpg" alt="1v1.lol Logo" />
-</a>
+<div class="game-links">
+  <a href="https://1-v-1lol-unblocked.github.io/" target="_blank" rel="noopener noreferrer" class="game-link" title="Play 1v1.lol">
+    <img src="https://wallpaperaccess.com/full/9050657.jpg" alt="1v1.lol Logo" />
+  </a>
+
+  <a href="https://eaglecraft.com" target="_blank" rel="noopener noreferrer" class="game-link" title="Visit EagleCraft">
+    <img src="https://1000logos.net/wp-content/uploads/2018/10/Minecraft-Logo.png" alt="Minecraft Logo" class="minecraft-logo" />
+  </a>
+</div>
 
 <div class="glow-side glow-left"></div>
 <div class="glow-side glow-right"></div>

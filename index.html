@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>blamed WIP</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
@@ -16,27 +16,35 @@
     body, html {
       height: 100%;
       font-family: 'Poppins', sans-serif;
+      background: #0f172a;
       overflow: hidden;
-      background-color: #0f172a;
       color: #e2e8f0;
     }
 
-    /* Animated Gradient Background */
     .animated-bg {
       position: fixed;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle at 30% 30%, #334155, transparent 50%),
-                  radial-gradient(circle at 70% 70%, #1e3a8a, transparent 50%);
-      animation: moveBackground 20s linear infinite;
-      z-index: -1;
-      opacity: 0.3;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #1e3a8a, #0f172a);
+      animation: gradientFlow 15s ease infinite;
+      z-index: -2;
     }
 
-    @keyframes moveBackground {
-      0% { transform: translate(0, 0); }
-      50% { transform: translate(-20%, -20%); }
-      100% { transform: translate(0, 0); }
+    @keyframes gradientFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .particles {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://assets.codepen.io/3364143/particles.gif');
+      background-size: cover;
+      background-repeat: no-repeat;
+      opacity: 0.05;
+      z-index: -1;
     }
 
     .center {
@@ -55,6 +63,7 @@
       -webkit-background-clip: text;
       background-clip: text;
       animation: shine 6s ease-in-out infinite;
+      text-shadow: 0 0 20px rgba(59,130,246,0.5);
     }
 
     @keyframes shine {
@@ -66,30 +75,51 @@
       font-size: 1.3rem;
       color: #94a3b8;
       margin-top: 0.5rem;
+      text-shadow: 0 0 5px #00000099;
     }
 
     .roblox-logo {
       position: absolute;
       top: 20px;
       right: 20px;
-      width: 50px;
-      height: 50px;
+      width: 60px;
+      height: 60px;
       transition: transform 0.3s ease, filter 0.3s ease;
+      filter: drop-shadow(0 0 5px #3b82f6);
     }
 
     .roblox-logo:hover {
-      transform: scale(1.1);
-      filter: drop-shadow(0 0 8px #3b82f6);
+      transform: scale(1.2);
+      filter: drop-shadow(0 0 10px #60a5fa);
+    }
+
+    .floating-icons {
+      position: fixed;
+      bottom: 20px;
+      left: 20px;
+      display: flex;
+      gap: 10px;
+    }
+
+    .floating-icons img {
+      width: 40px;
+      height: 40px;
+      animation: float 4s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0); }
+      50% { transform: translateY(-10px); }
     }
   </style>
 </head>
 <body>
-
   <div class="animated-bg"></div>
+  <div class="particles"></div>
 
   <!-- Roblox Logo -->
   <a href="https://www.roblox.com/de/users/1712999257/profile" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Roblox_Logo_2022.svg" alt="Roblox Logo" class="roblox-logo"/>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Roblox_Logo_2022.svg" alt="Roblox Logo" class="roblox-logo" />
   </a>
 
   <div class="center">
@@ -97,5 +127,10 @@
     <p>#1 scripts site</p>
   </div>
 
+  <div class="floating-icons">
+    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="JS" title="JavaScript">
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732190.png" alt="HTML" title="HTML">
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" alt="CSS" title="CSS">
+  </div>
 </body>
 </html>

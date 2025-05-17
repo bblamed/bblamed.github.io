@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>blamed WIP</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap');
 
     * {
       margin: 0;
@@ -13,46 +13,33 @@
       box-sizing: border-box;
     }
 
-    body, html {
-      height: 100%;
+    body {
       font-family: 'Poppins', sans-serif;
-      background: #0f172a;
-      overflow: hidden;
+      background-color: #0f172a;
       color: #e2e8f0;
+      overflow-x: hidden;
     }
 
     .animated-bg {
       position: fixed;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, #1e3a8a, #0f172a);
-      animation: gradientFlow 15s ease infinite;
-      z-index: -2;
-    }
-
-    @keyframes gradientFlow {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
-    }
-
-    .particles {
-      position: fixed;
-      width: 100%;
-      height: 100%;
-      background-image: url('https://assets.codepen.io/3364143/particles.gif');
-      background-size: cover;
-      background-repeat: no-repeat;
-      opacity: 0.05;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, #334155, transparent 50%),
+                  radial-gradient(circle at 70% 70%, #1e3a8a, transparent 50%);
+      animation: moveBackground 20s linear infinite;
       z-index: -1;
+      opacity: 0.3;
     }
 
-    .center {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(-20%, -20%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    .container {
       text-align: center;
+      padding: 100px 20px 40px;
     }
 
     h1 {
@@ -63,7 +50,6 @@
       -webkit-background-clip: text;
       background-clip: text;
       animation: shine 6s ease-in-out infinite;
-      text-shadow: 0 0 20px rgba(59,130,246,0.5);
     }
 
     @keyframes shine {
@@ -72,65 +58,89 @@
     }
 
     p {
-      font-size: 1.3rem;
+      font-size: 1.5rem;
       color: #94a3b8;
       margin-top: 0.5rem;
-      text-shadow: 0 0 5px #00000099;
     }
 
-    .roblox-logo {
-      position: absolute;
-      top: 20px;
-      right: 20px;
-      width: 60px;
-      height: 60px;
-      transition: transform 0.3s ease, filter 0.3s ease;
-      filter: drop-shadow(0 0 5px #3b82f6);
-    }
-
-    .roblox-logo:hover {
-      transform: scale(1.2);
-      filter: drop-shadow(0 0 10px #60a5fa);
-    }
-
-    .floating-icons {
-      position: fixed;
-      bottom: 20px;
-      left: 20px;
+    .search-box {
+      margin: 40px auto;
+      max-width: 600px;
       display: flex;
-      gap: 10px;
+      justify-content: center;
     }
 
-    .floating-icons img {
-      width: 40px;
-      height: 40px;
-      animation: float 4s ease-in-out infinite;
+    .search-box input {
+      padding: 10px 20px;
+      font-size: 1rem;
+      width: 100%;
+      border: none;
+      border-radius: 8px 0 0 8px;
+      outline: none;
     }
 
-    @keyframes float {
-      0%, 100% { transform: translateY(0); }
-      50% { transform: translateY(-10px); }
+    .search-box button {
+      padding: 10px 20px;
+      font-size: 1rem;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 0 8px 8px 0;
+      cursor: pointer;
+    }
+
+    .iframe-wrapper {
+      max-width: 1000px;
+      margin: auto;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+    }
+
+    iframe {
+      width: 100%;
+      height: 700px;
+      border: none;
+    }
+
+    footer {
+      text-align: center;
+      margin: 60px 0 20px;
+      color: #475569;
     }
   </style>
 </head>
 <body>
+
   <div class="animated-bg"></div>
-  <div class="particles"></div>
 
-  <!-- Roblox Logo -->
-  <a href="https://www.roblox.com/de/users/1712999257/profile" target="_blank">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Roblox_Logo_2022.svg" alt="Roblox Logo" class="roblox-logo" />
-  </a>
-
-  <div class="center">
+  <div class="container">
     <h1>blamed</h1>
     <p>#1 scripts site</p>
+
+    <div class="search-box">
+      <input type="text" id="searchInput" placeholder="Search ScriptBlox...">
+      <button onclick="searchScript()">Search</button>
+    </div>
+
+    <div class="iframe-wrapper">
+      <iframe id="scriptFrame" src="https://scriptblox.com" title="ScriptBlox"></iframe>
+    </div>
   </div>
 
-  <div class="floating-icons">
-    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968756.png" alt="JS" title="JavaScript">
-    <img src="https://cdn-icons-png.flaticon.com/512/732/732190.png" alt="HTML" title="HTML">
-    <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png" alt="CSS" title="CSS">
-  </div>
+  <footer>
+    <p>blamed © 2025 - best scripts, period 💥</p>
+  </footer>
+
+  <script>
+    function searchScript() {
+      const query = document.getElementById('searchInput').value.trim();
+      if (query) {
+        const encoded = encodeURIComponent(query);
+        document.getElementById('scriptFrame').src = `https://scriptblox.com/search?q=${encoded}`;
+      }
+    }
+  </script>
+
 </body>
 </html>

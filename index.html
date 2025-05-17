@@ -1,121 +1,104 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>blamed WIP</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>blamed WIP</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@600&display=swap');
 
-  body {
-    margin: 0;
-    font-family: 'Poppins', sans-serif;
-    background: #0a0a14;
-    color: #eee;
-    display: flex;
-    flex-direction: column;
-    min-height: 100vh;
-    text-align: center;
-    padding: 60px 20px;
-    overflow-x: hidden;
-    position: relative;
-    z-index: 0;
-  }
-
-  /* Animated starry background */
-  #stars, #stars2, #stars3 {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    pointer-events: none;
-    z-index: -1;
-    background-color: transparent;
-  }
-
-  #stars {
-    background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/star.png') repeat;
-    background-size: 20px 20px;
-    animation: starMove 50s linear infinite;
-  }
-  #stars2 {
-    background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/star.png') repeat;
-    background-size: 40px 40px;
-    animation: starMove 100s linear infinite;
-    opacity: 0.5;
-  }
-  #stars3 {
-    background: transparent url('https://s3-us-west-2.amazonaws.com/s.cdpn.io/1231630/star.png') repeat;
-    background-size: 80px 80px;
-    animation: starMove 150s linear infinite;
-    opacity: 0.3;
-  }
-
-  @keyframes starMove {
-    from {background-position: 0 0;}
-    to {background-position: 10000px 5000px;}
-  }
-
-  header {
-    position: relative;
-    z-index: 1;
-  }
-
-  h1 {
-    font-size: 5rem;
-    margin: 0;
-    font-weight: 700;
-    background: linear-gradient(270deg, #7289da, #99a9f1, #4a62c7, #7289da);
-    background-size: 600% 600%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: flowColor 12s ease infinite;
-    filter: drop-shadow(0 0 10px #7289daaa);
-  }
-
-  p {
-    margin: 15px 0 50px;
-    color: #bbb;
-    font-size: 1.4rem;
-    font-style: italic;
-  }
-
-  footer {
-    margin-top: auto;
-    padding: 20px 10px;
-    color: #555;
-    font-size: 0.9rem;
-    user-select: none;
-    position: relative;
-    z-index: 1;
-  }
-
-  @media (max-width: 480px) {
-    h1 {
-      font-size: 3.8rem;
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-  }
 
-  @keyframes flowColor {
-    0% {background-position: 0% 50%;}
-    50% {background-position: 100% 50%;}
-    100% {background-position: 0% 50%;}
-  }
-</style>
+    body, html {
+      height: 100%;
+      font-family: 'Orbitron', sans-serif;
+      overflow: hidden;
+    }
+
+    .background {
+      position: fixed;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, #0f172a, #1e293b);
+      z-index: -2;
+    }
+
+    .animated-bg {
+      position: absolute;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle at 30% 30%, #334155, transparent 50%),
+                  radial-gradient(circle at 70% 70%, #1e3a8a, transparent 50%);
+      animation: moveBackground 20s linear infinite;
+      z-index: -1;
+      opacity: 0.3;
+    }
+
+    @keyframes moveBackground {
+      0% { transform: translate(0, 0); }
+      50% { transform: translate(-25%, -25%); }
+      100% { transform: translate(0, 0); }
+    }
+
+    .center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 5rem;
+      background: linear-gradient(90deg, #3b82f6, #6366f1, #3b82f6);
+      background-size: 200%;
+      color: transparent;
+      -webkit-background-clip: text;
+      background-clip: text;
+      animation: shine 5s linear infinite;
+    }
+
+    @keyframes shine {
+      0% { background-position: 0%; }
+      100% { background-position: 200%; }
+    }
+
+    p {
+      font-size: 1.3rem;
+      color: #94a3b8;
+      margin-top: 0.5rem;
+    }
+
+    .roblox-logo {
+      position: absolute;
+      top: 20px;
+      right: 20px;
+      width: 50px;
+      height: 50px;
+      transition: transform 0.3s ease, filter 0.3s ease;
+    }
+
+    .roblox-logo:hover {
+      transform: scale(1.1);
+      filter: drop-shadow(0 0 5px #3b82f6);
+    }
+  </style>
 </head>
 <body>
+  <div class="background"></div>
+  <div class="animated-bg"></div>
 
-  <div id="stars"></div>
-  <div id="stars2"></div>
-  <div id="stars3"></div>
+  <a href="https://www.roblox.com/de/users/1712999257/profile" target="_blank">
+    <img src="https://upload.wikimedia.org/wikipedia/commons/0/0b/Roblox_Logo_2022.svg" alt="Roblox Logo" class="roblox-logo"/>
+  </a>
 
-  <header>
+  <div class="center">
     <h1>blamed</h1>
-    <p>idk what to add lmao</p>
-  </header>
-
-  <footer>
-    © 2025 blamed. All rights reserved.
-  </footer>
-
+    <p>#1 scripts site</p>
+  </div>
 </body>
 </html>

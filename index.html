@@ -82,7 +82,7 @@
   }
 
   section {
-    padding: 4rem 1rem;
+    padding: 6rem 1rem;
     border-bottom: 1px solid #222;
   }
 
@@ -91,57 +91,14 @@
   }
 
   h2 {
-    font-size: 2.5rem;
-    margin-bottom: 2rem;
-    font-weight: 900;
-    letter-spacing: 1.5px;
-    color: var(--accent-color);
-    text-shadow: 0 0 8px var(--accent-glow);
-  }
-
-  .skills-bar {
-    max-width: 700px;
-  }
-
-  .skills-bar > div {
-    background: #222;
-    border-radius: 8px;
-    overflow: hidden;
-    margin-bottom: 1rem;
-  }
-
-  .skills-bar > div > div {
-    height: 25px;
-    background: var(--accent-color);
-    width: 0;
-    transition: width 1.5s ease-in-out;
-    box-shadow: 0 0 10px var(--accent-glow);
-    border-radius: 8px;
-  }
-
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit,minmax(250px,1fr));
-    gap: 1.5rem;
-  }
-
-  .project-card {
-    background: #121212;
-    border-radius: 12px;
-    padding: 1.5rem;
-    box-shadow: 0 0 20px #55003355 inset;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    cursor: pointer;
-  }
-
-  .project-card:hover {
-    transform: scale(1.05);
-    box-shadow: 0 0 30px var(--accent-glow);
-  }
-
-  .project-card h3 {
+    font-size: 3rem;
     margin: 0;
+    font-weight: 900;
+    letter-spacing: 2px;
     color: var(--accent-color);
+    text-shadow: 0 0 10px var(--accent-glow);
+    user-select: none;
+    text-align: center;
   }
 
   footer {
@@ -177,33 +134,10 @@
 </header>
 
 <main>
-  <section id="about">
-    <h2>About Me</h2>
-  </section>
-
-  <section id="skills">
-    <h2>Skills</h2>
-    <div class="skills-bar">
-      <div><div style="width: 90%"></div></div>
-      <div><div style="width: 80%"></div></div>
-      <div><div style="width: 70%"></div></div>
-      <div><div style="width: 85%"></div></div>
-    </div>
-  </section>
-
-  <section id="projects">
-    <h2>Projects</h2>
-    <div class="projects-grid">
-      <div class="project-card"><h3>Neon Chat App</h3></div>
-      <div class="project-card"><h3>Dark Portfolio</h3></div>
-      <div class="project-card"><h3>AI Music Generator</h3></div>
-      <div class="project-card"><h3>3D Cube Game</h3></div>
-    </div>
-  </section>
-
-  <section id="contact">
-    <h2>Contact</h2>
-  </section>
+  <section id="about"><h2>About</h2></section>
+  <section id="skills"><h2>Skills</h2></section>
+  <section id="projects"><h2>Projects</h2></section>
+  <section id="contact"><h2>Contact</h2></section>
 </main>
 
 <footer>
@@ -211,25 +145,11 @@
 </footer>
 
 <script>
-  // Skill bars animation
-  function animateSkills() {
-    const skillsSection = document.getElementById('skills');
-    const bars = document.querySelectorAll('.skills-bar > div > div');
-    const triggerPoint = window.innerHeight * 0.8;
-    const rect = skillsSection.getBoundingClientRect();
+  // Highlight nav links on scroll
+  const sections = document.querySelectorAll('main section');
+  const navLinks = document.querySelectorAll('nav a');
 
-    if (rect.top < triggerPoint) {
-      bars.forEach(bar => {
-        const width = bar.getAttribute('style').match(/width:\s*(\d+)%/)[1];
-        bar.style.width = width + '%';
-      });
-    }
-  }
-
-  // Navigation link highlighting on scroll
   function highlightNav() {
-    const sections = document.querySelectorAll('main section');
-    const navLinks = document.querySelectorAll('nav a');
     let scrollPos = window.scrollY + window.innerHeight / 3;
 
     sections.forEach((section, index) => {
@@ -243,16 +163,8 @@
     });
   }
 
-  window.addEventListener('scroll', () => {
-    animateSkills();
-    highlightNav();
-  });
-
-  // Initialize on load
-  window.addEventListener('load', () => {
-    animateSkills();
-    highlightNav();
-  });
+  window.addEventListener('scroll', highlightNav);
+  window.addEventListener('load', highlightNav);
 </script>
 
 </body>

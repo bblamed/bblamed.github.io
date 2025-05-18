@@ -1,188 +1,275 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ahmad's Keller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ahmad's Keller - Hack Terminal 2</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
     body {
       margin: 0;
-      font-family: monospace;
-      background-color: black;
+      background: black;
       color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 50px #00ff00;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
       overflow: hidden;
+      position: relative;
     }
 
     canvas {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
-      opacity: 0.1; /* Very dark lines */
-    }
-
-    .glow-border {
-      position: fixed;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      box-shadow: 0 0 20px #00ff00, inset 0 0 20px #00ff00;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
       pointer-events: none;
+      user-select: none;
     }
 
-    .header {
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      font-size: 20px;
-      color: #00ff00;
+    h1 {
+      font-size: 2.5rem;
+      margin-bottom: 15px;
+      text-shadow: 0 0 10px #00ff00;
+      user-select: none;
+      z-index: 1;
+    }
+
+    #container {
+      z-index: 1;
+      width: 95%;
+      max-width: 1000px;
+      display: flex;
+      gap: 30px;
+      justify-content: center;
+      flex-wrap: wrap;
     }
 
     .terminal {
-      width: 48%;
-      height: 80vh;
-      background: #000000;
-      border: 1px solid #00ff00;
-      padding: 10px;
-      margin: 20px;
-      overflow-y: auto;
-      white-space: pre-wrap;
-    }
-
-    .terminals {
-      display: flex;
-      justify-content: space-between;
-      padding-top: 60px;
-    }
-
-    input {
       background: black;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 25px #00ff00;
       color: #00ff00;
-      border: 1px solid #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      width: 480px;
+      height: 320px;
+      padding: 15px;
+      overflow-y: auto;
+      user-select: text;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .terminal h2 {
+      margin: 0 0 10px 0;
+      font-size: 1.2rem;
+      text-align: center;
+      text-shadow: 0 0 15px #00ff00;
+      user-select: none;
+    }
+
+    #btc-miner, #script-typer {
+      flex: 1;
+      background: #000000dd;
+      border-radius: 5px;
+      padding: 10px;
+      font-size: 0.9rem;
+      line-height: 1.3;
+      white-space: pre-wrap;
+      overflow-y: auto;
+      user-select: text;
+    }
+
+    #script-typer {
+      margin-top: 10px;
+      height: 150px;
+      overflow-y: auto;
+    }
+
+    #script-input {
+      margin-top: 5px;
+      background: black;
+      border: none;
+      border-bottom: 2px solid #00ff00;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      outline: none;
       width: 100%;
       padding: 5px;
-      font-family: monospace;
-      margin-top: 10px;
     }
 
-    .buttons {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 10px;
-      margin: 20px;
+    #buttons {
+      margin-top: 20px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      width: 100%;
+      max-width: 1000px;
+      z-index: 1;
     }
 
-    .buttons button {
-      background-color: #000;
+    #buttons button {
+      background: transparent;
+      border: 2px solid #00ff00;
       color: #00ff00;
-      border: 1px solid #00ff00;
-      padding: 10px;
-      font-family: monospace;
+      font-family: 'Share Tech Mono', monospace;
+      font-weight: bold;
+      font-size: 1rem;
+      padding: 12px 20px;
       cursor: pointer;
+      box-shadow: 0 0 20px #00ff00;
+      transition: transform 0.2s ease, box-shadow 0.3s ease;
+      user-select: none;
+      flex: 1 1 140px;
+      max-width: 160px;
+      border-radius: 5px;
+    }
+
+    #buttons button:hover {
+      box-shadow: 0 0 40px #00ff00, 0 0 60px #00ff00;
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
-  <div class="glow-border"></div>
-  <div class="header">Ahmad's Keller - Hacker Control Panel</div>
+  <h1>Ahmad's Keller</h1>
 
-  <div class="terminals">
-    <div class="terminal" id="btcMiner">
-      <strong>[ Bitcoin Miner ]</strong><br>
+  <div id="container">
+    <div class="terminal" id="btc-terminal">
+      <h2>Bitcoin Miner</h2>
+      <div id="btc-miner"></div>
     </div>
-    <div class="terminal">
-      <strong>[ Script Typer ]</strong><br>
-      <pre id="scriptTyper"></pre>
-      <input type="text" id="scriptInput" placeholder="Start typing..." autofocus>
+
+    <div class="terminal" id="script-terminal">
+      <h2>Script Typer</h2>
+      <div id="script-typer"></div>
+      <input type="text" id="script-input" placeholder="Type here..." autocomplete="off" />
     </div>
   </div>
 
-  <div class="buttons">
-    <button>Hack Server</button>
-    <button>Scan Network</button>
-    <button>Intercept Packet</button>
-    <button>Bypass Firewall</button>
-    <button>Inject Payload</button>
-    <button>Decrypt Data</button>
-    <button>Locate Target</button>
-    <button>Erase Logs</button>
+  <div id="buttons">
+    <button id="btn-webcam">Webcam Site</button>
+    <button>Network Scan</button>
+    <button>Data Breach</button>
+    <button>Packet Sniffer</button>
+    <button>Firewall Bypass</button>
+    <button>Exploit Run</button>
+    <button>Keylogger</button>
+    <button>Encrypt Files</button>
   </div>
 
   <script>
-    // Matrix background
-    const canvas = document.getElementById("matrix");
-    const ctx = canvas.getContext("2d");
-    canvas.height = window.innerHeight;
-    canvas.width = window.innerWidth;
-    const cols = canvas.width / 20;
-    const ypos = Array(Math.floor(cols)).fill(0);
+    // Matrix background with very dark lines
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-    function matrix() {
-      ctx.fillStyle = "rgba(0, 0, 0, 0.1)";
-      ctx.fillRect(0, 0, canvas.width, canvas.height);
-      ctx.fillStyle = "#0f0";
-      ctx.font = "15px monospace";
+    const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const fontSize = 18;
+    const columns = Math.floor(width / fontSize);
+    const drops = new Array(columns).fill(1);
 
-      ypos.forEach((y, ind) => {
-        const text = String.fromCharCode(Math.random() * 128);
-        const x = ind * 20;
-        ctx.fillText(text, x, y);
-        if (y > canvas.height + Math.random() * 10000) ypos[ind] = 0;
-        else ypos[ind] = y + 20;
-      });
-    }
-    setInterval(matrix, 50);
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)'; // Darker overlay for subtle lines
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(0,255,0, 0.04)'; // super faint green
+      ctx.font = fontSize + 'px monospace';
 
-    // Bitcoin Miner Fake Output
-    const btcMiner = document.getElementById("btcMiner");
-    const fakeLogs = [
-      "Connecting to node...",
-      "Hash rate: 487.22 H/s",
-      "New block found!",
-      "Submitting share...",
-      "Accepted: Share #2049",
-      "Difficulty adjusted...",
-      "Mining...",
-      "Hash rate: 512.93 H/s",
-      "Verifying transaction...",
-      "Block accepted!",
-    ];
-    setInterval(() => {
-      const line = fakeLogs[Math.floor(Math.random() * fakeLogs.length)];
-      btcMiner.innerHTML += `\n${new Date().toLocaleTimeString()} - ${line}`;
-      btcMiner.scrollTop = btcMiner.scrollHeight;
-    }, 800);
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-    // Script Typer Simulation
-    const scriptInput = document.getElementById("scriptInput");
-    const scriptTyper = document.getElementById("scriptTyper");
-
-    const scriptLines = [
-      "const net = require('net');",
-      "const client = new net.Socket();",
-      "client.connect(1337, '127.0.0.1', function() {",
-      "  console.log('Connected to server');",
-      "  client.write('Hello, server!');",
-      "});",
-      "client.on('data', function(data) {",
-      "  console.log('Received: ' + data);",
-      "  client.destroy();",
-      "});",
-      "client.on('close', function() {",
-      "  console.log('Connection closed');",
-      "});"
-    ];
-
-    let scriptLineIndex = 0;
-    scriptInput.addEventListener('keydown', () => {
-      if (scriptLineIndex < scriptLines.length) {
-        scriptTyper.textContent += scriptLines[scriptLineIndex] + '\n';
-        scriptTyper.scrollTop = scriptTyper.scrollHeight;
-        scriptLineIndex++;
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
       }
+    }
+    setInterval(draw, 50);
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
     });
-  </script>
-</body>
-</html>
+
+    // Bitcoin Miner typing simulation
+    const btcMiner = document.getElementById('btc-miner');
+    const btcLines = [
+      'Connecting to blockchain network...',
+      'Mining new block 0x8f3a...',
+      'Hash rate: 98.76 TH/s',
+      'Validating transactions...',
+      'Reward earned: 0.000032 BTC',
+      'Broadcasting block to network...',
+      'Syncing with peers...',
+      'Calculating nonce...',
+      'Updating ledger...',
+      'Verifying signature...',
+      'Running PoW algorithm...',
+      'Block added successfully.',
+      'Starting next mining cycle...',
+      'Mining new block 0x2b7e...',
+      'Hash rate: 100.01 TH/s',
+      'Validating transactions...',
+      'Reward earned: 0.000029 BTC',
+      'Broadcasting block to network...',
+      'Syncing with peers...',
+      'Calculating nonce...',
+      'Updating ledger...',
+      'Verifying signature...',
+      'Running PoW algorithm...',
+      'Block added successfully.'
+    ];
+    let btcIndex = 0;
+
+    function btcType() {
+      if (btcMiner.textContent.length > 1000) {
+        btcMiner.textContent = btcMiner.textContent.slice(500); // trim old lines
+      }
+      btcMiner.textContent += btcLines[btcIndex] + '\n';
+      btcMiner.scrollTop = btcMiner.scrollHeight;
+      btcIndex = (btcIndex + 1) % btcLines.length;
+    }
+    setInterval(btcType, 1500);
+
+    // Script Typer types a line on each key press
+    const scriptTyper = document.getElementById('script-typer');
+    const scriptInput = document.getElementById('script-input');
+    const scriptLines = [
+      'const net = require(\'net\');',
+      'const client = new net.Socket();',
+      'client.connect(1337, \'127.0.0.1\', function() {',
+      '  console.log(\'Connected to server\');',
+      '  client.write(\'Hello, server!\');',
+      '});',
+      'client.on(\'data\', function(data) {',
+      '  console.log(\'Received: \' + data);',
+      '  client.destroy();',
+      '});',
+      'client.on(\'close\', function() {',
+      '  console.log(\'Connection closed\');',
+      '});',
+      'function exploit() {',
+      '  console.log(\'Running exploit...\');',
+      '}',
+      'exploit();',
+      '// End of script'
+    ];
+    let scriptLineIndex = 0;
+
+    scriptInput.addEventListener('keydown', (e) => {
+      if (scriptLineIndex >= scriptLines.length) {
+        scriptLineIndex = 0;
+        scriptTyper.textContent = '';
+      }
+      scriptTyper.textContent += scriptLines[scriptLineIndex] + '\n';
+      scriptTyper.scrollTop = scriptTyper

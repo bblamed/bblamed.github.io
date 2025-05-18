@@ -1,108 +1,168 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ahmad's Hacker Terminal</title>
+  <title>Ahmad's Ultimate Hacker Terminal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    /* Basic resets and black bg */
+    * {
+      box-sizing: border-box;
+    }
     body {
       margin: 0;
-      background: black;
-      color: #00ff00;
-      font-family: 'Share Tech Mono', monospace;
       height: 100vh;
+      background: black;
       overflow: hidden;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: flex-start;
-      padding-top: 40px;
-      border: 10px solid #00ff00;
-      box-shadow: 0 0 60px #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      color: #00ff00;
       user-select: none;
+      position: relative;
     }
-    canvas {
+
+    /* Matrix background canvas */
+    #matrix {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
       z-index: 0;
       pointer-events: none;
-      user-select: none;
+      filter: drop-shadow(0 0 2px #0f0);
     }
-    h1 {
-      font-size: 2rem;
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      text-shadow: 0 0 10px #00ff00;
-      user-select: none;
-      z-index: 10;
-      animation: flicker 2s infinite;
-      margin: 0;
-    }
+
+    /* Flickering flicker animation for neon */
     @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {opacity: 1;}
-      20%, 22%, 24%, 55% {opacity: 0.4;}
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+        text-shadow:
+          0 0 7px #00ff00,
+          0 0 20px #00ff00,
+          0 0 30px #00ff00,
+          0 0 40px #0f0,
+          0 0 70px #0f0,
+          0 0 80px #0f0,
+          0 0 100px #0f0;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.3;
+        text-shadow: none;
+      }
     }
+
+    /* Header */
+    h1 {
+      position: fixed;
+      top: 10px;
+      left: 30px;
+      font-size: 2.5rem;
+      font-weight: 900;
+      text-transform: uppercase;
+      animation: flicker 2.5s infinite;
+      z-index: 10;
+      user-select: none;
+      letter-spacing: 4px;
+      color: #00ff00;
+      text-shadow:
+        0 0 10px #0f0,
+        0 0 20px #0f0,
+        0 0 30px #0f0;
+    }
+
+    /* Button container */
     .button-container {
-      margin-top: 100px;
+      margin-top: 150px;
       display: flex;
-      gap: 15px;
+      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
-      max-width: 700px;
+      max-width: 800px;
       z-index: 10;
-    }
-    button {
-      background: transparent;
-      border: 2px solid #00ff00;
-      color: #00ff00;
-      font-size: 1.2rem;
-      padding: 1rem 2rem;
-      cursor: pointer;
-      box-shadow: 0 0 15px #00ff00;
-      font-weight: bold;
-      letter-spacing: 2px;
-      width: 160px;
-      transition: 0.3s ease;
       user-select: none;
     }
+
+    /* Buttons */
+    button {
+      background: transparent;
+      border: 3px solid #00ff00;
+      padding: 1rem 2.5rem;
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: #00ff00;
+      cursor: pointer;
+      transition: 0.3s ease-in-out;
+      position: relative;
+      letter-spacing: 3px;
+      text-transform: uppercase;
+      user-select: none;
+      box-shadow:
+        0 0 5px #00ff00,
+        inset 0 0 10px #00ff00;
+      filter: drop-shadow(0 0 6px #0f0);
+      overflow: hidden;
+    }
+    button::before {
+      content: "";
+      position: absolute;
+      top: -50%;
+      left: -25%;
+      width: 150%;
+      height: 200%;
+      background: linear-gradient(90deg, transparent, rgba(0,255,0,0.3), transparent);
+      transform: translateX(-100%) skewX(-25deg);
+      transition: transform 0.6s ease-in-out;
+      pointer-events: none;
+    }
+    button:hover::before {
+      transform: translateX(100%) skewX(-25deg);
+    }
+
     button.active {
       background: #00ff00;
       color: black;
-      box-shadow: 0 0 30px #00ff00, 0 0 50px #00ff00 inset;
+      box-shadow:
+        0 0 15px #0f0,
+        inset 0 0 30px #0f0,
+        0 0 50px #0f0 inset;
       transform: scale(1.1);
     }
-    button:hover:not(.active) {
-      box-shadow: 0 0 30px #00ff00;
-      transform: scale(1.05);
+
+    button.active::before {
+      display: none;
     }
+
+    /* Console styling */
     #console {
-      margin-top: 30px;
-      background: rgba(0,0,0,0.8);
-      border: 2px solid #00ff00;
-      box-shadow: 0 0 20px #00ff00;
+      margin-top: 40px;
+      background: rgba(0, 30, 0, 0.85);
+      border: 3px solid #00ff00;
+      box-shadow:
+        0 0 30px #00ff00 inset,
+        0 0 40px #0f0;
       width: 90vw;
-      max-width: 700px;
-      height: 250px;
+      max-width: 900px;
+      height: 280px;
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
-      font-size: 1rem;
-      padding: 15px;
+      font-size: 1.1rem;
+      padding: 20px;
       overflow-y: auto;
       white-space: pre-wrap;
       user-select: text;
       z-index: 10;
       line-height: 1.3em;
+      text-shadow: 0 0 3px #00ff00;
+      border-radius: 8px;
     }
+
+    /* Welcome screen overlay */
     #welcome-screen {
       position: fixed;
       top: 0; left: 0;
       width: 100vw;
       height: 100vh;
-      background: black;
+      background: radial-gradient(ellipse at center, #001a00 0%, #000000 80%);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -110,47 +170,109 @@
       z-index: 20;
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
+      user-select: none;
+      border: 5px solid #00ff00;
+      box-shadow:
+        0 0 40px #0f0,
+        inset 0 0 40px #0f0;
+      text-align: center;
+    }
+    #welcome-screen h2 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      letter-spacing: 5px;
+      text-shadow: 0 0 20px #0f0;
+      animation: flicker 3s infinite;
     }
     #welcome-screen input {
       background: transparent;
-      border: 2px solid #00ff00;
+      border: 3px solid #00ff00;
       color: #00ff00;
-      font-size: 1.5rem;
-      padding: 0.5rem 1rem;
-      margin-top: 20px;
+      font-size: 2rem;
+      padding: 0.8rem 1.5rem;
+      margin-top: 1rem;
       font-family: 'Share Tech Mono', monospace;
       text-align: center;
       outline: none;
+      box-shadow:
+        0 0 20px #00ff00 inset;
+      width: 300px;
+      border-radius: 6px;
+      transition: 0.2s ease-in-out;
+    }
+    #welcome-screen input:focus {
+      box-shadow:
+        0 0 40px #0f0 inset,
+        0 0 20px #0f0;
     }
     #welcome-screen button {
-      margin-top: 15px;
-      padding: 0.5rem 2rem;
-      font-size: 1.2rem;
+      margin-top: 25px;
+      padding: 1rem 3rem;
+      font-size: 1.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      background: transparent;
+      border: 3px solid #00ff00;
+      color: #00ff00;
+      text-transform: uppercase;
+      box-shadow:
+        0 0 30px #0f0,
+        inset 0 0 30px #0f0;
+      letter-spacing: 4px;
+      transition: 0.3s ease;
+      user-select: none;
     }
+    #welcome-screen button:hover {
+      background: #00ff00;
+      color: black;
+      box-shadow:
+        0 0 50px #0f0,
+        inset 0 0 50px #0f0;
+      transform: scale(1.1);
+    }
+    #error-msg {
+      margin-top: 15px;
+      color: #ff0000;
+      font-weight: 900;
+      text-shadow: 0 0 10px #f00;
+      letter-spacing: 2px;
+      font-size: 1.2rem;
+      opacity: 0;
+      transition: opacity 0.3s ease;
+      user-select: none;
+    }
+    #error-msg.show {
+      opacity: 1;
+      animation: flicker 1.5s infinite;
+    }
+
   </style>
 </head>
 <body>
 
 <canvas id="matrix"></canvas>
 
-<h1>Ahmad's Hacker Terminal</h1>
+<h1>AHMAD'S HACKER TERMINAL</h1>
 
 <div class="button-container" style="display:none;" id="main-buttons">
-  <button id="bitcoin-btn">Bitcoin Miner</button>
-  <button id="script-typer-btn">Script Typer</button>
+  <button id="bitcoin-btn">bitcoin miner</button>
+  <button id="script-typer-btn">script typer</button>
+  <button id="network-scan-btn">network scan</button>
+  <button id="backdoor-btn">backdoor inject</button>
+  <button id="root-access-btn">root access</button>
 </div>
 
-<div id="console" style="display:none;">-- Awaiting commands --</div>
+<div id="console" style="display:none;">-- terminal initialized --</div>
 
 <div id="welcome-screen">
-  <h2>Enter Password to Access Terminal</h2>
-  <input type="password" id="password-input" placeholder="Password" autocomplete="off" />
-  <button id="login-btn">Enter</button>
-  <div id="error-msg" style="margin-top:10px;color:#ff0000;display:none;">Incorrect Password</div>
+  <h2>ENTER ACCESS KEY</h2>
+  <input type="password" id="password-input" placeholder="🔒 password" autocomplete="off" />
+  <button id="login-btn">unlock</button>
+  <div id="error-msg">ACCESS DENIED</div>
 </div>
 
 <script>
-  // Matrix effect
+  // Matrix effect setup
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   let width = canvas.width = window.innerWidth;
@@ -162,14 +284,14 @@
   const drops = new Array(columns).fill(1);
 
   function draw() {
-    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
     ctx.fillRect(0, 0, width, height);
     ctx.fillStyle = '#00ff00';
     ctx.font = fontSize + 'px monospace';
     for(let i = 0; i < drops.length; i++) {
       const text = letters[Math.floor(Math.random() * letters.length)];
       ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-      if(drops[i] * fontSize > height && Math.random() > 0.975) {
+      if(drops[i] * fontSize > height && Math.random() > 0.97) {
         drops[i] = 0;
       }
       drops[i]++;
@@ -181,17 +303,23 @@
     height = canvas.height = window.innerHeight;
   });
 
-  // Console & buttons
+  // Terminal console & buttons
   const consoleEl = document.getElementById('console');
   const bitcoinBtn = document.getElementById('bitcoin-btn');
   const scriptTyperBtn = document.getElementById('script-typer-btn');
+  const networkScanBtn = document.getElementById('network-scan-btn');
+  const backdoorBtn = document.getElementById('backdoor-btn');
+  const rootAccessBtn = document.getElementById('root-access-btn');
   const mainButtons = document.getElementById('main-buttons');
   const welcomeScreen = document.getElementById('welcome-screen');
   const passwordInput = document.getElementById('password-input');
   const loginBtn = document.getElementById('login-btn');
   const errorMsg = document.getElementById('error-msg');
 
-  // Hacker lines for Bitcoin Miner
+  // Password for access
+  const PASSWORD = 'openSesame';
+
+  // Hacker logs arrays
   const bitcoinLines = [
     "Connecting to blockchain node...",
     "Mining block 0x7f3b21...",
@@ -214,8 +342,6 @@
     "Accessing root privileges...",
     "Executing zero-day exploit..."
   ];
-
-  // Script lines for Script Typer
   const scriptLines = [
     "function exploit() {",
     "  while(true) {",
@@ -228,18 +354,50 @@
     "setTimeout(hack, 3000);",
     "var keylogger = initKeylogger();"
   ];
+  const networkScanLines = [
+    "Scanning network 192.168.1.0/24...",
+    "Host 192.168.1.5: OPEN ports 22, 80",
+    "Host 192.168.1.13: OPEN ports 443, 8080",
+    "Host 192.168.1.42: FIREWALL detected",
+    "Attempting bypass...",
+    "Exploit successful: Admin privileges gained!",
+    "Mapping network nodes...",
+    "Data packets intercepted..."
+  ];
+  const backdoorLines = [
+    "Generating backdoor payload...",
+    "Injecting into target server...",
+    "Backdoor installed silently",
+    "Maintaining persistence...",
+    "Encrypting communication channel...",
+    "Disguising process as system service...",
+    "Establishing remote access...",
+    "Listening for commands..."
+  ];
+  const rootAccessLines = [
+    "Accessing root shell...",
+    "Disabling security modules...",
+    "Editing /etc/passwd...",
+    "Root privileges escalated",
+    "Deploying rootkits...",
+    "Cleaning logs...",
+    "Persistence ensured...",
+    "System compromised"
+  ];
 
-  let bitcoinActive = false;
-  let scriptTyperActive = false;
-  let bitcoinIndex = 0;
-  let bitcoinInterval = null;
-  let scriptIndex = 0;
-  let scriptInterval = null;
+  let intervals = {};
+  let states = {
+    bitcoin: false,
+    scriptTyper: false,
+    networkScan: false,
+    backdoor: false,
+    rootAccess: false
+  };
 
-  function consoleLog(text) {
+  function appendConsole(text) {
     consoleEl.textContent += "\n" + text;
     consoleEl.scrollTop = consoleEl.scrollHeight;
-    trimConsole(1000);
+    trimConsole(500);
   }
   function trimConsole(maxLines) {
     const lines = consoleEl.textContent.split('\n');
@@ -248,19 +406,111 @@
     }
   }
 
-  function toggleBitcoinMiner() {
-    bitcoinActive = !bitcoinActive;
-    bitcoinBtn.classList.toggle('active', bitcoinActive);
-    if(bitcoinActive) {
-      consoleLog("-- Bitcoin Miner activated --");
-      bitcoinInterval = setInterval(() => {
-        consoleLog(bitcoinLines[bitcoinIndex % bitcoinLines.length]);
-        bitcoinIndex++;
-      }, 700);
+  // Typing effect helper for script typer
+  function typeLine(line, callback, idx=0) {
+    if (idx <= line.length) {
+      consoleEl.textContent = consoleEl.textContent.trimEnd() + line.slice(0, idx) + '|';
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      setTimeout(() => typeLine(line, callback, idx+1), 30);
     } else {
-      consoleLog("-- Bitcoin Miner deactivated --");
-      clearInterval(bitcoinInterval);
+      consoleEl.textContent = consoleEl.textContent.replace('|', '');
+      callback();
     }
   }
 
-  function toggleScript
+  // Toggle functions
+  function toggleFeature(feature) {
+    states[feature] = !states[feature];
+    document.getElementById(feature + '-btn').classList.toggle('active', states[feature]);
+
+    if(states[feature]) {
+      appendConsole(`-- ${feature.replace(/([A-Z])/g, ' $1').toUpperCase()} activated --`);
+      if(feature === 'bitcoin') {
+        let i = 0;
+        intervals.bitcoin = setInterval(() => {
+          appendConsole(bitcoinLines[i % bitcoinLines.length]);
+          i++;
+        }, 700);
+      }
+      if(feature === 'scriptTyper') {
+        let i = 0;
+        function typeScriptLoop() {
+          if(!states.scriptTyper) return;
+          typeLine(scriptLines[i % scriptLines.length], () => {
+            appendConsole('');
+            i++;
+            setTimeout(typeScriptLoop, 400);
+          });
+        }
+        typeScriptLoop();
+      }
+      if(feature === 'networkScan') {
+        let i = 0;
+        intervals.networkScan = setInterval(() => {
+          appendConsole(networkScanLines[i % networkScanLines.length]);
+          i++;
+        }, 900);
+      }
+      if(feature === 'backdoor') {
+        let i = 0;
+        intervals.backdoor = setInterval(() => {
+          appendConsole(backdoorLines[i % backdoorLines.length]);
+          i++;
+        }, 1200);
+      }
+      if(feature === 'rootAccess') {
+        let i = 0;
+        intervals.rootAccess = setInterval(() => {
+          appendConsole(rootAccessLines[i % rootAccessLines.length]);
+          i++;
+        }, 1500);
+      }
+    } else {
+      appendConsole(`-- ${feature.replace(/([A-Z])/g, ' $1').toUpperCase()} deactivated --`);
+clearInterval(intervals[feature]);
+intervals[feature] = null;
+}
+}
+
+bitcoinBtn.onclick = () => toggleFeature('bitcoin');
+scriptTyperBtn.onclick = () => toggleFeature('scriptTyper');
+networkScanBtn.onclick = () => toggleFeature('networkScan');
+backdoorBtn.onclick = () => toggleFeature('backdoor');
+rootAccessBtn.onclick = () => toggleFeature('rootAccess');
+
+// Password logic with flicker access denied effect
+loginBtn.onclick = () => {
+if(passwordInput.value === PASSWORD) {
+errorMsg.classList.remove('show');
+flickerAccessDenied(false);
+welcomeScreen.style.display = 'none';
+mainButtons.style.display = 'flex';
+consoleEl.style.display = 'block';
+appendConsole('-- ACCESS GRANTED --');
+} else {
+errorMsg.classList.add('show');
+flickerAccessDenied(true);
+}
+};
+
+// Flicker effect for error message on wrong password
+let flickerInterval;
+function flickerAccessDenied(start) {
+if(start) {
+if(flickerInterval) clearInterval(flickerInterval);
+flickerInterval = setInterval(() => {
+errorMsg.style.opacity = errorMsg.style.opacity == '1' ? '0.3' : '1';
+}, 250);
+} else {
+clearInterval(flickerInterval);
+errorMsg.style.opacity = '0';
+}
+}
+
+// Allow enter key for login
+passwordInput.addEventListener('keyup', e => {
+if(e.key === 'Enter') loginBtn.click();
+});
+</script>
+
+</body> </html>

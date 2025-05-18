@@ -2,152 +2,236 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Terminal Access // CORE SYSTEM</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Access Node 47 - Secure Terminal</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
-    body {
+    html, body {
       margin: 0;
-      background: black;
-      color: #00ff00;
+      padding: 0;
+      background: #000;
       font-family: 'Share Tech Mono', monospace;
+      color: #00ff88;
       overflow: hidden;
+      height: 100%;
     }
 
-    #terminal {
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 0;
+      pointer-events: none;
+    }
+
+    header {
+      padding: 15px;
+      text-align: left;
+      background: #000;
+      color: #00ff88;
+      font-size: 1.3rem;
+      border-bottom: 2px solid #00ff88;
+      text-shadow: 0 0 10px #00ff88;
+    }
+
+    .terminal {
+      z-index: 2;
+      position: relative;
       padding: 20px;
-      height: 100vh;
-      box-sizing: border-box;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .console {
+      background: rgba(0,0,0,0.7);
+      border: 1px solid #00ff88;
+      box-shadow: 0 0 20px #00ff88;
+      padding: 20px;
+      height: 300px;
       overflow-y: auto;
       white-space: pre-wrap;
+      font-size: 0.9rem;
     }
 
-    .button-bar {
-      position: fixed;
-      bottom: 0;
-      width: 100%;
-      background: #000000dd;
+    .button-group {
       display: flex;
+      flex-wrap: wrap;
       gap: 10px;
-      padding: 10px;
-      border-top: 2px solid #00ff00;
-      justify-content: center;
+      margin-top: 15px;
     }
 
-    .hack-btn {
-      background: black;
-      border: 1px solid #00ff00;
-      color: #00ff00;
+    button {
+      background: transparent;
+      border: 1px solid #00ff88;
+      color: #00ff88;
       padding: 10px 20px;
-      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.9rem;
       cursor: pointer;
-      box-shadow: 0 0 10px #00ff00;
-      transition: 0.3s ease;
+      transition: all 0.3s ease;
+      text-transform: uppercase;
     }
 
-    .hack-btn:hover {
-      background: #001100;
-      box-shadow: 0 0 20px #00ff00;
+    button:hover {
+      background: #00ff88;
+      color: #000;
     }
 
-    .glitch {
+    #login-bar {
+      margin-bottom: 15px;
+    }
+
+    .flicker {
       animation: flicker 1.5s infinite alternate;
     }
 
     @keyframes flicker {
-      0% { opacity: 1; }
-      50% { opacity: 0.4; }
-      100% { opacity: 1; }
+      from { opacity: 1; }
+      50% { opacity: 0.6; }
+      to { opacity: 1; }
     }
+
   </style>
 </head>
 <body>
-  <div id="terminal" class="glitch">Initializing system...</div>
+<canvas id="matrix"></canvas>
 
-  <div class="button-bar">
-    <button class="hack-btn" onclick="toggleModule('miner')">Bitcoin Miner</button>
-    <button class="hack-btn" onclick="toggleModule('scanner')">Port Scanner</button>
-    <button class="hack-btn" onclick="toggleModule('emailGen')">Email Generator</button>
-    <button class="hack-btn" onclick="toggleModule('keylogger')">Keylogger Sim</button>
+<header>SECURE TERMINAL v4.7 — NODE: A47</header>
+
+<div class="terminal">
+  <div id="login-bar" class="console">
+    [LOGIN] Injecting credentials...  
+    Access granted to: <span id="user-email"></span>
+    IP: <span id="user-ip"></span> | Access Level: <span id="user-access"></span>
   </div>
 
-  <script>
-    const terminal = document.getElementById('terminal');
-    const activeModules = {};
+  <div class="console" id="main-console">
+    -- INITIATING SYSTEM --\nWaiting for input...
+  </div>
 
-    function printLine(text = '', delay = 50) {
-      return new Promise((resolve) => {
-        let i = 0;
-        const interval = setInterval(() => {
-          terminal.textContent += text.charAt(i);
-          i++;
-          if (i === text.length) {
-            clearInterval(interval);
-            terminal.textContent += '\n';
-            terminal.scrollTop = terminal.scrollHeight;
-            resolve();
-          }
-        }, delay);
-      });
+  <div class="button-group">
+    <button onclick="toggleMiner()">Toggle Miner</button>
+    <button onclick="toggleTyper()">Toggle Script Typer</button>
+    <button onclick="logFakeUsers()">Fake User Scan</button>
+    <button onclick="clearConsole()">Clear</button>
+  </div>
+</div>
+
+<script>
+  const hackerNames = ["Neo", "Trinity", "Cypher", "ZeroCool", "Ghost", "Daemon", "Root", "Echo", "Null"];
+  const domains = ["@protonmail.com", "@tuta.io", "@icloud.com", "@gmail.com"];
+  const consoleEl = document.getElementById('main-console');
+  const userEmail = document.getElementById('user-email');
+  const userIP = document.getElementById('user-ip');
+  const userAccess = document.getElementById('user-access');
+
+  function fakeLogin() {
+    const name = hackerNames[Math.floor(Math.random() * hackerNames.length)];
+    const domain = domains[Math.floor(Math.random() * domains.length)];
+    const ip = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+    const level = Math.random() > 0.8 ? "ROOT" : "ADMIN";
+
+    userEmail.textContent = name.toLowerCase() + domain;
+    userIP.textContent = ip;
+    userAccess.textContent = level;
+  }
+
+  fakeLogin();
+
+  let mining = false;
+  let minerInterval = null;
+  const minerLogs = [
+    "Connecting to mining pool...",
+    "Hashing block 0x3eaf...",
+    "Block mined: 0x009abfcd",
+    "Reward: 6.25 BTC (simulated)",
+    "Submitting proof of work...",
+    "Verifying with consensus nodes..."
+  ];
+
+  function toggleMiner() {
+    if (!mining) {
+      mining = true;
+      log("-- Bitcoin mining started --");
+      minerInterval = setInterval(() => {
+        const line = minerLogs[Math.floor(Math.random() * minerLogs.length)];
+        log(line);
+      }, 1200);
+    } else {
+      mining = false;
+      clearInterval(minerInterval);
+      log("-- Bitcoin miner stopped --");
     }
+  }
 
-    async function bootSequence() {
-      await printLine("[CORE] Bootloader sequence initiated...");
-      await printLine("[OK] BIOS verified.");
-      await printLine("[OK] Secure channel established.");
-      await printLine("[OK] Terminal environment stable.");
-      await printLine(">>> Awaiting command modules...");
+  let typing = false;
+  const typerLines = [
+    "Injecting payload...",
+    "while(true){ hack(); }",
+    "user.addPrivilege('root');",
+    "sudo nuke /target",
+    "sniffPackets('192.168.0.1')"
+  ];
+  let typerInterval = null;
+
+  function toggleTyper() {
+    if (!typing) {
+      typing = true;
+      log("-- Script Typer activated --");
+      typerInterval = setInterval(() => {
+        log(typerLines[Math.floor(Math.random() * typerLines.length)]);
+      }, 900);
+    } else {
+      typing = false;
+      clearInterval(typerInterval);
+      log("-- Script Typer stopped --");
     }
+  }
 
-    async function toggleModule(module) {
-      if (activeModules[module]) {
-        clearInterval(activeModules[module]);
-        delete activeModules[module];
-        printLine(`-- ${module.toUpperCase()} disabled --`);
-        return;
-      }
-
-      switch (module) {
-        case 'miner':
-          activeModules[module] = setInterval(() => {
-            const hashes = ['7f3a', '3c9d', '8a2e', 'ff2b'];
-            printLine(`Mining block 0x${hashes[Math.floor(Math.random() * hashes.length)]}...`);
-          }, 1200);
-          break;
-
-        case 'scanner':
-          activeModules[module] = setInterval(() => {
-            const ip = `192.168.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-            printLine(`Scanning host: ${ip} | Open ports: [${Math.floor(Math.random()*1000)+20}]`);
-          }, 1500);
-          break;
-
-        case 'emailGen':
-          activeModules[module] = setInterval(() => {
-            const first = ['john','alex','luna','mike','nina','ivan'];
-            const last = ['smith','chen','doe','parker','kim','khan'];
-            const domain = ['@gmail.com','@protonmail.com','@icloud.com'];
-            const email = `${first[Math.floor(Math.random()*first.length)]}${Math.floor(Math.random()*999)}.${last[Math.floor(Math.random()*last.length)]}${domain[Math.floor(Math.random()*domain.length)]}`;
-            printLine(`Generated email: ${email}`);
-          }, 1000);
-          break;
-
-        case 'keylogger':
-          activeModules[module] = setInterval(() => {
-            const keys = ['[CTRL]', '[SHIFT]', 'P', 'A', 'S', 'S', 'W', 'O', 'R', 'D'];
-            printLine(`Captured input: ${keys.sort(() => Math.random()-0.5).join('')}`);
-          }, 1400);
-          break;
-
-        default:
-          printLine(`Unknown module: ${module}`);
-      }
-
-      printLine(`-- ${module.toUpperCase()} enabled --`);
+  function logFakeUsers() {
+    for (let i = 0; i < 5; i++) {
+      const name = hackerNames[Math.floor(Math.random() * hackerNames.length)];
+      const domain = domains[Math.floor(Math.random() * domains.length)];
+      const email = name.toLowerCase() + Math.floor(Math.random() * 999) + domain;
+      const ip = `${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+      log(`Logged user: ${email} [${ip}]`);
     }
+  }
 
-    bootSequence();
-  </script>
+  function clearConsole() {
+    consoleEl.textContent = "-- Console cleared --";
+  }
+
+  function log(msg) {
+    consoleEl.textContent += "\n" + msg;
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+
+  // Matrix effect
+  const canvas = document.getElementById("matrix");
+  const ctx = canvas.getContext("2d");
+  canvas.height = window.innerHeight;
+  canvas.width = window.innerWidth;
+  const letters = "アァイイウエオカキクケコサシスセソタチツテト0123456789".split("");
+  const fontSize = 16;
+  const columns = canvas.width / fontSize;
+  const drops = Array(Math.floor(columns)).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "#0f0";
+    ctx.font = fontSize + "px monospace";
+
+    drops.forEach((y, i) => {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, y * fontSize);
+      drops[i] = y * fontSize > canvas.height || Math.random() > 0.975 ? 0 : y + 1;
+    });
+  }
+
+  setInterval(drawMatrix, 50);
+</script>
 </body>
 </html>

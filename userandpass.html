@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Leak Terminal - Email & Password Dump</title>
+  <style>
+    body {
+      background: black;
+      color: #00ff00;
+      font-family: 'Courier New', Courier, monospace;
+      margin: 0;
+      padding: 20px;
+      overflow: hidden;
+    }
+
+    h1 {
+      text-align: center;
+      text-shadow: 0 0 10px #00ff00;
+      margin-bottom: 20px;
+      animation: flicker 1.5s infinite alternate;
+    }
+
+    @keyframes flicker {
+      0% { opacity: 1; }
+      50% { opacity: 0.6; }
+      100% { opacity: 1; }
+    }
+
+    #console {
+      background: rgba(0, 0, 0, 0.8);
+      border: 1px solid #00ff00;
+      padding: 20px;
+      height: 80vh;
+      overflow-y: scroll;
+      white-space: pre-wrap;
+      box-shadow: 0 0 20px #00ff00;
+    }
+
+    .line {
+      margin: 2px 0;
+    }
+  </style>
+</head>
+<body>
+  <h1>💀 EMAIL DATABASE BREACH 💀</h1>
+  <div id="console"></div>
+
+  <script>
+    const consoleEl = document.getElementById('console');
+
+    const fakeCreds = [
+      'johndoe@gmail.com : hunter2',
+      'admin@localhost : rootadmin123',
+      'steve.jobs@apple.com : iForgot',
+      'elon.musk@tesla.com : marsR0cks!',
+      'nancy@bank.net : qwerty123',
+      'user123@yahoo.com : password1!',
+      'root@machine42 : P@ssw0rd!',
+      'mark.zuckerberg@meta.com : iloveVR2023',
+      'bill.gates@microsoft.com : W1nd0wsXP',
+      'anonymous@protonmail.com : l33tHaxor$',
+      'hacker@darkweb.org : th3gr1d',
+      'ceo@banksecure.com : moneyIsPower!',
+      '123@aol.com : 123456',
+      'data@leak.com : compromised!',
+      'ghost@matrix.net : neoTr1nity',
+      'sniper@cyberstrike.net : crosshairX',
+      'backdoor@system.root : access2024',
+      'support@helpdesk.com : letmein123',
+      'vault@crypto.net : btcf0rever!',
+      'james.bond@mi6.uk : shakenNstirred'
+    ];
+
+    let index = 0;
+
+    function typeNextLine() {
+      if (index < fakeCreds.length) {
+        const line = document.createElement('div');
+        line.className = 'line';
+        line.textContent = `[LEAKED] → ${fakeCreds[index]}`;
+        consoleEl.appendChild(line);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+        index++;
+        setTimeout(typeNextLine, Math.random() * 300 + 100); // Random delay
+      } else {
+        const done = document.createElement('div');
+        done.textContent = "\n[EXPORT COMPLETE] Saved to: /tmp/users_leak.dump";
+        consoleEl.appendChild(done);
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+    }
+
+    typeNextLine();
+  </script>
+</body>
+</html>

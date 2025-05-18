@@ -1,70 +1,168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>💀 Welcome to Ahmad's Keller 💀</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-  body {
-    margin: 0; height: 100vh;
-    background: black;
-    color: #00ff00;
-    font-family: 'Share Tech Mono', monospace;
-    display: flex; flex-direction: column;
-    justify-content: center; align-items: center;
-    overflow: hidden;
-  }
-  h1 {
-    font-size: 3rem;
-    text-shadow: 0 0 20px #00ff00;
-    margin-bottom: 0.2em;
-    animation: flicker 2s infinite;
-  }
-  @keyframes flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
-    20%, 22%, 24%, 55% { opacity: 0.4; }
-  }
-  #start-btn {
-    margin-top: 30px;
-    font-size: 1.5rem;
-    padding: 1em 2em;
-    color: #00ff00;
-    border: 2px solid #00ff00;
-    background: transparent;
-    cursor: pointer;
-    user-select: none;
-    box-shadow: 0 0 15px #00ff00;
-    transition: 0.3s;
-  }
-  #start-btn:hover {
-    box-shadow: 0 0 40px #00ff00;
-    transform: scale(1.1);
-  }
-  #matrix {
-    position: fixed;
-    top: 0; left: 0;
-    width: 100vw; height: 100vh;
-    z-index: -1;
-  }
-</style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ahmad's Hacker Terminal</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+    body {
+      margin: 0;
+      background: black;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+      padding-top: 40px;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 60px #00ff00;
+      user-select: none;
+    }
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
+    }
+    h1 {
+      font-size: 2rem;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      text-shadow: 0 0 10px #00ff00;
+      user-select: none;
+      z-index: 10;
+      animation: flicker 2s infinite;
+      margin: 0;
+    }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {opacity: 1;}
+      20%, 22%, 24%, 55% {opacity: 0.4;}
+    }
+    .button-container {
+      margin-top: 100px;
+      display: flex;
+      gap: 15px;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 700px;
+      z-index: 10;
+    }
+    button {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ff00;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 160px;
+      transition: 0.3s ease;
+      user-select: none;
+    }
+    button.active {
+      background: #00ff00;
+      color: black;
+      box-shadow: 0 0 30px #00ff00, 0 0 50px #00ff00 inset;
+      transform: scale(1.1);
+    }
+    button:hover:not(.active) {
+      box-shadow: 0 0 30px #00ff00;
+      transform: scale(1.05);
+    }
+    #console {
+      margin-top: 30px;
+      background: rgba(0,0,0,0.8);
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+      width: 90vw;
+      max-width: 700px;
+      height: 250px;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      padding: 15px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      user-select: text;
+      z-index: 10;
+      line-height: 1.3em;
+    }
+    #welcome-screen {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: black;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      z-index: 20;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+    }
+    #welcome-screen input {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.5rem;
+      padding: 0.5rem 1rem;
+      margin-top: 20px;
+      font-family: 'Share Tech Mono', monospace;
+      text-align: center;
+      outline: none;
+    }
+    #welcome-screen button {
+      margin-top: 15px;
+      padding: 0.5rem 2rem;
+      font-size: 1.2rem;
+    }
+  </style>
 </head>
 <body>
+
 <canvas id="matrix"></canvas>
-<h1>Ahmad's Keller</h1>
-<button id="start-btn">Enter The Matrix</button>
+
+<h1>Ahmad's Hacker Terminal</h1>
+
+<div class="button-container" style="display:none;" id="main-buttons">
+  <button id="bitcoin-btn">Bitcoin Miner</button>
+  <button id="script-typer-btn">Script Typer</button>
+</div>
+
+<div id="console" style="display:none;">-- Awaiting commands --</div>
+
+<div id="welcome-screen">
+  <h2>Enter Password to Access Terminal</h2>
+  <input type="password" id="password-input" placeholder="Password" autocomplete="off" />
+  <button id="login-btn">Enter</button>
+  <div id="error-msg" style="margin-top:10px;color:#ff0000;display:none;">Incorrect Password</div>
+</div>
 
 <script>
+  // Matrix effect
   const canvas = document.getElementById('matrix');
   const ctx = canvas.getContext('2d');
   let width = canvas.width = window.innerWidth;
   let height = canvas.height = window.innerHeight;
+
   const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
   const fontSize = 18;
   const columns = Math.floor(width / fontSize);
   const drops = new Array(columns).fill(1);
+
   function draw() {
-    ctx.fillStyle = 'rgba(0,0,0,0.1)';
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.35)';
     ctx.fillRect(0, 0, width, height);
     ctx.fillStyle = '#00ff00';
     ctx.font = fontSize + 'px monospace';
@@ -77,15 +175,92 @@
       drops[i]++;
     }
   }
-  setInterval(draw, 40);
+  setInterval(draw, 50);
   window.addEventListener('resize', () => {
     width = canvas.width = window.innerWidth;
     height = canvas.height = window.innerHeight;
   });
 
-  document.getElementById('start-btn').addEventListener('click', () => {
-    window.location.href = 'next.html';
-  });
-</script>
-</body>
-</html>
+  // Console & buttons
+  const consoleEl = document.getElementById('console');
+  const bitcoinBtn = document.getElementById('bitcoin-btn');
+  const scriptTyperBtn = document.getElementById('script-typer-btn');
+  const mainButtons = document.getElementById('main-buttons');
+  const welcomeScreen = document.getElementById('welcome-screen');
+  const passwordInput = document.getElementById('password-input');
+  const loginBtn = document.getElementById('login-btn');
+  const errorMsg = document.getElementById('error-msg');
+
+  // Hacker lines for Bitcoin Miner
+  const bitcoinLines = [
+    "Connecting to blockchain node...",
+    "Mining block 0x7f3b21...",
+    "Hash rate: 59.4 TH/s",
+    "Verifying transactions...",
+    "Found new block! Reward: 12.5 BTC",
+    "Broadcasting to network...",
+    "Updating ledger...",
+    "Scanning for vulnerabilities...",
+    "Decrypting secure channel...",
+    "Injecting payload...",
+    "Bypassing firewall...",
+    "Extracting private keys...",
+    "Encrypting data...",
+    "Uploading to darknet...",
+    "Establishing proxy connection...",
+    "Spoofing IP address...",
+    "Compiling malware...",
+    "Uploading script to server...",
+    "Accessing root privileges...",
+    "Executing zero-day exploit..."
+  ];
+
+  // Script lines for Script Typer
+  const scriptLines = [
+    "function exploit() {",
+    "  while(true) {",
+    "    injectPayload();",
+    "  }",
+    "}",
+    "var backdoor = true;",
+    "console.log('Access granted');",
+    "executeCommand('sudo rm -rf /');",
+    "setTimeout(hack, 3000);",
+    "var keylogger = initKeylogger();"
+  ];
+
+  let bitcoinActive = false;
+  let scriptTyperActive = false;
+  let bitcoinIndex = 0;
+  let bitcoinInterval = null;
+  let scriptIndex = 0;
+  let scriptInterval = null;
+
+  function consoleLog(text) {
+    consoleEl.textContent += "\n" + text;
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+    trimConsole(1000);
+  }
+  function trimConsole(maxLines) {
+    const lines = consoleEl.textContent.split('\n');
+    if(lines.length > maxLines) {
+      consoleEl.textContent = lines.slice(lines.length - maxLines).join('\n');
+    }
+  }
+
+  function toggleBitcoinMiner() {
+    bitcoinActive = !bitcoinActive;
+    bitcoinBtn.classList.toggle('active', bitcoinActive);
+    if(bitcoinActive) {
+      consoleLog("-- Bitcoin Miner activated --");
+      bitcoinInterval = setInterval(() => {
+        consoleLog(bitcoinLines[bitcoinIndex % bitcoinLines.length]);
+        bitcoinIndex++;
+      }, 700);
+    } else {
+      consoleLog("-- Bitcoin Miner deactivated --");
+      clearInterval(bitcoinInterval);
+    }
+  }
+
+  function toggleScript

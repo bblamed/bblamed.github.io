@@ -1,183 +1,91 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>ZGames</title>
-<style>
-  :root {
-    --bg-color: #0e0e0e;
-    --text-color: #f0f0f0;
-    --accent-color: #ff0055;
-    --font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  }
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ahmad's Keller</title>
+  <style>
+    :root {
+      --green-glow: #00ff00;
+    }
 
-  * {
-    box-sizing: border-box;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  body {
-    margin: 0;
-    padding: 2rem;
-    background: var(--bg-color);
-    color: var(--text-color);
-    font-family: var(--font-family);
-    min-height: 100vh;
-    position: relative;
-    overflow-x: hidden;
-  }
+    body {
+      background-color: #000;
+      color: var(--green-glow);
+      font-family: 'Courier New', Courier, monospace;
+      padding: 2rem;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      position: relative;
+    }
 
-  /* Glowing edges top/bottom/left/right */
-  body::before, body::after,
-  .glow-left, .glow-right {
-    content: '';
-    position: fixed;
-    pointer-events: none;
-    z-index: 9999;
-  }
-  body::before {
-    top: 0; left: 0; width: 100%; height: 6px;
-    background: linear-gradient(to right, var(--accent-color), transparent, var(--accent-color));
-    filter: drop-shadow(0 0 8px var(--accent-color));
-  }
-  body::after {
-    bottom: 0; left: 0; width: 100%; height: 6px;
-    background: linear-gradient(to right, var(--accent-color), transparent, var(--accent-color));
-    filter: drop-shadow(0 0 8px var(--accent-color));
-  }
-  .glow-left {
-    top: 0; left: 0; width: 6px; height: 100%;
-    background: linear-gradient(to bottom, var(--accent-color), transparent, var(--accent-color));
-    filter: drop-shadow(0 0 8px var(--accent-color));
-  }
-  .glow-right {
-    top: 0; right: 0; width: 6px; height: 100%;
-    background: linear-gradient(to bottom, var(--accent-color), transparent, var(--accent-color));
-    filter: drop-shadow(0 0 8px var(--accent-color));
-  }
+    body::before, body::after,
+    .glow-left, .glow-right {
+      content: '';
+      position: fixed;
+      pointer-events: none;
+      z-index: 9999;
+    }
 
-  .title-container {
-    user-select: none;
-    position: relative;
-    z-index: 1;
-  }
+    body::before {
+      top: 0; left: 0; width: 100%; height: 6px;
+      background: linear-gradient(to right, var(--green-glow), transparent, var(--green-glow));
+      filter: drop-shadow(0 0 6px var(--green-glow));
+    }
 
-  h1 {
-    font-weight: 900;
-    font-size: 4rem;
-    letter-spacing: 4px;
-    color: var(--accent-color);
-    margin: 0 0 0.2rem 0;
-  }
+    body::after {
+      bottom: 0; left: 0; width: 100%; height: 6px;
+      background: linear-gradient(to right, var(--green-glow), transparent, var(--green-glow));
+      filter: drop-shadow(0 0 6px var(--green-glow));
+    }
 
-  .subtitle {
-    font-weight: 400;
-    font-size: 1rem;
-    color: #bbb;
-    letter-spacing: 1px;
-  }
+    .glow-left {
+      top: 0; left: 0; width: 6px; height: 100%;
+      background: linear-gradient(to bottom, var(--green-glow), transparent, var(--green-glow));
+      filter: drop-shadow(0 0 6px var(--green-glow));
+    }
 
-  .game-links {
-    margin-top: 3rem;
-    display: flex;
-    gap: 2.5rem;
-    align-items: center;
-    flex-wrap: wrap;
-    z-index: 1;
-  }
+    .glow-right {
+      top: 0; right: 0; width: 6px; height: 100%;
+      background: linear-gradient(to bottom, var(--green-glow), transparent, var(--green-glow));
+      filter: drop-shadow(0 0 6px var(--green-glow));
+    }
 
-  .game-link {
-    display: inline-block;
-    cursor: pointer;
-    user-select: none;
-    transition: transform 0.2s ease;
-    position: relative;
-  }
+    h1 {
+      font-size: 4rem;
+      text-shadow: 0 0 10px var(--green-glow);
+    }
 
-  .game-link:hover {
-    transform: scale(1.05);
-  }
-
-  .game-link img {
-    height: 80px;
-    width: auto;
-    display: block;
-    filter: drop-shadow(0 0 5px var(--accent-color));
-    border-radius: 8px;
-  }
-
-  .youtube-logo {
-    height: 60px !important;
-  }
-
-  footer {
-    position: fixed;
-    bottom: 0;
-    width: 100%;
-    text-align: center;
-    padding: 2rem;
-    color: #555;
-    font-size: 0.9rem;
-    background: #111;
-    z-index: 1;
-  }
-</style>
+    .terminal {
+      margin-top: 2rem;
+      width: 80%;
+      max-width: 800px;
+      background-color: #111;
+      padding: 1rem;
+      border: 2px solid var(--green-glow);
+      box-shadow: 0 0 15px var(--green-glow);
+      font-size: 1rem;
+    }
+  </style>
 </head>
 <body>
+  <div class="glow-left"></div>
+  <div class="glow-right"></div>
 
-<div class="title-container">
-  <h1>Gagamolchen Minigames</h1>
-  <div class="subtitle">made by ahmad</div>
-</div>
+  <h1>Ahmad's Keller</h1>
 
-<div class="game-links">
-  <a href="https://1-v-1lol-unblocked.github.io/" target="_blank" rel="noopener noreferrer" class="game-link" title="Play 1v1.lol">
-    <img src="https://wallpaperaccess.com/full/9050657.jpg" alt="1v1.lol Logo" />
-  </a>
-
-  <a href="https://eaglercraft.com" target="_blank" rel="noopener noreferrer" class="game-link" title="Visit Eaglercraft">
-    <img src="https://de.web.img3.acsta.net/r_654_368/newsv7/19/04/17/14/50/2423770.jpg" alt="Minecraft Logo" />
-  </a>
-
-  <a href="https://youtube.com" target="_blank" rel="noopener noreferrer" class="game-link" title="Go to YouTube">
-    <img src="https://upload.wikimedia.org/wikipedia/commons/b/b8/YouTube_Logo_2017.svg" alt="YouTube Logo" class="youtube-logo" />
-  </a>
-
-  <a href="https://krunker.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Krunker.io">
-    <img src="https://cdn2.steamgriddb.com/logo_thumb/0ce68201e60fced9cfb32a41b575afa4.png" alt="Krunker.io Logo" />
-  </a>
-
-  <a href="https://shellshock.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Shell Shockers">
-    <img src="https://cdn-images.threadless.com/threadless-media/artist_shops/shops/bluewizard/products/1617669/shirt-1597193118-5394396abb69557f13c68a28d5413072.png?v=3&d=eyJvbmx5X21ldGEiOiBmYWxzZSwgImZvcmNlIjogZmFsc2UsICJvcHMiOiBbWyJ0cmltIiwgW2ZhbHNlLCBmYWxzZV0sIHt9XSwgWyJyZXNpemUiLCBbXSwgeyJ3aWR0aCI6IDk5Ni4wLCAiYWxsb3dfdXAiOiBmYWxzZSwgImhlaWdodCI6IDk5Ni4wfV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzEyMDAsIDEyMDBdLCB7ImJhY2tncm91bmQiOiAiZjc5NDFkIn1dLCBbInJlc2l6ZSIsIFs3NjhdLCB7fV0sIFsiY2FudmFzX2NlbnRlcmVkIiwgWzc2OCwgNzY4LCAiI2ZmZmZmZiJdLCB7fV0sIFsiZW5jb2RlIiwgWyJqcGciLCA4NV0sIHt9XV19" alt="Shell Shockers Logo" />
-  </a>
-
-  <a href="https://smashkarts.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Smash Karts">
-    <img src="https://smashkarts.io/favicon.ico" alt="Smash Karts Logo" />
-  </a>
-
-  <a href="https://bonk.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Bonk.io">
-    <img src="https://bonk.io/assets/images/favicon.png" alt="Bonk.io Logo" />
-  </a>
-
-  <a href="https://zombsroyale.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play ZombsRoyale.io">
-    <img src="https://zombsroyale.io/favicon.ico" alt="ZombsRoyale.io Logo" />
-  </a>
-
-  <a href="https://diep.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Diep.io">
-    <img src="https://diep.io/images/favicon.png" alt="Diep.io Logo" />
-  </a>
-
-  <a href="https://venge.io" target="_blank" rel="noopener noreferrer" class="game-link" title="Play Venge.io">
-    <img src="https://venge.io/favicon.ico" alt="Venge.io Logo" />
-  </a>
-</div>
-
-<div class="glow-left"></div>
-<div class="glow-right"></div>
-
-<footer>
-  &copy; 2025 ZGames. All rights reserved.
-</footer>
-
+  <div class="terminal">
+    <p>> Welcome to the underground zone.</p>
+    <p>> Enter command: <span class="cursor">█</span></p>
+  </div>
 </body>
 </html>

@@ -3,46 +3,48 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ahmad's Keller - Hacker Terminal 3</title>
+  <title>Ahmad's Keller - Stage 2</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
     body {
+      margin: 0;
+      overflow: hidden;
       background: black;
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
-      margin: 0;
-      overflow: hidden;
       height: 100vh;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 50px #00ff00;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 20px;
+      padding-top: 40px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: 0;
+      pointer-events: none;
       user-select: none;
-      text-shadow:
-        0 0 5px #00ff00,
-        0 0 10px #00ff00,
-        0 0 20px #00ff00;
     }
-    #terminal {
-      background: #000;
-      border: 3px solid #00ff00;
-      box-shadow:
-        0 0 20px #00ff00,
-        inset 0 0 10px #00ff00;
-      width: 90vw;
-      max-width: 900px;
-      height: 80vh;
-      overflow-y: auto;
-      padding: 15px;
-      white-space: pre-wrap;
-      font-size: 1rem;
-      line-height: 1.3em;
-      position: relative;
+
+    h1 {
+      font-size: 2rem;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      user-select: none;
+      text-shadow: 0 0 10px #00ff00;
+      animation: flicker 2s infinite;
+      margin: 0;
+      z-index: 1;
     }
-    .line {
-      animation: flicker 2.5s infinite;
-    }
+
     @keyframes flicker {
       0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
         opacity: 1;
@@ -51,144 +53,297 @@
         opacity: 0.4;
       }
     }
-    #cursor {
-      display: inline-block;
-      width: 10px;
-      height: 1.2em;
-      background: #00ff00;
-      margin-left: 2px;
-      animation: blink 1s infinite;
-      vertical-align: bottom;
+
+    .button-container {
+      margin-top: 80px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      max-width: 700px;
+      z-index: 1;
+      position: relative;
     }
-    @keyframes blink {
-      0%, 50% { opacity: 1; }
-      51%, 100% { opacity: 0; }
+
+    button {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px #00ff00;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 160px;
+      user-select: none;
     }
-    #header {
-      font-size: 1.8rem;
-      margin-bottom: 10px;
-      text-align: center;
-      text-shadow:
-        0 0 8px #00ff00,
-        0 0 20px #00ff00;
+
+    button:hover {
+      box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
+      transform: scale(1.1);
+    }
+
+    #console {
+      margin-top: 40px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+      width: 90vw;
+      max-width: 700px;
+      height: 200px;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      padding: 15px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      user-select: text;
+      z-index: 1;
+      position: relative;
+      line-height: 1.3em;
+    }
+
+    #date-time {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      user-select: none;
+      z-index: 10;
+      text-shadow: 0 0 5px #00ff00;
     }
   </style>
 </head>
 <body>
-  <div id="header">Ahmad's Keller - Hacker Terminal 3</div>
-  <div id="terminal"></div>
+  <canvas id="matrix"></canvas>
+  <h1>Ahmad's Keller</h1>
+  <div id="date-time"></div>
+
+  <div class="button-container">
+    <button id="bitcoin-btn">Bitcoin Miner</button>
+    <button id="script-typer-btn">Script Typer (Toggle)</button>
+    <button id="webcam-btn">Webcam Viewer</button>
+    <button onclick="runAction('hacker3')">Hack Terminal 3</button>
+    <button onclick="runAction('hacker4')">Hack Terminal 4</button>
+    <button onclick="runAction('hacker5')">Hack Terminal 5</button>
+    <button onclick="runAction('hacker6')">Hack Terminal 6</button>
+    <button onclick="runAction('hacker7')">Hack Terminal 7</button>
+  </div>
+
+  <div id="console">-- Awaiting commands --</div>
 
   <script>
-    const terminal = document.getElementById('terminal');
+    // Matrix background effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
 
-    // Hacker jargon phrases for random logs
-    const jargon = [
-      "Injecting payload into vector...",
-      "Bypassing firewall protocols...",
-      "Decrypting AES-256 encryption...",
-      "Accessing secure shell...",
+    const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const fontSize = 18;
+    const columns = Math.floor(width / fontSize);
+    const drops = new Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = 'rgba(0,255,0, 0.1)';
+      ctx.font = fontSize + 'px monospace';
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Console element
+    const consoleEl = document.getElementById('console');
+
+    // Hacker prank typing lines
+    const hackerLines = [
+      "Connecting to blockchain node...",
+      "Mining block 0x7f3b21...",
+      "Hash rate: 59.4 TH/s",
+      "Verifying transactions...",
+      "Found new block! Reward: 12.5 BTC",
+      "Broadcasting to network...",
+      "Updating ledger...",
       "Scanning for vulnerabilities...",
-      "Elevating privileges...",
-      "Deploying zero-day exploit...",
-      "Compiling malware modules...",
-      "Establishing proxy chain...",
-      "Spoofing MAC address...",
-      "Extracting user credentials...",
-      "Uploading rootkit...",
-      "Overclocking CPU cores...",
-      "Intercepting network traffic...",
-      "Logging keystrokes...",
-      "Dumping memory...",
-      "Encrypting transmission...",
+      "Decrypting secure channel...",
+      "Injecting payload...",
+      "Bypassing firewall...",
+      "Extracting private keys...",
+      "Encrypting data...",
+      "Uploading to darknet...",
+      "Establishing proxy connection...",
       "Spoofing IP address...",
-      "Brute forcing password hashes...",
-      "Spoofing authentication tokens...",
-      "Connecting to darknet relay...",
-      "Executing ransomware payload...",
-      "Mining cryptocoins stealthily...",
-      "Launching DDoS attack vector...",
-      "Spoofing GPS location data..."
+      "Compiling malware...",
+      "Uploading script to server...",
+      "Accessing root privileges...",
+      "Executing zero-day exploit..."
     ];
 
-    // Fake user info parts
-    const firstNames = ["Alex", "Jamie", "Morgan", "Taylor", "Jordan", "Casey", "Drew", "Riley", "Cameron", "Quinn"];
-    const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Martinez", "Davis", "Lopez", "Harris"];
-    const emailDomains = ["gmail.com", "icloud.com", "protonmail.com", "yahoo.com", "outlook.com"];
-    const osTypes = ["Windows 10", "Ubuntu 22.04", "macOS Monterey", "Kali Linux", "Fedora 36"];
-    const devices = ["Dell XPS 13", "MacBook Pro", "Lenovo ThinkPad", "Raspberry Pi", "HP Spectre"];
-    const ipBase = "192.168";
+    let btcIndex = 0;
 
-    // Utility functions
-    function getRandom(arr) {
-      return arr[Math.floor(Math.random() * arr.length)];
+    function bitcoinMiner() {
+      const line = hackerLines[btcIndex % hackerLines.length];
+      consoleEl.textContent += "\n" + line;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      btcIndex++;
+      if (btcIndex > 200) {
+        consoleEl.textContent = consoleEl.textContent.split('\n').slice(-100).join('\n');
+      }
     }
+    let minerInterval = null;
 
-    function randomIp() {
-      return `${ipBase}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
-    }
+    // Script typer
+    const scriptLines = [
+      "function exploit() {",
+      "  while(true) {",
+      "    injectPayload();",
+      "  }",
+      "}",
+      "var backdoor = true;",
+      "console.log('Access granted');",
+      "executeCommand('sudo rm -rf /');",
+      "setTimeout(hack, 3000);",
+      "var keylogger = initKeylogger();"
+    ];
 
-    function randomEmail() {
-      return `${getRandom(firstNames).toLowerCase()}.${getRandom(lastNames).toLowerCase()}@${getRandom(emailDomains)}`;
-    }
+    let currentScriptLine = '';
+    let currentCharIndex = 0;
+    let scriptActive = false;
 
-    // Time formatter
-    function timeStamp() {
-      return new Date().toLocaleTimeString('en-US', {hour12:false});
-    }
+    function typeScriptChar() {
+      if (!scriptActive) return;
 
-    // Generate random log line with timestamp
-    function generateLogLine() {
-      const phrase = getRandom(jargon);
-      return `[${timeStamp()}] ${phrase}`;
-    }
-
-    // Generate random user data info
-    function generateUserData() {
-      return `User: ${getRandom(firstNames)} ${getRandom(lastNames)}\n` +
-             `Email: ${randomEmail()}\n` +
-             `IP: ${randomIp()}\n` +
-             `OS: ${getRandom(osTypes)}\n` +
-             `Device: ${getRandom(devices)}\n` +
-             `Status: ACCESS GRANTED\n`;
-    }
-
-    // Main terminal content lines
-    let lines = [];
-
-    // Fill initial lines
-    for(let i = 0; i < 15; i++) {
-      lines.push(generateLogLine());
-    }
-
-    // Add a user info block randomly every 30 lines
-    let userInfoCounter = 0;
-
-    // Main loop to add new lines every ~800ms
-    setInterval(() => {
-      // Remove old lines if too many
-      if(lines.length > 50) {
-        lines.shift();
+      if (currentCharIndex >= currentScriptLine.length) {
+        currentScriptLine = scriptLines[Math.floor(Math.random() * scriptLines.length)];
+        currentCharIndex = 0;
+        consoleEl.textContent += "\n";
       }
 
-      if(userInfoCounter === 30) {
-        lines.push(generateUserData());
-        userInfoCounter = 0;
+      consoleEl.textContent += currentScriptLine.charAt(currentCharIndex);
+      currentCharIndex++;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      if (consoleEl.textContent.length > 2000) {
+        consoleEl.textContent = consoleEl.textContent.slice(-1000);
+      }
+    }
+
+    document.getElementById('script-typer-btn').addEventListener('click', () => {
+      scriptActive = !scriptActive;
+      if (scriptActive) {
+        consoleEl.textContent += "\n-- Script Typer enabled --";
       } else {
-        lines.push(generateLogLine());
-        userInfoCounter++;
+        consoleEl.textContent += "\n-- Script Typer disabled --";
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (scriptActive) {
+        typeScriptChar();
+      }
+    });
+
+    // Webcam button redirects to URL
+    const webcamBtn = document.getElementById('webcam-btn');
+    webcamBtn.addEventListener('click', () => {
+      window.location.href = 'https://bblamed.github.io/webcam.html';
+    });
+
+    // Hack Terminal buttons example handler with advanced terminals
+    let hacker3Interval = null;
+    let hacker4Interval = null;
+
+    function runAction(id) {
+      clearIntervals();
+
+      if (id === 'hacker3') {
+        consoleEl.textContent = '-- Hacker Terminal 3 --\nGenerating random user data...';
+        startHacker3();
+      } else if (id === 'hacker4') {
+        consoleEl.textContent = '-- Hacker Terminal 4 --\nSimulating network scan...';
+        startHacker4();
+      } else {
+        consoleEl.textContent += `\nRunning action: ${id} ... Accessing remote server...`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }
+    }
+
+    function clearIntervals() {
+      if (hacker3Interval) clearInterval(hacker3Interval);
+      if (hacker4Interval) clearInterval(hacker4Interval);
+    }
+
+    // Hacker Terminal 3 - Random username/email generator
+    function startHacker3() {
+      const firstNames = ['Neo', 'Trinity', 'Cypher', 'Morpheus', 'Switch', 'Tank', 'Dozer', 'Apoc', 'Mouse', 'Cipher', 'Ghost', 'Shadow', 'Phantom', 'Razor', 'Viper'];
+      const lastNames = ['Anderson', 'Smith', 'Johnson', 'Doe', 'Black', 'White', 'Grey', 'Fox', 'Blade', 'Hunter', 'Storm', 'Knight', 'Raven', 'Wolf', 'Steel'];
+      const domains = ['gmail.com', 'icloud.com', 'protonmail.com', 'yahoo.com', 'hotmail.com', 'tutanota.com'];
+
+      function getRandom(arr) {
+        return arr[Math.floor(Math.random() * arr.length)];
       }
 
-      // Occasionally add a blinking fake hacker command line with cursor
-      if(Math.random() < 0.1) {
-        lines.push(`> sudo hack_the_planet.sh [running] <span id="cursor"></span>`);
-      }
+      hacker3Interval = setInterval(() => {
+        const fakeName = `${getRandom(firstNames)}_${getRandom(lastNames)}`;
+        const fakeEmail = `${fakeName.toLowerCase()}@${getRandom(domains)}`;
+        consoleEl.textContent += `\nGenerated user: ${fakeName} | Email: ${fakeEmail}`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }, 1000);
+    }
 
-      // Render lines to terminal
-      terminal.innerHTML = lines.map(line => `<div class="line">${line}</div>`).join('\n');
+    // Hacker Terminal 4 - Network scanning simulation
+    function startHacker4() {
+      const ipParts = () => Math.floor(Math.random() * 256);
+      const statuses = ['open', 'closed', 'filtered', 'open', 'open', 'closed', 'filtered'];
+      let count = 0;
 
-      // Scroll to bottom
-      terminal.scrollTop = terminal.scrollHeight;
-    }, 800);
+      hacker4Interval = setInterval(() => {
+        if (count > 100) {
+          consoleEl.textContent = '-- Hacker Terminal 4 --\nSimulating network scan...';
+          count = 0;
+        }
+        const ip = `${ipParts()}.${ipParts()}.${ipParts()}.${ipParts()}`;
+        const port = Math.floor(Math.random() * 65535);
+        const status = statuses[Math.floor(Math.random() * statuses.length)];
+        consoleEl.textContent += `\nScanning ${ip}:${port} ... ${status}`;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+        count++;
+      }, 700);
+    }
+
+    // Date and time display
+    const dateTimeEl = document.getElementById('date-time');
+    function updateDateTime() {
+      const now = new Date();
+      dateTimeEl.textContent = now.toLocaleString();
+    }
+    setInterval(updateDateTime, 1000);
+    updateDateTime();
+
+    // Auto-start hacker terminal 3 on page load
+    window.onload = () => {
+      runAction('hacker3');
+    };
 
   </script>
 </body>

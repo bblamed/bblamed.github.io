@@ -1,153 +1,195 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ahmad's Keller - Next Stage</title>
+  <title>Ahmad's Keller - Hacker Terminal 3</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-
     body {
-      margin: 0;
       background: black;
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
+      margin: 0;
       overflow: hidden;
+      height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
-      height: 100vh;
-      border: 10px solid #00ff00;
-      box-shadow: 0 0 50px #00ff00;
-      position: relative;
+      justify-content: flex-start;
+      padding: 20px;
+      user-select: none;
+      text-shadow:
+        0 0 5px #00ff00,
+        0 0 10px #00ff00,
+        0 0 20px #00ff00;
     }
-
-    h1 {
-      font-size: 2.5rem;
-      margin: 0;
-      text-shadow: 0 0 15px #00ff00;
-      animation: flicker 2s infinite;
-    }
-
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {opacity: 1;}
-      20%, 22%, 24%, 55% {opacity: 0.4;}
-    }
-
     #terminal {
-      background: black;
-      border: 2px solid #00ff00;
-      box-shadow: 0 0 30px #00ff00;
+      background: #000;
+      border: 3px solid #00ff00;
+      box-shadow:
+        0 0 20px #00ff00,
+        inset 0 0 10px #00ff00;
       width: 90vw;
-      max-width: 800px;
-      height: 300px;
-      margin-top: 20px;
-      padding: 15px;
-      font-size: 1.1rem;
-      line-height: 1.3em;
+      max-width: 900px;
+      height: 80vh;
       overflow-y: auto;
-      user-select: none;
+      padding: 15px;
       white-space: pre-wrap;
-      letter-spacing: 1.1px;
+      font-size: 1rem;
+      line-height: 1.3em;
       position: relative;
     }
-
-    #terminal .glitch {
-      color: #0f0;
-      animation: glitch-text 1s infinite;
+    .line {
+      animation: flicker 2.5s infinite;
     }
-
-    @keyframes glitch-text {
-      0% {
-        text-shadow: 2px 0 #0f0, -2px 0 #0f0;
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
       }
-      50% {
-        text-shadow: 3px 0 #00ff00, -3px 0 #00ff00;
-      }
-      100% {
-        text-shadow: 2px 0 #0f0, -2px 0 #0f0;
+      20%, 22%, 24%, 55% {
+        opacity: 0.4;
       }
     }
-
-    #next-btn {
-      margin-top: 30px;
-      padding: 1rem 3rem;
-      font-size: 1.5rem;
-      font-weight: bold;
-      color: #00ff00;
-      background: transparent;
-      border: 3px solid #00ff00;
-      cursor: pointer;
-      box-shadow: 0 0 25px #00ff00;
-      transition: all 0.3s ease;
-      user-select: none;
+    #cursor {
+      display: inline-block;
+      width: 10px;
+      height: 1.2em;
+      background: #00ff00;
+      margin-left: 2px;
+      animation: blink 1s infinite;
+      vertical-align: bottom;
     }
-
-    #next-btn:hover {
-      box-shadow: 0 0 50px #00ff00, 0 0 60px #00ff00;
-      transform: scale(1.1);
+    @keyframes blink {
+      0%, 50% { opacity: 1; }
+      51%, 100% { opacity: 0; }
+    }
+    #header {
+      font-size: 1.8rem;
+      margin-bottom: 10px;
+      text-align: center;
+      text-shadow:
+        0 0 8px #00ff00,
+        0 0 20px #00ff00;
     }
   </style>
 </head>
 <body>
-  <h1>Ahmad's Keller - Stage 2</h1>
+  <div id="header">Ahmad's Keller - Hacker Terminal 3</div>
   <div id="terminal"></div>
-  <button id="next-btn">Enter Credentials</button>
 
   <script>
     const terminal = document.getElementById('terminal');
-    const lines = [
-      "[INFO] Initializing hack protocol...",
-      "[OK] Exploit loaded successfully.",
-      "[INFO] Connecting to remote server...",
-      "[OK] Connection established.",
-      "[INFO] Bypassing firewall...",
-      "[OK] Firewall bypassed.",
-      "[WARNING] Suspicious activity detected!",
-      "[INFO] Running stealth mode...",
-      "[OK] Stealth mode active.",
-      "[INFO] Scanning for vulnerabilities...",
-      "[OK] Vulnerabilities found: 4",
-      "[INFO] Launching brute-force attack...",
-      "[OK] Password hash cracked.",
-      "[INFO] Extracting user data...",
-      "[OK] Data extraction complete.",
-      "[INFO] Uploading malware payload...",
-      "[OK] Payload deployed.",
-      "[INFO] Accessing secure credentials...",
-      "[OK] Access granted.",
-      "[INFO] Launching backdoor...",
-      "[OK] Backdoor active.",
-      "[INFO] Preparing for next stage..."
+
+    // Hacker jargon phrases for random logs
+    const jargon = [
+      "Injecting payload into vector...",
+      "Bypassing firewall protocols...",
+      "Decrypting AES-256 encryption...",
+      "Accessing secure shell...",
+      "Scanning for vulnerabilities...",
+      "Elevating privileges...",
+      "Deploying zero-day exploit...",
+      "Compiling malware modules...",
+      "Establishing proxy chain...",
+      "Spoofing MAC address...",
+      "Extracting user credentials...",
+      "Uploading rootkit...",
+      "Overclocking CPU cores...",
+      "Intercepting network traffic...",
+      "Logging keystrokes...",
+      "Dumping memory...",
+      "Encrypting transmission...",
+      "Spoofing IP address...",
+      "Brute forcing password hashes...",
+      "Spoofing authentication tokens...",
+      "Connecting to darknet relay...",
+      "Executing ransomware payload...",
+      "Mining cryptocoins stealthily...",
+      "Launching DDoS attack vector...",
+      "Spoofing GPS location data..."
     ];
 
-    function randomDelay() {
-      return 100 + Math.random() * 300; // 100ms to 400ms
+    // Fake user info parts
+    const firstNames = ["Alex", "Jamie", "Morgan", "Taylor", "Jordan", "Casey", "Drew", "Riley", "Cameron", "Quinn"];
+    const lastNames = ["Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Martinez", "Davis", "Lopez", "Harris"];
+    const emailDomains = ["gmail.com", "icloud.com", "protonmail.com", "yahoo.com", "outlook.com"];
+    const osTypes = ["Windows 10", "Ubuntu 22.04", "macOS Monterey", "Kali Linux", "Fedora 36"];
+    const devices = ["Dell XPS 13", "MacBook Pro", "Lenovo ThinkPad", "Raspberry Pi", "HP Spectre"];
+    const ipBase = "192.168";
+
+    // Utility functions
+    function getRandom(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    function addLine(text) {
-      const lineEl = document.createElement('div');
-      if(Math.random() < 0.1) { // 10% chance glitch effect
-        lineEl.classList.add('glitch');
+    function randomIp() {
+      return `${ipBase}.${Math.floor(Math.random()*255)}.${Math.floor(Math.random()*255)}`;
+    }
+
+    function randomEmail() {
+      return `${getRandom(firstNames).toLowerCase()}.${getRandom(lastNames).toLowerCase()}@${getRandom(emailDomains)}`;
+    }
+
+    // Time formatter
+    function timeStamp() {
+      return new Date().toLocaleTimeString('en-US', {hour12:false});
+    }
+
+    // Generate random log line with timestamp
+    function generateLogLine() {
+      const phrase = getRandom(jargon);
+      return `[${timeStamp()}] ${phrase}`;
+    }
+
+    // Generate random user data info
+    function generateUserData() {
+      return `User: ${getRandom(firstNames)} ${getRandom(lastNames)}\n` +
+             `Email: ${randomEmail()}\n` +
+             `IP: ${randomIp()}\n` +
+             `OS: ${getRandom(osTypes)}\n` +
+             `Device: ${getRandom(devices)}\n` +
+             `Status: ACCESS GRANTED\n`;
+    }
+
+    // Main terminal content lines
+    let lines = [];
+
+    // Fill initial lines
+    for(let i = 0; i < 15; i++) {
+      lines.push(generateLogLine());
+    }
+
+    // Add a user info block randomly every 30 lines
+    let userInfoCounter = 0;
+
+    // Main loop to add new lines every ~800ms
+    setInterval(() => {
+      // Remove old lines if too many
+      if(lines.length > 50) {
+        lines.shift();
       }
-      lineEl.textContent = text;
-      terminal.appendChild(lineEl);
+
+      if(userInfoCounter === 30) {
+        lines.push(generateUserData());
+        userInfoCounter = 0;
+      } else {
+        lines.push(generateLogLine());
+        userInfoCounter++;
+      }
+
+      // Occasionally add a blinking fake hacker command line with cursor
+      if(Math.random() < 0.1) {
+        lines.push(`> sudo hack_the_planet.sh [running] <span id="cursor"></span>`);
+      }
+
+      // Render lines to terminal
+      terminal.innerHTML = lines.map(line => `<div class="line">${line}</div>`).join('\n');
+
+      // Scroll to bottom
       terminal.scrollTop = terminal.scrollHeight;
-    }
+    }, 800);
 
-    let index = 0;
-    function loopTerminal() {
-      addLine(lines[index]);
-      index = (index + 1) % lines.length;
-      setTimeout(loopTerminal, randomDelay());
-    }
-
-    loopTerminal();
-
-    document.getElementById('next-btn').addEventListener('click', () => {
-      window.location.href = 'userandpass.html';
-    });
   </script>
 </body>
 </html>

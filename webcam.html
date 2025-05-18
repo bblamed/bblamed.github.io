@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -124,6 +124,18 @@
       box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
       transform: scale(1.05);
     }
+
+    #back-arrow {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      font-size: 2rem;
+      color: #00ff00;
+      cursor: pointer;
+      z-index: 10;
+      user-select: none;
+      text-shadow: 0 0 10px #00ff00;
+    }
   </style>
 </head>
 <body>
@@ -153,8 +165,10 @@
     </div>
   </div>
 
+  <div id="back-arrow" onclick="window.location.href='https://bblamed.github.io/webcam.html'">←</div>
+
   <script>
-    // Matrix background effect with very dark lines
+    // Matrix background effect
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -166,9 +180,9 @@
     const drops = new Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)'; // more opaque black for less matrixy effect
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.85)';
       ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = 'rgba(0,255,0, 0.04)'; // super faint green lines
+      ctx.fillStyle = 'rgba(0,255,0, 0.04)';
       ctx.font = fontSize + 'px monospace';
 
       for(let i = 0; i < drops.length; i++) {

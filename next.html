@@ -1,1 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Ahmad's Keller - Panel</title>
+  <style>
+    body {
+      background-color: black;
+      color: #00ff00;
+      font-family: monospace;
+      padding: 2rem;
+      text-align: center;
+    }
+    h1 {
+      font-size: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .button-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+      max-width: 400px;
+      margin: auto;
+    }
+    .button {
+      padding: 1rem;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      background: transparent;
+      font-family: monospace;
+      cursor: pointer;
+      transition: background 0.2s, color 0.2s;
+    }
+    .button:hover {
+      background: #00ff00;
+      color: black;
+    }
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      box-shadow: 0 0 20px 5px #00ff00 inset;
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+  <h1>> Ahmad's Keller</h1>
+  <div class="button-grid">
+    <button class="button">Game 1</button>
+    <button class="button">Game 2</button>
+    <button class="button">Game 3</button>
+    <button class="button">Game 4</button>
+    <button class="button">Game 5</button>
+    <button class="button">Game 6</button>
+    <button class="button">Game 7</button>
+    <button class="button">Game 8</button>
+  </div>
+</body>
+</html>
 

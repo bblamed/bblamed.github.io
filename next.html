@@ -251,48 +251,22 @@
     const scriptLines = [
       'const net = require(\'net\');',
       'const client = new net.Socket();',
-      'client.connect(1337, \'127.0.0.1\', function() {',
-      '  console.log(\'Connected to server\');',
-      '  client.write(\'Hello, server!\');',
-      '});',
-      'client.on(\'data\', function(data) {',
-      '  console.log(\'Received: \' + data);',
-      '  client.destroy();',
-      '});',
-      'client.on(\'close\', function() {',
-      '  console.log(\'Connection closed\');',
-      '});',
-      'function exploit() {',
-      '  console.log(\'Running exploit...\');',
-      '}',
-      'exploit();',
-      '// End of script'
-    ];
-    let scriptLineIndex = 0;
-
-    scriptInput.addEventListener('keydown', (e) => {
-      if (e.key.length === 1 || e.key === 'Backspace' || e.key === 'Enter') {
-        if (scriptLineIndex >= scriptLines.length) {
-          scriptLineIndex = 0;
-          scriptTyper.textContent = '';
-        }
-        scriptTyper.textContent += scriptLines[scriptLineIndex] + '\n';
-        scriptTyper.scrollTop = scriptTyper.scrollHeight;
-        scriptLineIndex++;
-      }
-    });
-
-    // Webcam button click to redirect
-    document.getElementById('btn-webcam').addEventListener('click', () => {
-      window.location.href = 'webcam.html';
-    });
-
-    // Disable other buttons for now (no action)
-    document.querySelectorAll('#buttons button:not(#btn-webcam)').forEach(btn => {
-      btn.addEventListener('click', () => {
-        alert('This feature is not implemented yet.');
-      });
-    });
-  </script>
-</body>
-</html>
+'client.connect(1337, '127.0.0.1', function() {',
+' console.log('Connected to server');',
+' client.write('Hello, server!');',
+'});',
+'client.on('data', function(data) {',
+' console.log('Received: ' + data);',
+' client.destroy();',
+'});',
+'client.on('close', function() {',
+' console.log('Connection closed');',
+'});',
+'function exploit() {',
+' console.log('Running exploit...');',
+'}',
+'exploit();',
+'// End of script'
+];
+let scriptLineIndex = 0;
+</script> </body> </html>

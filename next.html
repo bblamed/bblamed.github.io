@@ -80,6 +80,13 @@
       user-select: none;
     }
 
+    button.active {
+      background: #00ff00;
+      color: black;
+      box-shadow: 0 0 40px #00ff00;
+      transform: scale(1.1);
+    }
+
     button:hover {
       box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
       transform: scale(1.1);
@@ -103,6 +110,7 @@
       z-index: 1;
       position: relative;
       line-height: 1.3em;
+      user-select: text;
     }
 
     #date-time {
@@ -125,13 +133,13 @@
 
   <div class="button-container">
     <button id="bitcoin-btn">Bitcoin Miner</button>
-    <button id="script-typer-btn">Script Typer (Toggle)</button>
+    <button id="script-typer-btn">Script Typer</button>
     <button id="webcam-btn">Webcam Viewer</button>
-    <button onclick="runAction('hacker3')">Hack Terminal 3</button>
-    <button onclick="runAction('hacker4')">Hack Terminal 4</button>
-    <button onclick="runAction('hacker5')">Hack Terminal 5</button>
-    <button onclick="runAction('hacker6')">Hack Terminal 6</button>
-    <button onclick="runAction('hacker7')">Hack Terminal 7</button>
+    <button data-terminal="hacker3">Hack Terminal 3</button>
+    <button data-terminal="hacker4">Hack Terminal 4</button>
+    <button data-terminal="hacker5">Hack Terminal 5</button>
+    <button data-terminal="hacker6">Hack Terminal 6</button>
+    <button data-terminal="hacker7">Hack Terminal 7</button>
   </div>
 
   <div id="console">-- Awaiting commands --</div>
@@ -172,10 +180,9 @@
       height = canvas.height = window.innerHeight;
     });
 
-    // Console element
     const consoleEl = document.getElementById('console');
 
-    // Hacker prank typing lines
+    // Bitcoin miner stuff
     const hackerLines = [
       "Connecting to blockchain node...",
       "Mining block 0x7f3b21...",
@@ -198,8 +205,8 @@
       "Accessing root privileges...",
       "Executing zero-day exploit..."
     ];
-
     let btcIndex = 0;
+    let minerInterval = null;
 
     function bitcoinMiner() {
       const line = hackerLines[btcIndex % hackerLines.length];
@@ -210,9 +217,8 @@
         consoleEl.textContent = consoleEl.textContent.split('\n').slice(-100).join('\n');
       }
     }
-    let minerInterval = null;
 
-    // Script typer
+    // Script typer stuff
     const scriptLines = [
       "function exploit() {",
       "  while(true) {",
@@ -229,6 +235,7 @@
     let currentScriptLine = '';
     let currentCharIndex = 0;
     let scriptActive = false;
+    let scriptTyperTimeout = null;
 
     function typeScriptChar() {
       if (!scriptActive) return;
@@ -245,56 +252,57 @@
       if (consoleEl.textContent.length > 2000) {
         consoleEl.textContent = consoleEl.textContent.slice(-1000);
       }
+
+      scriptTyperTimeout = setTimeout(typeScriptChar, 50 + Math.random() * 100);
     }
 
-    document.getElementById('script-typer-btn').addEventListener('click', () => {
-      scriptActive = !scriptActive;
-      if (scriptActive) {
-        consoleEl.textContent += "\n-- Script Typer enabled --";
+    function startScriptTyper() {
+      if (scriptActive) return;
+      scriptActive = true;
+      consoleEl.textContent += "\n-- Script Typer enabled --";
+      currentScriptLine = scriptLines[Math.floor(Math.random() * scriptLines.length)];
+      currentCharIndex = 0;
+      typeScriptChar();
+    }
+
+    function stopScriptTyper() {
+      scriptActive = false;
+      clearTimeout(scriptTyperTimeout);
+      consoleEl.textContent += "\n-- Script Typer disabled --";
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+
+    // Webcam button redirects on toggle ON, disables on OFF (reload to disable)
+    const webcamBtn = document.getElementById('webcam-btn');
+    let webcamActive = false;
+
+    webcamBtn.addEventListener('click', () => {
+      if (!webcamActive) {
+        webcamActive = true;
+        webcamBtn.classList.add('active');
+        window.open('https://bblamed.github.io/webcam.html', '_blank');
+        consoleEl.textContent += "\n-- Webcam Viewer opened in new tab --";
       } else {
-        consoleEl.textContent += "\n-- Script Typer disabled --";
+        webcamActive = false;
+        webcamBtn.classList.remove('active');
+        consoleEl.textContent += "\n-- Webcam Viewer toggle OFF (close tab manually) --";
       }
       consoleEl.scrollTop = consoleEl.scrollHeight;
     });
 
-    document.addEventListener('keydown', (e) => {
-      if (scriptActive) {
-        typeScriptChar();
-      }
-    });
-
-    // Webcam button redirects to URL
-    const webcamBtn = document.getElementById('webcam-btn');
-    webcamBtn.addEventListener('click', () => {
-      window.location.href = 'https://bblamed.github.io/webcam.html';
-    });
-
-    // Hack Terminal buttons example handler with advanced terminals
+    // Hack Terminal buttons & toggles
+    let activeTerminal = null;
     let hacker3Interval = null;
     let hacker4Interval = null;
-
-    function runAction(id) {
-      clearIntervals();
-
-      if (id === 'hacker3') {
-        consoleEl.textContent = '-- Hacker Terminal 3 --\nGenerating random user data...';
-        startHacker3();
-      } else if (id === 'hacker4') {
-        consoleEl.textContent = '-- Hacker Terminal 4 --\nSimulating network scan...';
-        startHacker4();
-      } else {
-        consoleEl.textContent += `\nRunning action: ${id} ... Accessing remote server...`;
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-      }
-    }
 
     function clearIntervals() {
       if (hacker3Interval) clearInterval(hacker3Interval);
       if (hacker4Interval) clearInterval(hacker4Interval);
+      hacker3Interval = null;
+      hacker4Interval = null;
     }
 
-    // Hacker Terminal 3 - Random username/email generator
-    function startHacker3() {
+    function runHacker3() {
       const firstNames = ['Neo', 'Trinity', 'Cypher', 'Morpheus', 'Switch', 'Tank', 'Dozer', 'Apoc', 'Mouse', 'Cipher', 'Ghost', 'Shadow', 'Phantom', 'Razor', 'Viper'];
       const lastNames = ['Anderson', 'Smith', 'Johnson', 'Doe', 'Black', 'White', 'Grey', 'Fox', 'Blade', 'Hunter', 'Storm', 'Knight', 'Raven', 'Wolf', 'Steel'];
       const domains = ['gmail.com', 'icloud.com', 'protonmail.com', 'yahoo.com', 'hotmail.com', 'tutanota.com'];
@@ -311,8 +319,7 @@
       }, 1000);
     }
 
-    // Hacker Terminal 4 - Network scanning simulation
-    function startHacker4() {
+    function runHacker4() {
       const ipParts = () => Math.floor(Math.random() * 256);
       const statuses = ['open', 'closed', 'filtered', 'open', 'open', 'closed', 'filtered'];
       let count = 0;
@@ -331,6 +338,68 @@
       }, 700);
     }
 
+    function stopAllTerminals() {
+      clearIntervals();
+      activeTerminal = null;
+    }
+
+    function toggleTerminal(button, terminalId) {
+      const isActive = button.classList.contains('active');
+      // Deactivate any active terminal
+      document.querySelectorAll('button[data-terminal]').forEach(btn => {
+        if (btn !== button) btn.classList.remove('active');
+      });
+      clearIntervals();
+
+      if (!isActive) {
+        // Activate new terminal
+        button.classList.add('active');
+        consoleEl.textContent = `-- Hacker Terminal ${terminalId.slice(-1)} --\n`;
+        activeTerminal = terminalId;
+
+        if (terminalId === 'hacker3') runHacker3();
+        else if (terminalId === 'hacker4') runHacker4();
+        else {
+          consoleEl.textContent += `Running Terminal ${terminalId} - Feature coming soon...`;
+        }
+      } else {
+        // Deactivate terminal
+        button.classList.remove('active');
+        consoleEl.textContent = "-- Awaiting commands --";
+        activeTerminal = null;
+      }
+    }
+
+    // Attach click handlers
+    document.getElementById('bitcoin-btn').addEventListener('click', function() {
+      if (minerInterval) {
+        clearInterval(minerInterval);
+        minerInterval = null;
+        this.classList.remove('active');
+        consoleEl.textContent += "\n-- Bitcoin Miner stopped --";
+      } else {
+        minerInterval = setInterval(bitcoinMiner, 1000);
+        this.classList.add('active');
+        consoleEl.textContent += "\n-- Bitcoin Miner started --";
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    });
+
+    document.getElementById('script-typer-btn').addEventListener('click', function() {
+      if (scriptActive) {
+        stopScriptTyper();
+        this.classList.remove('active');
+      } else {
+        startScriptTyper();
+        this.classList.add('active');
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    });
+
+    document.querySelectorAll('button[data-terminal]').forEach(btn => {
+      btn.addEventListener('click', () => toggleTerminal(btn, btn.getAttribute('data-terminal')));
+    });
+
     // Date and time display
     const dateTimeEl = document.getElementById('date-time');
     function updateDateTime() {
@@ -342,7 +411,10 @@
 
     // Auto-start hacker terminal 3 on page load
     window.onload = () => {
-      runAction('hacker3');
+      const hacker3Btn = document.querySelector('button[data-terminal="hacker3"]');
+      if (hacker3Btn) {
+        hacker3Btn.click();
+      }
     };
 
   </script>

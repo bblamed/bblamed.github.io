@@ -1,47 +1,104 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Ahmad's Keller</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+    /* Matrix falling code background */
     body {
       margin: 0;
+      overflow: hidden;
       background: black;
-      color: lime;
-      font-family: monospace;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
       display: flex;
+      flex-direction: column;
       justify-content: center;
       align-items: center;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 50px #00ff00;
+      position: relative;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
       height: 100vh;
-      flex-direction: column;
-      border: 10px solid lime;
-      box-shadow: 0 0 40px lime;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
     }
 
     h1 {
-      font-size: 2em;
-      margin-bottom: 1rem;
+      font-size: 3rem;
+      margin-bottom: 1.5rem;
+      user-select: none;
+      text-shadow: 0 0 10px #00ff00;
+      animation: flicker 2s infinite;
+      z-index: 1;
+      position: relative;
     }
 
-    input, button {
-      background: black;
-      color: lime;
-      border: 1px solid lime;
-      padding: 0.5rem 1rem;
-      font-size: 1rem;
-      margin-top: 0.5rem;
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.4;
+      }
     }
 
-    input:focus, button:focus {
+    input {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.5rem;
+      padding: 0.7rem 1.2rem;
+      width: 260px;
+      text-align: center;
       outline: none;
-      box-shadow: 0 0 5px lime;
+      box-shadow: 0 0 15px #00ff00;
+      letter-spacing: 3px;
+      font-weight: bold;
+      z-index: 1;
+      position: relative;
+    }
+    input::placeholder {
+      color: #007700;
+      user-select: none;
+      letter-spacing: 2px;
+    }
+
+    button {
+      margin-top: 1.2rem;
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.5rem;
+      padding: 0.7rem 2rem;
+      cursor: pointer;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px #00ff00;
+      font-weight: bold;
+      letter-spacing: 2px;
+      z-index: 1;
+      position: relative;
+    }
+    button:hover {
+      box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
+  <canvas id="matrix"></canvas>
   <h1>Enter secret code</h1>
-  <input id="code" placeholder="ahmadz22" />
+  <input id="code" type="password" placeholder="Enter secret code" autocomplete="off" />
   <button onclick="checkCode()">Submit</button>
 
   <script>
@@ -55,6 +112,45 @@
         alert("Wrong code");
       }
     }
+
+    // Matrix background effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+
+    const fontSize = 18;
+    const columns = Math.floor(width / fontSize);
+
+    const drops = new Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+
+      ctx.fillStyle = '#00ff00';
+      ctx.font = fontSize + 'px monospace';
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
   </script>
 </body>
 </html>

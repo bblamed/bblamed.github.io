@@ -124,7 +124,7 @@
   <div id="console">-- Awaiting commands --</div>
 
   <script>
-    // Matrix background effect - toned down slightly
+    // Matrix background effect - made even more subtle
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -136,7 +136,8 @@
     const drops = new Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // slightly brighter bg fade, less matrixy
+      // lighter fade: increase alpha to 0.15, so trails fade faster
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = '#00ff00';
       ctx.font = fontSize + 'px monospace';
@@ -145,14 +146,14 @@
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if(drops[i] * fontSize > height && Math.random() > 0.98) {
+        if(drops[i] * fontSize > height && Math.random() > 0.995) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
 
-    setInterval(draw, 60); // slowed down a little
+    setInterval(draw, 75); // slowed down a bit for more subtle effect
 
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
@@ -218,7 +219,7 @@
           consoleEl.textContent = consoleEl.textContent.slice(-800);
         }
         consoleEl.scrollTop = consoleEl.scrollHeight;
-      }, 1000);
+      }, 1200); // slightly slower for subtlety
     }
 
     function stopBitcoinMiner() {
@@ -246,58 +247,59 @@
     let scriptText = "";
     let snippetIndex = 0;
     let charIndex = 0;
-function scriptTyperListener(e) {
-  // only respond if active
-  if(!scriptTyperActive) return;
 
-  e.preventDefault();
+    function scriptTyperListener(e) {
+      // only respond if active
+      if(!scriptTyperActive) return;
 
-  if(snippetIndex < scriptSnippets.length) {
-    let snippet = scriptSnippets[snippetIndex];
-    if(charIndex < snippet.length) {
-      scriptText += snippet.charAt(charIndex);
-      charIndex++;
-    } else {
-      snippetIndex++;
-      charIndex = 0;
+      e.preventDefault();
+
       if(snippetIndex < scriptSnippets.length) {
-        scriptText += "\n";
+        let snippet = scriptSnippets[snippetIndex];
+        if(charIndex < snippet.length) {
+          scriptText += snippet.charAt(charIndex);
+          charIndex++;
+        } else {
+          snippetIndex++;
+          charIndex = 0;
+          if(snippetIndex < scriptSnippets.length) {
+            scriptText += "\n";
+          }
+        }
+        consoleEl.textContent = scriptText;
+        consoleEl.scrollTop = consoleEl.scrollHeight;
       }
     }
-    consoleEl.textContent = scriptText;
-    consoleEl.scrollTop = consoleEl.scrollHeight;
-  }
-}
 
-function enableScriptTyper() {
-  scriptTyperActive = true;
-  scriptText = "";
-  snippetIndex = 0;
-  charIndex = 0;
-  consoleEl.textContent = "-- Script Typer active --\n";
-  document.addEventListener('keydown', scriptTyperListener);
-  stopBitcoinMiner();
-}
+    function enableScriptTyper() {
+      scriptTyperActive = true;
+      scriptText = "";
+      snippetIndex = 0;
+      charIndex = 0;
+      consoleEl.textContent = "-- Script Typer active --\n";
+      document.addEventListener('keydown', scriptTyperListener);
+      stopBitcoinMiner();
+    }
 
-function disableScriptTyper() {
-  scriptTyperActive = false;
-  document.removeEventListener('keydown', scriptTyperListener);
-}
+    function disableScriptTyper() {
+      scriptTyperActive = false;
+      document.removeEventListener('keydown', scriptTyperListener);
+    }
 
-// Button handlers
-document.getElementById('bitcoin-btn').addEventListener('click', () => {
-  runAction('bitcoin');
+    // Button handlers
+    document.getElementById('bitcoin-btn').addEventListener('click', () => {
+      runAction('bitcoin');
+    });
+
+    document.getElementById('script-typer-btn').addEventListener('click', () => {
+      if(scriptTyperActive)
+{
+disableScriptTyper();
+consoleEl.textContent = "-- Script Typer disabled --";
+} else {
+enableScriptTyper();
+}
 });
+</script>
 
-document.getElementById('script-typer-btn').addEventListener('click', () => {
-  if(scriptTyperActive) {
-    disableScriptTyper();
-    consoleEl.textContent = "-- Script Typer disabled --";
-  } else {
-    enableScriptTyper();
-  }
-});
-
-// Other buttons call runAction with their ids
-// Already handled inline onclick attribute
-</script> </body> </html>
+</body> </html>

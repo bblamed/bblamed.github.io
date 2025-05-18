@@ -102,6 +102,7 @@
       user-select: text;
       z-index: 1;
       position: relative;
+      line-height: 1.3em;
     }
   </style>
 </head>
@@ -110,8 +111,8 @@
   <h1>Ahmad's Keller</h1>
 
   <div class="button-container">
-    <button onclick="runAction('bitcoin')">Bitcoin Miner</button>
-    <button onclick="runAction('hacker1')">Hack Terminal 1</button>
+    <button id="bitcoin-btn">Bitcoin Miner</button>
+    <button id="script-typer-btn">Script Typer</button>
     <button onclick="runAction('hacker2')">Hack Terminal 2</button>
     <button onclick="runAction('hacker3')">Hack Terminal 3</button>
     <button onclick="runAction('hacker4')">Hack Terminal 4</button>
@@ -123,7 +124,7 @@
   <div id="console">-- Awaiting commands --</div>
 
   <script>
-    // Matrix background effect
+    // Matrix background effect - toned down slightly
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -135,7 +136,7 @@
     const drops = new Array(columns).fill(1);
 
     function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.1)'; // slightly brighter bg fade, less matrixy
       ctx.fillRect(0, 0, width, height);
       ctx.fillStyle = '#00ff00';
       ctx.font = fontSize + 'px monospace';
@@ -144,14 +145,14 @@
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+        if(drops[i] * fontSize > height && Math.random() > 0.98) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
 
-    setInterval(draw, 50);
+    setInterval(draw, 60); // slowed down a little
 
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
@@ -184,6 +185,8 @@
       "Encrypting hard drive..."
     ];
 
+    let bitcoinInterval = null;
+
     function typeRandomLines() {
       let output = '';
       let linesCount = Math.floor(Math.random() * 6) + 3;
@@ -194,14 +197,77 @@
     }
 
     function runAction(action) {
+      stopBitcoinMiner(); // stop bitcoin miner on any other button
+
       if(action === 'bitcoin') {
-        consoleEl.textContent = "-- Bitcoin miner starting --\n" + typeRandomLines();
+        startBitcoinMiner();
       } else {
         consoleEl.textContent = "-- Hacking terminal active --\n" + typeRandomLines();
+        consoleEl.scrollTop = consoleEl.scrollHeight;
       }
-      // Scroll to bottom
-      consoleEl.scrollTop = consoleEl.scrollHeight;
     }
-  </script>
-</body>
-</html>
+
+    // Bitcoin miner keeps updating console every second
+    function startBitcoinMiner() {
+      consoleEl.textContent = "-- Bitcoin miner starting --\n" + typeRandomLines();
+      bitcoinInterval = setInterval(() => {
+        consoleEl.textContent += typeRandomLines();
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+      }, 1000);
+    }
+
+    function stopBitcoinMiner() {
+      if(bitcoinInterval) {
+        clearInterval(bitcoinInterval);
+        bitcoinInterval = null;
+      }
+    }
+
+    // Script Typer details
+    const scriptTyperBtn = document.getElementById('script-typer-btn');
+    const scriptSnippets = [
+      "function hackSystem() {\n",
+      "  let payload = 'inject';\n",
+      "  while(true) {\n",
+      "    sendPacket(payload);\n",
+      "    await delay(10);\n",
+      "  }\n",
+      "}\n",
+      "async function sendPacket(data) {\n",
+      "  console.log('Sending: ' + data);\n",
+      "}\n",
+      "await hackSystem();\n",
+      "// end of script\n"
+    ];
+    let scriptText = "";
+    let snippetIndex = 0;
+    let charIndex = 0;
+scriptTyperBtn.addEventListener('click', () => {
+  stopBitcoinMiner();
+
+  // Add next character from current snippet, if done move to next snippet
+  if(snippetIndex < scriptSnippets.length) {
+    let snippet = scriptSnippets[snippetIndex];
+    if(charIndex < snippet.length) {
+      scriptText += snippet.charAt(charIndex);
+      charIndex++;
+      consoleEl.textContent = scriptText;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    } else {
+      snippetIndex++;
+      charIndex = 0;
+      // After finishing snippet, add a blank line for readability
+      scriptText += '\n';
+    }
+  } else {
+    // Reset to start over
+    snippetIndex = 0;
+    charIndex = 0;
+    scriptText = "";
+    consoleEl.textContent = "-- Script complete. Click again to restart. --";
+  }
+});
+
+// Assign button click handlers
+document.getElementById('bitcoin-btn').onclick = () => runAction('bitcoin');
+</script> </body> </html> 

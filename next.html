@@ -1,62 +1,207 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Ahmad's Keller</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Ahmad's Keller - Stage 2</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
     body {
       margin: 0;
+      overflow: hidden;
       background: black;
-      color: lime;
-      font-family: monospace;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      height: 100vh;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 50px #00ff00;
+      position: relative;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: center;
+      padding-top: 40px;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0; left: 0;
+      width: 100vw;
       height: 100vh;
-      border: 10px solid lime;
-      box-shadow: 0 0 40px lime;
+      z-index: 0;
+      pointer-events: none;
+      user-select: none;
     }
 
-    h2 {
-      font-size: 1.5em;
-      margin-bottom: 2rem;
+    h1 {
+      font-size: 2rem;
+      position: absolute;
+      top: 10px;
+      left: 20px;
+      user-select: none;
+      text-shadow: 0 0 10px #00ff00;
+      animation: flicker 2s infinite;
+      margin: 0;
+      z-index: 1;
     }
 
-    .button-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 1rem;
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 22%, 24%, 55% {
+        opacity: 0.4;
+      }
     }
 
-    .btn {
-      background: black;
-      color: lime;
-      border: 1px solid lime;
-      padding: 1rem;
-      font-size: 1rem;
+    .button-container {
+      margin-top: 80px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 15px;
+      justify-content: center;
+      max-width: 700px;
+      z-index: 1;
+      position: relative;
+    }
+
+    button {
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.2rem;
+      padding: 1rem 2rem;
       cursor: pointer;
-      transition: 0.2s;
+      transition: 0.3s ease;
+      box-shadow: 0 0 15px #00ff00;
+      font-weight: bold;
+      letter-spacing: 2px;
+      width: 160px;
+      user-select: none;
     }
 
-    .btn:hover {
-      box-shadow: 0 0 10px lime;
-      transform: scale(1.05);
+    button:hover {
+      box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
+      transform: scale(1.1);
+    }
+
+    #console {
+      margin-top: 40px;
+      background: rgba(0, 0, 0, 0.8);
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 20px #00ff00;
+      width: 90vw;
+      max-width: 700px;
+      height: 200px;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1rem;
+      padding: 15px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      user-select: text;
+      z-index: 1;
+      position: relative;
     }
   </style>
 </head>
 <body>
-  <h2>Ahmad's Keller - Level 2</h2>
-  <div class="button-grid">
-    <button class="btn">Game 1</button>
-    <button class="btn">Game 2</button>
-    <button class="btn">Game 3</button>
-    <button class="btn">Game 4</button>
-    <button class="btn">Game 5</button>
-    <button class="btn">Game 6</button>
-    <button class="btn">Game 7</button>
-    <button class="btn">Game 8</button>
+  <canvas id="matrix"></canvas>
+  <h1>Ahmad's Keller</h1>
+
+  <div class="button-container">
+    <button onclick="runAction('bitcoin')">Bitcoin Miner</button>
+    <button onclick="runAction('hacker1')">Hack Terminal 1</button>
+    <button onclick="runAction('hacker2')">Hack Terminal 2</button>
+    <button onclick="runAction('hacker3')">Hack Terminal 3</button>
+    <button onclick="runAction('hacker4')">Hack Terminal 4</button>
+    <button onclick="runAction('hacker5')">Hack Terminal 5</button>
+    <button onclick="runAction('hacker6')">Hack Terminal 6</button>
+    <button onclick="runAction('hacker7')">Hack Terminal 7</button>
   </div>
+
+  <div id="console">-- Awaiting commands --</div>
+
+  <script>
+    // Matrix background effect
+    const canvas = document.getElementById('matrix');
+    const ctx = canvas.getContext('2d');
+    let width = canvas.width = window.innerWidth;
+    let height = canvas.height = window.innerHeight;
+
+    const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
+    const fontSize = 18;
+    const columns = Math.floor(width / fontSize);
+    const drops = new Array(columns).fill(1);
+
+    function draw() {
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.05)';
+      ctx.fillRect(0, 0, width, height);
+      ctx.fillStyle = '#00ff00';
+      ctx.font = fontSize + 'px monospace';
+
+      for(let i = 0; i < drops.length; i++) {
+        const text = letters[Math.floor(Math.random() * letters.length)];
+        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
+          drops[i] = 0;
+        }
+        drops[i]++;
+      }
+    }
+
+    setInterval(draw, 50);
+
+    window.addEventListener('resize', () => {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    });
+
+    // Hacker prank typing effect
+    const consoleEl = document.getElementById('console');
+
+    const hackerLines = [
+      "Connecting to blockchain node...",
+      "Mining block 0x7f3b21...",
+      "Hash rate: 59.4 TH/s",
+      "Verifying transactions...",
+      "Found new block! Reward: 12.5 BTC",
+      "Broadcasting to network...",
+      "Decrypting secure protocol...",
+      "Establishing encrypted tunnel...",
+      "Injecting payload...",
+      "Bypassing firewall...",
+      "Accessing root directory...",
+      "Uploading virus payload...",
+      "Gathering system info...",
+      "Initiating DDoS attack simulation...",
+      "Exfiltrating data packets...",
+      "Loading exploit scripts...",
+      "Cracking password hashes...",
+      "Scanning open ports...",
+      "Spoofing IP address...",
+      "Encrypting hard drive..."
+    ];
+
+    function typeRandomLines() {
+      let output = '';
+      let linesCount = Math.floor(Math.random() * 6) + 3;
+      for(let i = 0; i < linesCount; i++) {
+        output += hackerLines[Math.floor(Math.random() * hackerLines.length)] + '\n';
+      }
+      return output;
+    }
+
+    function runAction(action) {
+      if(action === 'bitcoin') {
+        consoleEl.textContent = "-- Bitcoin miner starting --\n" + typeRandomLines();
+      } else {
+        consoleEl.textContent = "-- Hacking terminal active --\n" + typeRandomLines();
+      }
+      // Scroll to bottom
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    }
+  </script>
 </body>
 </html>

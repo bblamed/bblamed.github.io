@@ -5,129 +5,56 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ahmad's Keller</title>
   <style>
-    :root {
-      --green-glow: #00ff00;
-    }
-
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
     body {
-      background-color: #000;
-      color: var(--green-glow);
-      font-family: 'Courier New', Courier, monospace;
-      padding: 2rem;
-      min-height: 100vh;
+      margin: 0;
+      background: black;
+      color: lime;
+      font-family: monospace;
       display: flex;
-      flex-direction: column;
-      align-items: center;
       justify-content: center;
-      position: relative;
-    }
-
-    body::before, body::after,
-    .glow-left, .glow-right {
-      content: '';
-      position: fixed;
-      pointer-events: none;
-      z-index: 9999;
-    }
-
-    body::before {
-      top: 0; left: 0; width: 100%; height: 6px;
-      background: linear-gradient(to right, var(--green-glow), transparent, var(--green-glow));
-      filter: drop-shadow(0 0 6px var(--green-glow));
-    }
-
-    body::after {
-      bottom: 0; left: 0; width: 100%; height: 6px;
-      background: linear-gradient(to right, var(--green-glow), transparent, var(--green-glow));
-      filter: drop-shadow(0 0 6px var(--green-glow));
-    }
-
-    .glow-left {
-      top: 0; left: 0; width: 6px; height: 100%;
-      background: linear-gradient(to bottom, var(--green-glow), transparent, var(--green-glow));
-      filter: drop-shadow(0 0 6px var(--green-glow));
-    }
-
-    .glow-right {
-      top: 0; right: 0; width: 6px; height: 100%;
-      background: linear-gradient(to bottom, var(--green-glow), transparent, var(--green-glow));
-      filter: drop-shadow(0 0 6px var(--green-glow));
+      align-items: center;
+      height: 100vh;
+      flex-direction: column;
+      border: 10px solid lime;
+      box-shadow: 0 0 40px lime;
     }
 
     h1 {
-      font-size: 4rem;
-      text-shadow: 0 0 10px var(--green-glow);
+      font-size: 2em;
+      margin-bottom: 1rem;
     }
 
-    .terminal {
-      margin-top: 2rem;
-      width: 80%;
-      max-width: 800px;
-      background-color: #111;
-      padding: 1rem;
-      border: 2px solid var(--green-glow);
-      box-shadow: 0 0 15px var(--green-glow);
+    input, button {
+      background: black;
+      color: lime;
+      border: 1px solid lime;
+      padding: 0.5rem 1rem;
       font-size: 1rem;
+      margin-top: 0.5rem;
     }
 
-    #codeInput {
-      background: none;
-      border: none;
-      color: var(--green-glow);
-      font-family: inherit;
-      font-size: inherit;
+    input:focus, button:focus {
       outline: none;
-      width: 200px;
-    }
-
-    #hiddenContent {
-      display: none;
-      margin-top: 1rem;
-      color: var(--green-glow);
-      animation: fadeIn 1s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      box-shadow: 0 0 5px lime;
     }
   </style>
 </head>
 <body>
-  <div class="glow-left"></div>
-  <div class="glow-right"></div>
-
-  <h1>Ahmad's Keller</h1>
-
-  <div class="terminal">
-    <p>> Enter secret code:</p>
-    <p>> <input type="text" id="codeInput" placeholder="type here..." autofocus /></p>
-    <div id="hiddenContent">
-      <p>> ✅ Access granted. Welcome, Ahmad.</p>
-      <p>> 🚪 Proceeding to the next level...</p>
-    </div>
-  </div>
+  <h1>Enter secret code</h1>
+  <input id="code" placeholder="ahmadz22" />
+  <button onclick="checkCode()">Submit</button>
 
   <script>
-    const input = document.getElementById('codeInput');
-    const hidden = document.getElementById('hiddenContent');
-
-    input.addEventListener('keydown', function(e) {
-      if (e.key === 'Enter') {
-        if (input.value.trim().toLowerCase() === 'ahmadz22') {
-          hidden.style.display = 'block';
-        } else {
-          hidden.innerHTML = '<p>> ❌ Access denied. Try again.</p>';
-          hidden.style.display = 'block';
-        }
+    function checkCode() {
+      const input = document.getElementById("code").value.trim();
+      if (input === "ahmadz22") {
+        setTimeout(() => {
+          window.location.href = "next.html";
+        }, 2000);
+      } else {
+        alert("Wrong code");
       }
-    });
+    }
   </script>
 </body>
 </html>

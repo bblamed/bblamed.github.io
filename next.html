@@ -104,16 +104,61 @@
       position: relative;
       line-height: 1.3em;
     }
+
+    /* Webcam container */
+    #webcam-container {
+      margin-top: 30px;
+      width: 90vw;
+      max-width: 700px;
+      height: 390px;
+      border: 2px solid #00ff00;
+      box-shadow: 0 0 25px #00ff00;
+      background: black;
+      display: none;
+      flex-direction: column;
+      align-items: center;
+      padding: 10px;
+      z-index: 2;
+      position: relative;
+    }
+
+    #webcam-title {
+      font-size: 1.3rem;
+      margin-bottom: 10px;
+      text-align: center;
+      user-select: none;
+    }
+
+    #webcam-video {
+      width: 100%;
+      height: 330px;
+      border: none;
+      background: black;
+    }
+
+    /* Date and time display */
+    #date-time {
+      position: fixed;
+      top: 10px;
+      left: 10px;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 0.85rem;
+      user-select: none;
+      z-index: 10;
+      text-shadow: 0 0 5px #00ff00;
+    }
   </style>
 </head>
 <body>
   <canvas id="matrix"></canvas>
   <h1>Ahmad's Keller</h1>
+  <div id="date-time"></div>
 
   <div class="button-container">
     <button id="bitcoin-btn">Bitcoin Miner</button>
     <button id="script-typer-btn">Script Typer (Toggle)</button>
-    <button onclick="runAction('hacker2')">Hack Terminal 2</button>
+    <button id="webcam-btn">Webcam Viewer</button>
     <button onclick="runAction('hacker3')">Hack Terminal 3</button>
     <button onclick="runAction('hacker4')">Hack Terminal 4</button>
     <button onclick="runAction('hacker5')">Hack Terminal 5</button>
@@ -123,8 +168,23 @@
 
   <div id="console">-- Awaiting commands --</div>
 
+  <div id="webcam-container">
+    <div id="webcam-title">Select a webcam from buttons below</div>
+    <iframe id="webcam-video" src="" allowfullscreen></iframe>
+    <div style="margin-top:10px; display:flex; gap:10px; flex-wrap: wrap; justify-content:center;">
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCsUj0dszADCGbF3gNrQEuSQ">Hospital Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCJvG1rLMClN6qkm4X9NFG1g">House Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCF9vKx5E0VyydXKJK2CO9Fg">House 2 Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCGhOQGu5SId-yWvtT7T9D7g">Police Station Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCYd7_d7PeH6PYR2eJYnHZJA">City Street Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCx7qskv37P47x8ZPcoZr-Bg">Park Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCM8mU54LEqkdxYPwDXW06IQ">Beach Webcam</button>
+      <button class="webcam-select" data-src="https://www.youtube.com/embed/live_stream?channel=UCWJ2lWNubArHWmf3FIHbfcQ">Zoo Webcam</button>
+    </div>
+  </div>
+
   <script>
-    // Matrix background effect - made even more subtle
+    // Matrix background effect - old style but lines darker and barely visible
     const canvas = document.getElementById('matrix');
     const ctx = canvas.getContext('2d');
     let width = canvas.width = window.innerWidth;
@@ -136,24 +196,24 @@
     const drops = new Array(columns).fill(1);
 
     function draw() {
-      // lighter fade: increase alpha to 0.15, so trails fade faster
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.15)';
+      // Much darker fading, almost invisible
+      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
       ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = '#00ff00';
+      ctx.fillStyle = 'rgba(0,255,0, 0.1)'; // very faint green
       ctx.font = fontSize + 'px monospace';
 
       for(let i = 0; i < drops.length; i++) {
         const text = letters[Math.floor(Math.random() * letters.length)];
         ctx.fillText(text, i * fontSize, drops[i] * fontSize);
 
-        if(drops[i] * fontSize > height && Math.random() > 0.995) {
+        if(drops[i] * fontSize > height && Math.random() > 0.975) {
           drops[i] = 0;
         }
         drops[i]++;
       }
     }
 
-    setInterval(draw, 75); // slowed down a bit for more subtle effect
+    setInterval(draw, 50);
 
     window.addEventListener('resize', () => {
       width = canvas.width = window.innerWidth;
@@ -170,136 +230,98 @@
       "Verifying transactions...",
       "Found new block! Reward: 12.5 BTC",
       "Broadcasting to network...",
-      "Decrypting secure protocol...",
-      "Establishing encrypted tunnel...",
+      "Updating ledger...",
+      "Scanning for vulnerabilities...",
+      "Decrypting secure channel...",
       "Injecting payload...",
       "Bypassing firewall...",
-      "Accessing root directory...",
-      "Uploading virus payload...",
-      "Gathering system info...",
-      "Initiating DDoS attack simulation...",
-      "Exfiltrating data packets...",
-      "Loading exploit scripts...",
-      "Cracking password hashes...",
-      "Scanning open ports...",
+      "Extracting private keys...",
+      "Encrypting data...",
+      "Uploading to darknet...",
+      "Establishing proxy connection...",
       "Spoofing IP address...",
-      "Encrypting hard drive..."
+      "Compiling malware...",
+      "Uploading script to server...",
+      "Accessing root privileges...",
+      "Executing zero-day exploit..."
     ];
 
-    let bitcoinInterval = null;
-    let scriptTyperActive = false;
+    let btcIndex = 0;
 
-    function typeRandomLines() {
-      let output = '';
-      let linesCount = Math.floor(Math.random() * 6) + 3;
-      for(let i = 0; i < linesCount; i++) {
-        output += hackerLines[Math.floor(Math.random() * hackerLines.length)] + '\n';
-      }
-      return output;
-    }
-
-    function runAction(action) {
-      stopBitcoinMiner();
-      disableScriptTyper();
-
-      if(action === 'bitcoin') {
-        startBitcoinMiner();
-      } else {
-        consoleEl.textContent = "-- Hacking terminal active --\n" + typeRandomLines();
-        consoleEl.scrollTop = consoleEl.scrollHeight;
+    // Bitcoin miner - constantly typing random lines (loop)
+    function bitcoinMiner() {
+      const line = hackerLines[btcIndex % hackerLines.length];
+      consoleEl.textContent += "\n" + line;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      btcIndex++;
+      if (btcIndex > 200) { // Limit console size
+        consoleEl.textContent = consoleEl.textContent.split('\n').slice(-100).join('\n');
       }
     }
+    let minerInterval = setInterval(bitcoinMiner, 900);
 
-    // Bitcoin miner keeps updating console every second, always active when started
-    function startBitcoinMiner() {
-      consoleEl.textContent = "-- Bitcoin miner starting --\n" + typeRandomLines();
-      bitcoinInterval = setInterval(() => {
-        consoleEl.textContent += typeRandomLines();
-        if(consoleEl.textContent.length > 1000) {
-          consoleEl.textContent = consoleEl.textContent.slice(-800);
-        }
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-      }, 1200); // slightly slower for subtlety
-    }
-
-    function stopBitcoinMiner() {
-      if(bitcoinInterval) {
-        clearInterval(bitcoinInterval);
-        bitcoinInterval = null;
-      }
-    }
-
-    // Script Typer: types one char per keypress anywhere on page
-    const scriptSnippets = [
-      "function hackSystem() {\n",
-      "  let payload = 'inject';\n",
-      "  while(true) {\n",
-      "    sendPacket(payload);\n",
-      "    await delay(10);\n",
-      "  }\n",
-      "}\n",
-      "async function sendPacket(data) {\n",
-      "  console.log('Sending: ' + data);\n",
-      "}\n",
-      "await hackSystem();\n",
-      "// end of script\n"
+    // Script typer - types one char of a random script line on keypress
+    const scriptLines = [
+      "function exploit() {",
+      "  while(true) {",
+      "    injectPayload();",
+      "  }",
+      "}",
+      "var backdoor = true;",
+      "console.log('Access granted');",
+      "executeCommand('sudo rm -rf /');",
+      "setTimeout(hack, 3000);",
+      "var keylogger = initKeylogger();"
     ];
-    let scriptText = "";
-    let snippetIndex = 0;
-    let charIndex = 0;
 
-    function scriptTyperListener(e) {
-      // only respond if active
-      if(!scriptTyperActive) return;
+    let currentScriptLine = '';
+    let currentCharIndex = 0;
+    let scriptActive = false;
 
-      e.preventDefault();
+    function typeScriptChar() {
+      if (!scriptActive) return;
 
-      if(snippetIndex < scriptSnippets.length) {
-        let snippet = scriptSnippets[snippetIndex];
-        if(charIndex < snippet.length) {
-          scriptText += snippet.charAt(charIndex);
-          charIndex++;
-        } else {
-          snippetIndex++;
-          charIndex = 0;
-          if(snippetIndex < scriptSnippets.length) {
-            scriptText += "\n";
-          }
-        }
-        consoleEl.textContent = scriptText;
-        consoleEl.scrollTop = consoleEl.scrollHeight;
+      if (currentCharIndex >= currentScriptLine.length) {
+        currentScriptLine = scriptLines[Math.floor(Math.random() * scriptLines.length)];
+        currentCharIndex = 0;
+        consoleEl.textContent += "\n"; // new line
+      }
+
+      consoleEl.textContent += currentScriptLine.charAt(currentCharIndex);
+      currentCharIndex++;
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+      if (consoleEl.textContent.length > 2000) {
+        consoleEl.textContent = consoleEl.textContent.slice(-1000);
       }
     }
-
-    function enableScriptTyper() {
-      scriptTyperActive = true;
-      scriptText = "";
-      snippetIndex = 0;
-      charIndex = 0;
-      consoleEl.textContent = "-- Script Typer active --\n";
-      document.addEventListener('keydown', scriptTyperListener);
-      stopBitcoinMiner();
-    }
-
-    function disableScriptTyper() {
-      scriptTyperActive = false;
-      document.removeEventListener('keydown', scriptTyperListener);
-    }
-
-    // Button handlers
-    document.getElementById('bitcoin-btn').addEventListener('click', () => {
-      runAction('bitcoin');
-    });
 
     document.getElementById('script-typer-btn').addEventListener('click', () => {
-      if(scriptTyperActive)
-{
-disableScriptTyper();
-consoleEl.textContent = "-- Script Typer disabled --";
-} else {
-enableScriptTyper();
-}
-});
-</script>
+      scriptActive = !scriptActive;
+      if (scriptActive) {
+        consoleEl.textContent += "\n-- Script Typer enabled --";
+      } else {
+        consoleEl.textContent += "\n-- Script Typer disabled --";
+      }
+      consoleEl.scrollTop = consoleEl.scrollHeight;
+    });
 
-</body> </html>
+    document.addEventListener('keydown', (e) => {
+      if (scriptActive) {
+        typeScriptChar();
+      }
+    });
+
+    // Webcam viewer logic
+    const webcamBtn = document.getElementById('webcam-btn');
+    const webcamContainer = document.getElementById('webcam-container');
+    const webcamTitle = document.getElementById('webcam-title');
+    const webcamVideo = document.getElementById('webcam-video');
+    const bitcoinBtn = document.getElementById('bitcoin-btn');
+    const scriptTyperBtn = document.getElementById('script-typer-btn');
+
+    webcamBtn.addEventListener('click', () => {
+      // Toggle webcam container visibility
+      if (webcamContainer.style.display === 'flex') {
+        webcamContainer.style.display = 'none';
+        consoleEl.style.display = 'block';
+        bitcoinBtn.style

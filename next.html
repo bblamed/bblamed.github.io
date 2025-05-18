@@ -112,7 +112,7 @@
 
   <div class="button-container">
     <button id="bitcoin-btn">Bitcoin Miner</button>
-    <button id="script-typer-btn">Script Typer</button>
+    <button id="script-typer-btn">Script Typer (Toggle)</button>
     <button onclick="runAction('hacker2')">Hack Terminal 2</button>
     <button onclick="runAction('hacker3')">Hack Terminal 3</button>
     <button onclick="runAction('hacker4')">Hack Terminal 4</button>
@@ -186,6 +186,7 @@
     ];
 
     let bitcoinInterval = null;
+    let scriptTyperActive = false;
 
     function typeRandomLines() {
       let output = '';
@@ -197,7 +198,8 @@
     }
 
     function runAction(action) {
-      stopBitcoinMiner(); // stop bitcoin miner on any other button
+      stopBitcoinMiner();
+      disableScriptTyper();
 
       if(action === 'bitcoin') {
         startBitcoinMiner();
@@ -207,11 +209,14 @@
       }
     }
 
-    // Bitcoin miner keeps updating console every second
+    // Bitcoin miner keeps updating console every second, always active when started
     function startBitcoinMiner() {
       consoleEl.textContent = "-- Bitcoin miner starting --\n" + typeRandomLines();
       bitcoinInterval = setInterval(() => {
         consoleEl.textContent += typeRandomLines();
+        if(consoleEl.textContent.length > 1000) {
+          consoleEl.textContent = consoleEl.textContent.slice(-800);
+        }
         consoleEl.scrollTop = consoleEl.scrollHeight;
       }, 1000);
     }
@@ -223,8 +228,7 @@
       }
     }
 
-    // Script Typer details
-    const scriptTyperBtn = document.getElementById('script-typer-btn');
+    // Script Typer: types one char per keypress anywhere on page
     const scriptSnippets = [
       "function hackSystem() {\n",
       "  let payload = 'inject';\n",
@@ -242,32 +246,58 @@
     let scriptText = "";
     let snippetIndex = 0;
     let charIndex = 0;
-scriptTyperBtn.addEventListener('click', () => {
-  stopBitcoinMiner();
+function scriptTyperListener(e) {
+  // only respond if active
+  if(!scriptTyperActive) return;
 
-  // Add next character from current snippet, if done move to next snippet
+  e.preventDefault();
+
   if(snippetIndex < scriptSnippets.length) {
     let snippet = scriptSnippets[snippetIndex];
     if(charIndex < snippet.length) {
       scriptText += snippet.charAt(charIndex);
       charIndex++;
-      consoleEl.textContent = scriptText;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
     } else {
       snippetIndex++;
       charIndex = 0;
-      // After finishing snippet, add a blank line for readability
-      scriptText += '\n';
+      if(snippetIndex < scriptSnippets.length) {
+        scriptText += "\n";
+      }
     }
+    consoleEl.textContent = scriptText;
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+  }
+}
+
+function enableScriptTyper() {
+  scriptTyperActive = true;
+  scriptText = "";
+  snippetIndex = 0;
+  charIndex = 0;
+  consoleEl.textContent = "-- Script Typer active --\n";
+  document.addEventListener('keydown', scriptTyperListener);
+  stopBitcoinMiner();
+}
+
+function disableScriptTyper() {
+  scriptTyperActive = false;
+  document.removeEventListener('keydown', scriptTyperListener);
+}
+
+// Button handlers
+document.getElementById('bitcoin-btn').addEventListener('click', () => {
+  runAction('bitcoin');
+});
+
+document.getElementById('script-typer-btn').addEventListener('click', () => {
+  if(scriptTyperActive) {
+    disableScriptTyper();
+    consoleEl.textContent = "-- Script Typer disabled --";
   } else {
-    // Reset to start over
-    snippetIndex = 0;
-    charIndex = 0;
-    scriptText = "";
-    consoleEl.textContent = "-- Script complete. Click again to restart. --";
+    enableScriptTyper();
   }
 });
 
-// Assign button click handlers
-document.getElementById('bitcoin-btn').onclick = () => runAction('bitcoin');
-</script> </body> </html> 
+// Other buttons call runAction with their ids
+// Already handled inline onclick attribute
+</script> </body> </html>

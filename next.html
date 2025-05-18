@@ -1,422 +1,148 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Ahmad's Keller - Stage 2</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HAXX Terminal v3.0</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
 
     body {
+      background: #000;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
       margin: 0;
+      padding: 20px;
       overflow: hidden;
-      background: black;
-      color: #00ff00;
-      font-family: 'Share Tech Mono', monospace;
-      height: 100vh;
-      border: 10px solid #00ff00;
-      box-shadow: 0 0 50px #00ff00;
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      padding-top: 40px;
     }
 
-    canvas {
-      position: fixed;
-      top: 0; left: 0;
-      width: 100vw;
-      height: 100vh;
-      z-index: 0;
-      pointer-events: none;
-      user-select: none;
-    }
-
-    h1 {
-      font-size: 2rem;
-      position: absolute;
-      top: 10px;
-      left: 20px;
-      user-select: none;
-      text-shadow: 0 0 10px #00ff00;
-      animation: flicker 2s infinite;
-      margin: 0;
-      z-index: 1;
-    }
-
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 22%, 24%, 55% {
-        opacity: 0.4;
-      }
-    }
-
-    .button-container {
-      margin-top: 80px;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 15px;
-      justify-content: center;
-      max-width: 700px;
-      z-index: 1;
-      position: relative;
-    }
-
-    button {
-      background: transparent;
+    #terminal {
+      width: 100%;
+      height: 90vh;
+      background: #000;
       border: 2px solid #00ff00;
-      color: #00ff00;
-      font-size: 1.2rem;
-      padding: 1rem 2rem;
-      cursor: pointer;
-      transition: 0.3s ease;
-      box-shadow: 0 0 15px #00ff00;
-      font-weight: bold;
-      letter-spacing: 2px;
-      width: 160px;
-      user-select: none;
-    }
-
-    button.active {
-      background: #00ff00;
-      color: black;
-      box-shadow: 0 0 40px #00ff00;
-      transform: scale(1.1);
-    }
-
-    button:hover {
-      box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
-      transform: scale(1.1);
-    }
-
-    #console {
-      margin-top: 40px;
-      background: rgba(0, 0, 0, 0.8);
-      border: 2px solid #00ff00;
-      box-shadow: 0 0 20px #00ff00;
-      width: 90vw;
-      max-width: 700px;
-      height: 200px;
-      color: #00ff00;
-      font-family: 'Share Tech Mono', monospace;
-      font-size: 1rem;
       padding: 15px;
       overflow-y: auto;
       white-space: pre-wrap;
-      user-select: text;
-      z-index: 1;
-      position: relative;
-      line-height: 1.3em;
-      user-select: text;
+      box-shadow: 0 0 15px #00ff00;
     }
 
-    #date-time {
-      position: fixed;
-      top: 10px;
-      left: 10px;
+    #input-line {
+      display: flex;
+      align-items: center;
+    }
+
+    #prompt {
+      margin-right: 10px;
+    }
+
+    #cmd {
+      background: none;
+      border: none;
       color: #00ff00;
       font-family: 'Share Tech Mono', monospace;
-      font-size: 0.85rem;
-      user-select: none;
-      z-index: 10;
-      text-shadow: 0 0 5px #00ff00;
+      font-size: 1rem;
+      outline: none;
+      flex-grow: 1;
+    }
+
+    .log-line {
+      margin: 0;
+      padding: 0;
+    }
+
+    .hud {
+      position: fixed;
+      top: 10px;
+      right: 10px;
+      background: rgba(0, 255, 0, 0.1);
+      border: 1px solid #00ff00;
+      padding: 10px;
+      font-size: 0.8rem;
+      line-height: 1.4em;
+      width: 200px;
     }
   </style>
 </head>
 <body>
-  <canvas id="matrix"></canvas>
-  <h1>Ahmad's Keller</h1>
-  <div id="date-time"></div>
-
-  <div class="button-container">
-    <button id="bitcoin-btn">Bitcoin Miner</button>
-    <button id="script-typer-btn">Script Typer</button>
-    <button id="webcam-btn">Webcam Viewer</button>
-    <button data-terminal="hacker3">Hack Terminal 3</button>
-    <button data-terminal="hacker4">Hack Terminal 4</button>
-    <button data-terminal="hacker5">Hack Terminal 5</button>
-    <button data-terminal="hacker6">Hack Terminal 6</button>
-    <button data-terminal="hacker7">Hack Terminal 7</button>
+  <div id="terminal"></div>
+  <div id="input-line">
+    <span id="prompt">user@haxx:~$</span>
+    <input type="text" id="cmd" autofocus autocomplete="off">
+  </div>
+  <div class="hud" id="hud">
+    <div>CPU: 73%</div>
+    <div>Hashrate: 45.2 TH/s</div>
+    <div>BTC Wallet: 0.328 BTC</div>
+    <div>Sessions: 4 active</div>
   </div>
 
-  <div id="console">-- Awaiting commands --</div>
-
   <script>
-    // Matrix background effect
-    const canvas = document.getElementById('matrix');
-    const ctx = canvas.getContext('2d');
-    let width = canvas.width = window.innerWidth;
-    let height = canvas.height = window.innerHeight;
+    const terminal = document.getElementById('terminal');
+    const cmdInput = document.getElementById('cmd');
+    const prompt = document.getElementById('prompt');
 
-    const letters = 'アァイイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ'.split('');
-    const fontSize = 18;
-    const columns = Math.floor(width / fontSize);
-    const drops = new Array(columns).fill(1);
-
-    function draw() {
-      ctx.fillStyle = 'rgba(0, 0, 0, 0.4)';
-      ctx.fillRect(0, 0, width, height);
-      ctx.fillStyle = 'rgba(0,255,0, 0.1)';
-      ctx.font = fontSize + 'px monospace';
-
-      for(let i = 0; i < drops.length; i++) {
-        const text = letters[Math.floor(Math.random() * letters.length)];
-        ctx.fillText(text, i * fontSize, drops[i] * fontSize);
-
-        if(drops[i] * fontSize > height && Math.random() > 0.975) {
-          drops[i] = 0;
-        }
-        drops[i]++;
-      }
-    }
-
-    setInterval(draw, 50);
-
-    window.addEventListener('resize', () => {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    });
-
-    const consoleEl = document.getElementById('console');
-
-    // Bitcoin miner stuff
-    const hackerLines = [
-      "Connecting to blockchain node...",
-      "Mining block 0x7f3b21...",
-      "Hash rate: 59.4 TH/s",
-      "Verifying transactions...",
-      "Found new block! Reward: 12.5 BTC",
-      "Broadcasting to network...",
-      "Updating ledger...",
-      "Scanning for vulnerabilities...",
-      "Decrypting secure channel...",
-      "Injecting payload...",
-      "Bypassing firewall...",
-      "Extracting private keys...",
-      "Encrypting data...",
-      "Uploading to darknet...",
-      "Establishing proxy connection...",
-      "Spoofing IP address...",
-      "Compiling malware...",
-      "Uploading script to server...",
-      "Accessing root privileges...",
-      "Executing zero-day exploit..."
-    ];
-    let btcIndex = 0;
-    let minerInterval = null;
-
-    function bitcoinMiner() {
-      const line = hackerLines[btcIndex % hackerLines.length];
-      consoleEl.textContent += "\n" + line;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-      btcIndex++;
-      if (btcIndex > 200) {
-        consoleEl.textContent = consoleEl.textContent.split('\n').slice(-100).join('\n');
-      }
-    }
-
-    // Script typer stuff
-    const scriptLines = [
-      "function exploit() {",
-      "  while(true) {",
-      "    injectPayload();",
-      "  }",
-      "}",
-      "var backdoor = true;",
-      "console.log('Access granted');",
-      "executeCommand('sudo rm -rf /');",
-      "setTimeout(hack, 3000);",
-      "var keylogger = initKeylogger();"
-    ];
-
-    let currentScriptLine = '';
-    let currentCharIndex = 0;
-    let scriptActive = false;
-    let scriptTyperTimeout = null;
-
-    function typeScriptChar() {
-      if (!scriptActive) return;
-
-      if (currentCharIndex >= currentScriptLine.length) {
-        currentScriptLine = scriptLines[Math.floor(Math.random() * scriptLines.length)];
-        currentCharIndex = 0;
-        consoleEl.textContent += "\n";
-      }
-
-      consoleEl.textContent += currentScriptLine.charAt(currentCharIndex);
-      currentCharIndex++;
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-      if (consoleEl.textContent.length > 2000) {
-        consoleEl.textContent = consoleEl.textContent.slice(-1000);
-      }
-
-      scriptTyperTimeout = setTimeout(typeScriptChar, 50 + Math.random() * 100);
-    }
-
-    function startScriptTyper() {
-      if (scriptActive) return;
-      scriptActive = true;
-      consoleEl.textContent += "\n-- Script Typer enabled --";
-      currentScriptLine = scriptLines[Math.floor(Math.random() * scriptLines.length)];
-      currentCharIndex = 0;
-      typeScriptChar();
-    }
-
-    function stopScriptTyper() {
-      scriptActive = false;
-      clearTimeout(scriptTyperTimeout);
-      consoleEl.textContent += "\n-- Script Typer disabled --";
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-    }
-
-    // Webcam button redirects on toggle ON, disables on OFF (reload to disable)
-    const webcamBtn = document.getElementById('webcam-btn');
-    let webcamActive = false;
-
-    webcamBtn.addEventListener('click', () => {
-      if (!webcamActive) {
-        webcamActive = true;
-        webcamBtn.classList.add('active');
-        window.open('https://bblamed.github.io/webcam.html', '_blank');
-        consoleEl.textContent += "\n-- Webcam Viewer opened in new tab --";
-      } else {
-        webcamActive = false;
-        webcamBtn.classList.remove('active');
-        consoleEl.textContent += "\n-- Webcam Viewer toggle OFF (close tab manually) --";
-      }
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-    });
-
-    // Hack Terminal buttons & toggles
-    let activeTerminal = null;
-    let hacker3Interval = null;
-    let hacker4Interval = null;
-
-    function clearIntervals() {
-      if (hacker3Interval) clearInterval(hacker3Interval);
-      if (hacker4Interval) clearInterval(hacker4Interval);
-      hacker3Interval = null;
-      hacker4Interval = null;
-    }
-
-    function runHacker3() {
-      const firstNames = ['Neo', 'Trinity', 'Cypher', 'Morpheus', 'Switch', 'Tank', 'Dozer', 'Apoc', 'Mouse', 'Cipher', 'Ghost', 'Shadow', 'Phantom', 'Razor', 'Viper'];
-      const lastNames = ['Anderson', 'Smith', 'Johnson', 'Doe', 'Black', 'White', 'Grey', 'Fox', 'Blade', 'Hunter', 'Storm', 'Knight', 'Raven', 'Wolf', 'Steel'];
-      const domains = ['gmail.com', 'icloud.com', 'protonmail.com', 'yahoo.com', 'hotmail.com', 'tutanota.com'];
-
-      function getRandom(arr) {
-        return arr[Math.floor(Math.random() * arr.length)];
-      }
-
-      hacker3Interval = setInterval(() => {
-        const fakeName = `${getRandom(firstNames)}_${getRandom(lastNames)}`;
-        const fakeEmail = `${fakeName.toLowerCase()}@${getRandom(domains)}`;
-        consoleEl.textContent += `\nGenerated user: ${fakeName} | Email: ${fakeEmail}`;
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-      }, 1000);
-    }
-
-    function runHacker4() {
-      const ipParts = () => Math.floor(Math.random() * 256);
-      const statuses = ['open', 'closed', 'filtered', 'open', 'open', 'closed', 'filtered'];
-      let count = 0;
-
-      hacker4Interval = setInterval(() => {
-        if (count > 100) {
-          consoleEl.textContent = '-- Hacker Terminal 4 --\nSimulating network scan...';
-          count = 0;
-        }
-        const ip = `${ipParts()}.${ipParts()}.${ipParts()}.${ipParts()}`;
-        const port = Math.floor(Math.random() * 65535);
-        const status = statuses[Math.floor(Math.random() * statuses.length)];
-        consoleEl.textContent += `\nScanning ${ip}:${port} ... ${status}`;
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-        count++;
-      }, 700);
-    }
-
-    function stopAllTerminals() {
-      clearIntervals();
-      activeTerminal = null;
-    }
-
-    function toggleTerminal(button, terminalId) {
-      const isActive = button.classList.contains('active');
-      // Deactivate any active terminal
-      document.querySelectorAll('button[data-terminal]').forEach(btn => {
-        if (btn !== button) btn.classList.remove('active');
-      });
-      clearIntervals();
-
-      if (!isActive) {
-        // Activate new terminal
-        button.classList.add('active');
-        consoleEl.textContent = `-- Hacker Terminal ${terminalId.slice(-1)} --\n`;
-        activeTerminal = terminalId;
-
-        if (terminalId === 'hacker3') runHacker3();
-        else if (terminalId === 'hacker4') runHacker4();
-        else {
-          consoleEl.textContent += `Running Terminal ${terminalId} - Feature coming soon...`;
-        }
-      } else {
-        // Deactivate terminal
-        button.classList.remove('active');
-        consoleEl.textContent = "-- Awaiting commands --";
-        activeTerminal = null;
-      }
-    }
-
-    // Attach click handlers
-    document.getElementById('bitcoin-btn').addEventListener('click', function() {
-      if (minerInterval) {
-        clearInterval(minerInterval);
-        minerInterval = null;
-        this.classList.remove('active');
-        consoleEl.textContent += "\n-- Bitcoin Miner stopped --";
-      } else {
-        minerInterval = setInterval(bitcoinMiner, 1000);
-        this.classList.add('active');
-        consoleEl.textContent += "\n-- Bitcoin Miner started --";
-      }
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-    });
-
-    document.getElementById('script-typer-btn').addEventListener('click', function() {
-      if (scriptActive) {
-        stopScriptTyper();
-        this.classList.remove('active');
-      } else {
-        startScriptTyper();
-        this.classList.add('active');
-      }
-      consoleEl.scrollTop = consoleEl.scrollHeight;
-    });
-
-    document.querySelectorAll('button[data-terminal]').forEach(btn => {
-      btn.addEventListener('click', () => toggleTerminal(btn, btn.getAttribute('data-terminal')));
-    });
-
-    // Date and time display
-    const dateTimeEl = document.getElementById('date-time');
-    function updateDateTime() {
-      const now = new Date();
-      dateTimeEl.textContent = now.toLocaleString();
-    }
-    setInterval(updateDateTime, 1000);
-    updateDateTime();
-
-    // Auto-start hacker terminal 3 on page load
-    window.onload = () => {
-      const hacker3Btn = document.querySelector('button[data-terminal="hacker3"]');
-      if (hacker3Btn) {
-        hacker3Btn.click();
-      }
+    const commands = {
+      'help': 'Available commands: help, connect, mine, clear, users, whoami, status',
+      'whoami': 'root (escalated)',
+      'clear': () => terminal.innerHTML = '',
+      'connect': () => logLines([
+        'Establishing secure SSH connection...',
+        'Connected to 192.168.1.87',
+        '[HAXXbot] Port 22 vulnerability detected. Accessing...'
+      ]),
+      'mine': () => logLines([
+        'Starting mining sequence... Hashrate rising...',
+        'Mining block #07A1... Reward: 6.25 BTC',
+        '[HAXXbot] Optimal GPU load reached. Monitoring...'
+      ]),
+      'users': () => logLines([
+        'Generating fake user list...',
+        `> johndoe${Math.floor(Math.random()*100)}@gmail.com`,
+        `> hacker${Math.floor(Math.random()*999)}@icloud.com`,
+        `> alice${Math.floor(Math.random()*9999)}@protonmail.com`,
+      ]),
+      'status': () => logLines([
+        'Scanning system...',
+        'Vulnerabilities: 2 found',
+        'Firewall: bypassed',
+        'Root access: active',
+      ])
     };
 
+    function logLines(lines) {
+      lines.forEach(line => {
+        const p = document.createElement('div');
+        p.className = 'log-line';
+        p.textContent = line;
+        terminal.appendChild(p);
+        terminal.scrollTop = terminal.scrollHeight;
+      });
+    }
+
+    cmdInput.addEventListener('keydown', function (e) {
+      if (e.key === 'Enter') {
+        const command = cmdInput.value.trim();
+        const out = document.createElement('div');
+        out.className = 'log-line';
+        out.textContent = `${prompt.textContent} ${command}`;
+        terminal.appendChild(out);
+
+        if (commands[command]) {
+          const result = commands[command];
+          if (typeof result === 'function') {
+            result();
+          } else {
+            logLines([result]);
+          }
+        } else {
+          logLines([`command not found: ${command}`]);
+        }
+
+        cmdInput.value = '';
+        terminal.scrollTop = terminal.scrollHeight;
+      }
+    });
   </script>
 </body>
 </html>

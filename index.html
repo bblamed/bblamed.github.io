@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Ahmad's Keller</title>
   <style>
     :root {
@@ -75,6 +75,28 @@
       box-shadow: 0 0 15px var(--green-glow);
       font-size: 1rem;
     }
+
+    #codeInput {
+      background: none;
+      border: none;
+      color: var(--green-glow);
+      font-family: inherit;
+      font-size: inherit;
+      outline: none;
+      width: 200px;
+    }
+
+    #hiddenContent {
+      display: none;
+      margin-top: 1rem;
+      color: var(--green-glow);
+      animation: fadeIn 1s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
   </style>
 </head>
 <body>
@@ -84,8 +106,28 @@
   <h1>Ahmad's Keller</h1>
 
   <div class="terminal">
-    <p>> Welcome to the underground zone.</p>
-    <p>> Enter command: <span class="cursor">█</span></p>
+    <p>> Enter secret code:</p>
+    <p>> <input type="text" id="codeInput" placeholder="type here..." autofocus /></p>
+    <div id="hiddenContent">
+      <p>> ✅ Access granted. Welcome, Ahmad.</p>
+      <p>> 🚪 Proceeding to the next level...</p>
+    </div>
   </div>
+
+  <script>
+    const input = document.getElementById('codeInput');
+    const hidden = document.getElementById('hiddenContent');
+
+    input.addEventListener('keydown', function(e) {
+      if (e.key === 'Enter') {
+        if (input.value.trim().toLowerCase() === 'ahmadz22') {
+          hidden.style.display = 'block';
+        } else {
+          hidden.innerHTML = '<p>> ❌ Access denied. Try again.</p>';
+          hidden.style.display = 'block';
+        }
+      }
+    });
+  </script>
 </body>
 </html>

@@ -1,96 +1,127 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Leak Terminal - Email & Password Dump</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>User & Pass Leak Terminal</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
     body {
       background: black;
       color: #00ff00;
-      font-family: 'Courier New', Courier, monospace;
+      font-family: 'Share Tech Mono', monospace;
       margin: 0;
-      padding: 20px;
+      padding: 40px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      height: 100vh;
+      border: 10px solid #00ff00;
+      box-shadow: 0 0 50px #00ff00;
+      user-select: text;
       overflow: hidden;
     }
-
     h1 {
-      text-align: center;
-      text-shadow: 0 0 10px #00ff00;
-      margin-bottom: 20px;
-      animation: flicker 1.5s infinite alternate;
+      font-size: 2.5rem;
+      text-shadow: 0 0 20px #00ff00;
+      margin-bottom: 30px;
+      user-select: none;
     }
-
-    @keyframes flicker {
-      0% { opacity: 1; }
-      50% { opacity: 0.6; }
-      100% { opacity: 1; }
-    }
-
     #console {
-      background: rgba(0, 0, 0, 0.8);
-      border: 1px solid #00ff00;
-      padding: 20px;
-      height: 80vh;
-      overflow-y: scroll;
-      white-space: pre-wrap;
+      background: rgba(0, 0, 0, 0.85);
+      border: 2px solid #00ff00;
       box-shadow: 0 0 20px #00ff00;
+      width: 90vw;
+      max-width: 800px;
+      height: 70vh;
+      color: #00ff00;
+      font-family: 'Share Tech Mono', monospace;
+      font-size: 1.1rem;
+      padding: 15px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      line-height: 1.3em;
+      user-select: text;
     }
-
-    .line {
-      margin: 2px 0;
+    button {
+      margin-top: 30px;
+      background: transparent;
+      border: 2px solid #00ff00;
+      color: #00ff00;
+      font-size: 1.3rem;
+      padding: 0.8rem 2.5rem;
+      cursor: pointer;
+      box-shadow: 0 0 15px #00ff00;
+      font-weight: bold;
+      letter-spacing: 2px;
+      transition: 0.3s ease;
+      user-select: none;
+      align-self: center;
+    }
+    button:hover {
+      box-shadow: 0 0 30px #00ff00, 0 0 40px #00ff00;
+      transform: scale(1.1);
     }
   </style>
 </head>
 <body>
-  <h1>💀 EMAIL DATABASE BREACH 💀</h1>
-  <div id="console"></div>
+  <h1>Leak Terminal - Credentials Stream</h1>
+  <div id="console">-- Awaiting leaked credentials --</div>
+  <button id="stop-start-btn">Stop Leak</button>
 
   <script>
     const consoleEl = document.getElementById('console');
+    const stopStartBtn = document.getElementById('stop-start-btn');
 
-    const fakeCreds = [
-      'johndoe@gmail.com : hunter2',
-      'admin@localhost : rootadmin123',
-      'steve.jobs@apple.com : iForgot',
-      'elon.musk@tesla.com : marsR0cks!',
-      'nancy@bank.net : qwerty123',
-      'user123@yahoo.com : password1!',
-      'root@machine42 : P@ssw0rd!',
-      'mark.zuckerberg@meta.com : iloveVR2023',
-      'bill.gates@microsoft.com : W1nd0wsXP',
-      'anonymous@protonmail.com : l33tHaxor$',
-      'hacker@darkweb.org : th3gr1d',
-      'ceo@banksecure.com : moneyIsPower!',
-      '123@aol.com : 123456',
-      'data@leak.com : compromised!',
-      'ghost@matrix.net : neoTr1nity',
-      'sniper@cyberstrike.net : crosshairX',
-      'backdoor@system.root : access2024',
-      'support@helpdesk.com : letmein123',
-      'vault@crypto.net : btcf0rever!',
-      'james.bond@mi6.uk : shakenNstirred'
-    ];
+    const firstNames = ["Alex", "Jamie", "Chris", "Taylor", "Jordan", "Morgan", "Casey", "Drew", "Cameron", "Skyler"];
+    const lastNames = ["Smith", "Johnson", "Lee", "Brown", "Garcia", "Martinez", "Davis", "Miller", "Wilson", "Moore"];
+    const domains = ["gmail.com", "icloud.com", "yahoo.com", "hotmail.com"];
 
-    let index = 0;
-
-    function typeNextLine() {
-      if (index < fakeCreds.length) {
-        const line = document.createElement('div');
-        line.className = 'line';
-        line.textContent = `[LEAKED] → ${fakeCreds[index]}`;
-        consoleEl.appendChild(line);
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-        index++;
-        setTimeout(typeNextLine, Math.random() * 300 + 100); // Random delay
-      } else {
-        const done = document.createElement('div');
-        done.textContent = "\n[EXPORT COMPLETE] Saved to: /tmp/users_leak.dump";
-        consoleEl.appendChild(done);
-        consoleEl.scrollTop = consoleEl.scrollHeight;
-      }
+    function getRandomItem(arr) {
+      return arr[Math.floor(Math.random() * arr.length)];
     }
 
-    typeNextLine();
+    function generateFakeCredential() {
+      const first = getRandomItem(firstNames);
+      const last = getRandomItem(lastNames);
+      const domain = getRandomItem(domains);
+      const email = `${first.toLowerCase()}.${last.toLowerCase()}@${domain}`;
+      const password = `${first}${Math.floor(Math.random() * 10000)}!`;
+      return `EMAIL: ${email} | PASS: ${password}`;
+    }
+
+    let leakInterval;
+    let leaking = true;
+
+    function startLeak() {
+      leakInterval = setInterval(() => {
+        consoleEl.textContent += "\n" + generateFakeCredential();
+        consoleEl.scrollTop = consoleEl.scrollHeight;
+        const lines = consoleEl.textContent.split('\n');
+        if (lines.length > 200) {
+          consoleEl.textContent = lines.slice(-100).join('\n');
+        }
+      }, 300);
+      stopStartBtn.textContent = 'Stop Leak';
+      leaking = true;
+    }
+
+    function stopLeak() {
+      clearInterval(leakInterval);
+      stopStartBtn.textContent = 'Start Leak';
+      leaking = false;
+    }
+
+    stopStartBtn.addEventListener('click', () => {
+      if (leaking) {
+        stopLeak();
+      } else {
+        startLeak();
+      }
+    });
+
+    // Start leaking on page load
+    startLeak();
   </script>
 </body>
 </html>

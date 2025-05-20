@@ -1,35 +1,151 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Bblamed's Brawl Stars Site</title>
-  <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
-  <style>
-    body {
-      font-family: 'Luckiest Guy', cursive;
-      background: linear-gradient(to right, #110f47, #2c1c79);
-      color: white;
-      text-align: center;
-      padding: 2rem;
-    }
-  </style>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Bblamed’s Brawl Stars Fan Site</title>
+
+<!-- Brawl Stars font (Luckiest Guy) -->
+<link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
+
+<style>
+  /* BASE STYLES */
+  body {
+    margin: 0;
+    background: radial-gradient(circle at top left, #fcee09 0%, #ff4f4f 80%);
+    font-family: 'Luckiest Guy', cursive;
+    color: #222;
+    text-align: center;
+    user-select: none;
+  }
+
+  header {
+    background: #eb2d2d;
+    padding: 1rem 0;
+    color: #fff;
+    text-shadow: 2px 2px #9b0000;
+    font-size: 3rem;
+    letter-spacing: 3px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+
+  /* BRAWLER CARDS */
+  .brawler-container {
+    margin: 2rem auto;
+    max-width: 900px;
+    display: flex;
+    justify-content: center;
+    gap: 1.5rem;
+    flex-wrap: wrap;
+  }
+
+  .brawler-card {
+    background: #ffd600;
+    border-radius: 20px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
+    width: 160px;
+    padding: 1rem;
+    cursor: pointer;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    color: #222;
+    font-size: 1.25rem;
+    position: relative;
+  }
+  .brawler-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 30px #fff600;
+    z-index: 10;
+  }
+
+  .brawler-image {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 0.8rem;
+  }
+
+  /* BUTTONS */
+  button {
+    font-family: 'Luckiest Guy', cursive;
+    background: linear-gradient(45deg, #ff2d2d, #ffef00);
+    border: none;
+    padding: 15px 30px;
+    margin: 1rem 0.5rem;
+    font-size: 1.2rem;
+    border-radius: 30px;
+    color: #222;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: linear-gradient(45deg, #fff600, #ff4f4f);
+  }
+
+  /* QUOTE */
+  #quote-display {
+    margin-top: 1.5rem;
+    font-size: 1.8rem;
+    font-weight: bold;
+    color: #000;
+    text-shadow: 2px 2px #fff600;
+    min-height: 60px;
+  }
+
+  /* DARK MODE */
+  body.dark-mode {
+    background: #121212;
+    color: #fcee09;
+  }
+  body.dark-mode header {
+    background: #b80000;
+    color: #fff;
+    text-shadow: 2px 2px #000;
+  }
+  body.dark-mode .brawler-card {
+    background: #333300;
+    color: #fcee09;
+    box-shadow: 0 6px 12px rgba(255, 255, 0, 0.7);
+  }
+  body.dark-mode button {
+    background: linear-gradient(45deg, #ffef00, #b80000);
+    color: #000;
+  }
+  body.dark-mode button:hover {
+    background: linear-gradient(45deg, #b80000, #ffef00);
+  }
+
+</style>
+
 </head>
 <body>
 
-  <h1>Welcome to Bblamed's Brawl Stars Hub!</h1>
+<header>Bblamed’s Brawl Stars Fan Hub</header>
 
-  <div class="brawler-card">Shelly</div>
-  <div class="brawler-card">Colt</div>
+<div class="brawler-container">
+  <div class="brawler-card" tabindex="0">
+    <img src="https://static.wikia.nocookie.net/brawlstars/images/6/66/Shelly_Icon.png" alt="Shelly" class="brawler-image" />
+    Shelly
+  </div>
+  <div class="brawler-card" tabindex="0">
+    <img src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Colt_Icon.png" alt="Colt" class="brawler-image" />
+    Colt
+  </div>
+  <div class="brawler-card" tabindex="0">
+    <img src="https://static.wikia.nocookie.net/brawlstars/images/4/48/Nita_Icon.png" alt="Nita" class="brawler-image" />
+    Nita
+  </div>
+</div>
 
-  <button id="music-toggle">Play Music 🎶</button>
-  <button id="dark-mode-toggle">Switch to Dark Mode 🌙</button>
-  <button id="quote-button">Random Quote 🎯</button>
+<button id="music-toggle">Play Music 🎶</button>
+<button id="dark-mode-toggle">Switch to Dark Mode 🌙</button>
+<button id="quote-button">Get Brawler Quote 🎯</button>
 
-  <p id="quote-display" class="quote">Click a button to get started!</p>
+<p id="quote-display">Welcome, Brawler!</p>
 
-  <audio id="bg-music" src="sounds/brawlstars-theme.mp3" loop></audio>
+<audio id="bg-music" src="sounds/brawlstars-theme.mp3" loop></audio>
 
-  <script src="script.js"></script>
+<script src="script.js"></script>
+
 </body>
 </html>

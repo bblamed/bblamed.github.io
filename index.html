@@ -3,116 +3,177 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Bblamed’s Brawl Stars Fan Site</title>
+<title>Bblamed’s Brawl Stars Fan Hub</title>
 
-<!-- Brawl Stars font (Luckiest Guy) -->
+<!-- Luckiest Guy font (Brawl Stars style) -->
 <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
 
 <style>
-  /* BASE STYLES */
+  /* BRAWL STARS COLORS */
+  :root {
+    --red: #ed1c24;
+    --yellow: #fcee09;
+    --dark-blue: #1a2b58;
+    --light-blue: #0070c0;
+    --white: #fff;
+    --black: #000;
+    --shadow-yellow: #ffef00cc;
+  }
+
+  /* CURSOR - star icon */
+  body {
+    cursor: url('https://static.wikia.nocookie.net/brawlstars/images/2/29/Icon_Star.png/revision/latest?cb=20170731193900'), auto;
+  }
+
+  /* BACKGROUND with Brawl Stars stars pattern */
   body {
     margin: 0;
-    background: radial-gradient(circle at top left, #fcee09 0%, #ff4f4f 80%);
+    background:
+      radial-gradient(circle at top left, var(--yellow) 30%, var(--red) 90%);
     font-family: 'Luckiest Guy', cursive;
-    color: #222;
+    color: var(--black);
     text-align: center;
+    user-select: none;
+    overflow-x: hidden;
+  }
+
+  /* Header with Brawl Stars logo */
+  header {
+    background: var(--dark-blue);
+    padding: 1rem 0 0.5rem 0;
+    box-shadow: 0 8px 10px rgba(0,0,0,0.6);
+    position: relative;
+  }
+
+  header img {
+    height: 80px;
     user-select: none;
   }
 
-  header {
-    background: #eb2d2d;
-    padding: 1rem 0;
-    color: #fff;
-    text-shadow: 2px 2px #9b0000;
-    font-size: 3rem;
-    letter-spacing: 3px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  /* Subheading below logo */
+  #subtitle {
+    font-size: 1.6rem;
+    color: var(--yellow);
+    margin: 0.25rem 0 1rem 0;
+    text-shadow: 2px 2px var(--red);
   }
 
-  /* BRAWLER CARDS */
+  /* BRAWLER CARDS CONTAINER */
   .brawler-container {
-    margin: 2rem auto;
-    max-width: 900px;
     display: flex;
     justify-content: center;
-    gap: 1.5rem;
+    gap: 2rem;
     flex-wrap: wrap;
+    max-width: 900px;
+    margin: 2rem auto;
   }
 
+  /* BRAWLER CARD */
   .brawler-card {
-    background: #ffd600;
-    border-radius: 20px;
-    box-shadow: 0 6px 12px rgba(0,0,0,0.25);
-    width: 160px;
-    padding: 1rem;
+    background: linear-gradient(145deg, var(--yellow), var(--red));
+    border: 4px solid var(--dark-blue);
+    border-radius: 25px;
+    width: 180px;
+    box-shadow: 0 10px 15px var(--shadow-yellow);
+    color: var(--dark-blue);
+    font-size: 1.3rem;
+    text-shadow: 1px 1px var(--white);
+    font-weight: 700;
     cursor: pointer;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    color: #222;
-    font-size: 1.25rem;
+    transition: transform 0.3s ease, box-shadow 0.4s ease;
     position: relative;
+    user-select: none;
   }
   .brawler-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 30px #fff600;
-    z-index: 10;
+    transform: scale(1.1) rotate(-3deg);
+    box-shadow: 0 20px 30px var(--shadow-yellow);
+    z-index: 20;
   }
 
+  /* BRAWLER IMAGE */
   .brawler-image {
     width: 100%;
     border-radius: 15px;
+    border: 3px solid var(--dark-blue);
+    background: var(--white);
     margin-bottom: 0.8rem;
   }
 
-  /* BUTTONS */
+  /* POWER CUBE & TROPHY ICON */
+  .icon-bar {
+    position: absolute;
+    bottom: 8px;
+    left: 10px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .icon-bar img {
+    width: 28px;
+    filter: drop-shadow(1px 1px 1px var(--black));
+  }
+
+  /* BUTTONS - Brawl Stars UI style */
   button {
+    background: linear-gradient(145deg, var(--yellow), var(--red));
+    border: 3px solid var(--dark-blue);
+    border-radius: 35px;
+    padding: 18px 36px;
+    margin: 1rem 0.7rem;
     font-family: 'Luckiest Guy', cursive;
-    background: linear-gradient(45deg, #ff2d2d, #ffef00);
-    border: none;
-    padding: 15px 30px;
-    margin: 1rem 0.5rem;
-    font-size: 1.2rem;
-    border-radius: 30px;
-    color: #222;
-    box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: var(--dark-blue);
+    box-shadow: 0 8px 12px var(--shadow-yellow);
     cursor: pointer;
-    transition: background 0.3s ease;
     user-select: none;
+    text-shadow: 1px 1px var(--white);
+    transition: background 0.3s ease, box-shadow 0.3s ease;
   }
   button:hover {
-    background: linear-gradient(45deg, #fff600, #ff4f4f);
+    background: linear-gradient(145deg, var(--red), var(--yellow));
+    box-shadow: 0 15px 20px var(--shadow-yellow);
   }
 
-  /* QUOTE */
+  /* QUOTE AREA */
   #quote-display {
-    margin-top: 1.5rem;
-    font-size: 1.8rem;
-    font-weight: bold;
-    color: #000;
-    text-shadow: 2px 2px #fff600;
-    min-height: 60px;
+    margin-top: 1.8rem;
+    font-size: 2rem;
+    font-weight: 900;
+    color: var(--dark-blue);
+    text-shadow: 3px 3px var(--yellow);
+    min-height: 70px;
+    user-select: text;
   }
 
-  /* DARK MODE */
+  /* DARK MODE - brawl style */
   body.dark-mode {
-    background: #121212;
-    color: #fcee09;
+    background: linear-gradient(135deg, #0d0d0d 30%, #3a0072 90%);
+    color: var(--yellow);
   }
   body.dark-mode header {
-    background: #b80000;
-    color: #fff;
-    text-shadow: 2px 2px #000;
+    background: #32006f;
+    box-shadow: 0 8px 15px #9400d3cc;
+  }
+  body.dark-mode #subtitle {
+    color: #ffcb00;
+    text-shadow: 2px 2px #7a0099;
   }
   body.dark-mode .brawler-card {
-    background: #333300;
-    color: #fcee09;
-    box-shadow: 0 6px 12px rgba(255, 255, 0, 0.7);
+    background: linear-gradient(145deg, #4b0082, #9400d3);
+    border-color: #3a0072;
+    color: var(--yellow);
+    text-shadow: 2px 2px #32006f;
+    box-shadow: 0 12px 20px #9400d3cc;
   }
   body.dark-mode button {
-    background: linear-gradient(45deg, #ffef00, #b80000);
-    color: #000;
+    background: linear-gradient(145deg, #9400d3, #4b0082);
+    border-color: #3a0072;
+    color: #ffcb00;
+    box-shadow: 0 12px 20px #7a0099cc;
   }
   body.dark-mode button:hover {
-    background: linear-gradient(45deg, #b80000, #ffef00);
+    background: linear-gradient(145deg, #4b0082, #9400d3);
   }
 
 </style>
@@ -120,32 +181,44 @@
 </head>
 <body>
 
-<header>Bblamed’s Brawl Stars Fan Hub</header>
+<header>
+  <img src="https://static.wikia.nocookie.net/brawlstars/images/e/ef/Brawl_Stars_Logo.png" alt="Brawl Stars Logo" />
+  <div id="subtitle">Bblamed's Ultimate Brawl Stars Fan Hub</div>
+</header>
 
 <div class="brawler-container">
-  <div class="brawler-card" tabindex="0">
+  <div class="brawler-card" tabindex="0" aria-label="Shelly Brawler Card">
     <img src="https://static.wikia.nocookie.net/brawlstars/images/6/66/Shelly_Icon.png" alt="Shelly" class="brawler-image" />
     Shelly
+    <div class="icon-bar">
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Power_Cube_Icon.png" alt="Power Cube" title="Power Cube"/>
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/f/f5/Trophy_Icon.png" alt="Trophy" title="Trophy"/>
+    </div>
   </div>
-  <div class="brawler-card" tabindex="0">
+
+  <div class="brawler-card" tabindex="0" aria-label="Colt Brawler Card">
     <img src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Colt_Icon.png" alt="Colt" class="brawler-image" />
     Colt
+    <div class="icon-bar">
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Power_Cube_Icon.png" alt="Power Cube" title="Power Cube"/>
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/f/f5/Trophy_Icon.png" alt="Trophy" title="Trophy"/>
+    </div>
   </div>
-  <div class="brawler-card" tabindex="0">
+
+  <div class="brawler-card" tabindex="0" aria-label="Nita Brawler Card">
     <img src="https://static.wikia.nocookie.net/brawlstars/images/4/48/Nita_Icon.png" alt="Nita" class="brawler-image" />
     Nita
-  </div>
+    <div class="icon-bar">
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Power_Cube_Icon.png" alt="Power Cube" title="Power Cube"/>
+      <img src="https://static.wikia.nocookie.net/brawlstars/images/f/f5/Trophy_Icon.png" alt="Trophy" title="Trophy"/>
+    </div>
+  </div
 </div>
-
 <button id="music-toggle">Play Music 🎶</button>
-<button id="dark-mode-toggle">Switch to Dark Mode 🌙</button>
+<button id="dark-mode-toggle">Switch Dark Mode 🌙</button>
 <button id="quote-button">Get Brawler Quote 🎯</button>
 
 <p id="quote-display">Welcome, Brawler!</p>
-
 <audio id="bg-music" src="sounds/brawlstars-theme.mp3" loop></audio>
 
-<script src="script.js"></script>
-
-</body>
-</html>
+<script src="script.js"></script> </body> </html>

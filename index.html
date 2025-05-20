@@ -3,13 +3,13 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brawl Stars - Sakura Season</title>
+  <title>Brawl Stars - Samurai Season</title>
   <link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
   <style>
     body {
       margin: 0;
       font-family: 'Noto Sans JP', sans-serif;
-      background: #f9f1e7 url('https://i.imgur.com/OHZRYi1.png') repeat;
+      background: #f9f1e7 url('assets/bg.png') repeat;
       color: #2a1b0f;
     }
 
@@ -19,7 +19,6 @@
       justify-content: space-between;
       align-items: center;
       padding: 1rem 2rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.3);
     }
 
     header .logo {
@@ -30,104 +29,68 @@
 
     header .logo img {
       height: 48px;
-      border-radius: 8px;
-      box-shadow: 0 0 6px #fff;
     }
 
     header .logo h1 {
       font-family: 'Unica One', cursive;
       color: #fff;
       font-size: 2rem;
-      text-shadow: 1px 1px 2px #000;
     }
 
     nav a {
       color: #fff;
       text-decoration: none;
-      font-weight: bold;
       margin-left: 2rem;
-      font-size: 1.1rem;
-    }
-
-    nav a:hover {
-      text-decoration: underline;
+      font-weight: bold;
     }
 
     .hero {
-      background: url('https://i.imgur.com/8RrxMDH.png') center/cover no-repeat;
-      padding: 6rem 2rem;
+      background: #ffe8e2;
       text-align: center;
-      color: #fff;
-      text-shadow: 2px 2px 4px #000;
+      padding: 4rem 2rem;
     }
 
-    .hero h2 {
-      font-family: 'Unica One', cursive;
-      font-size: 3rem;
+    .hero img {
+      max-width: 300px;
+      border-radius: 12px;
       margin-bottom: 1rem;
     }
 
-    .hero p {
-      font-size: 1.2rem;
-      max-width: 600px;
-      margin: 0 auto;
-    }
-
-    .brawlers {
-      padding: 4rem 2rem;
-      background: #f9f1e7;
-      text-align: center;
-    }
-
-    .brawlers h3 {
-      font-family: 'Unica One', cursive;
+    .hero h2 {
       font-size: 2.5rem;
-      margin-bottom: 2rem;
-      color: #b93232;
+      color: #b32a2a;
+      font-family: 'Unica One', cursive;
     }
 
-    .brawler-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-      gap: 2rem;
+    .hero p {
+      max-width: 600px;
+      margin: auto;
+      font-size: 1.1rem;
+      color: #3b2b23;
     }
 
-    .brawler-card {
-      background: #fffaf3;
-      border: 4px solid #b93232;
-      border-radius: 12px;
-      padding: 1rem;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
+    .section {
+      text-align: center;
+      padding: 3rem 2rem;
     }
 
-    .brawler-card:hover {
-      transform: translateY(-8px);
-    }
-
-    .brawler-card img {
-      width: 100%;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
-    }
-
-    .brawler-card h4 {
-      color: #2a1b0f;
-      font-size: 1.2rem;
-      margin: 0;
+    .section h3 {
+      font-size: 2rem;
+      color: #b32a2a;
+      font-family: 'Unica One', cursive;
+      margin-bottom: 1.5rem;
     }
 
     footer {
       background: #d94444;
-      color: #fff;
-      padding: 1rem;
+      color: white;
       text-align: center;
+      padding: 1rem;
       font-size: 0.9rem;
     }
 
-    footer a {
-      color: #fff;
-      text-decoration: underline;
+    a {
+      color: inherit;
     }
   </style>
 </head>
@@ -135,46 +98,29 @@
 
   <header>
     <div class="logo">
-      <img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Brawl_Stars_logo.png/240px-Brawl_Stars_logo.png" alt="Logo" />
-      <h1>Sakura Stars</h1>
+      <img src="assets/brawl-stars-logo.png" alt="Brawl Stars Logo" />
+      <h1>Samurai Season</h1>
     </div>
     <nav>
-      <a href="#brawlers">Brawlers</a>
       <a href="#about">About</a>
-      <a href="https://github.com/bblamed" target="_blank">GitHub</a>
+      <a href="#brawlers">Brawlers</a>
     </nav>
   </header>
 
   <section class="hero">
-    <h2>Welcome to the Samurai Season</h2>
-    <p>Join the sakura showdown and explore your favorite warriors in Brawl Stars’ latest season theme!</p>
+    <img src="assets/sakura-char.png" alt="Samurai Brawler" />
+    <h2>Sakura Showdown Begins</h2>
+    <p>Honor, blades, and blossoms! Explore the newest samurai-themed season in Brawl Stars with all-new skins, brawlers, and showdown vibes.</p>
   </section>
 
-  <section class="brawlers" id="brawlers">
+  <section class="section" id="brawlers">
     <h3>Featured Brawlers</h3>
-    <div class="brawler-grid">
-      <div class="brawler-card">
-        <img src="https://static.wikia.nocookie.net/brawlstars/images/0/0c/Sakura_Shelly.png" alt="Sakura Shelly" />
-        <h4>Sakura Shelly</h4>
-      </div>
-      <div class="brawler-card">
-        <img src="https://static.wikia.nocookie.net/brawlstars/images/5/52/Shogun_Buzz.png" alt="Shogun Buzz" />
-        <h4>Shogun Buzz</h4>
-      </div>
-      <div class="brawler-card">
-        <img src="https://static.wikia.nocookie.net/brawlstars/images/b/b4/Oni_Otis.png" alt="Oni Otis" />
-        <h4>Oni Otis</h4>
-      </div>
-    </div>
+    <p>Sakura Shelly • Oni Otis • Shogun Buzz • Kitsune Lola</p>
   </section>
 
-  <section id="about" style="padding: 2rem; max-width: 800px; margin: 0 auto; text-align: center;">
-    <h3 style="color: #b93232; font-family: 'Unica One', cursive; font-size: 2rem;">About</h3>
-    <p style="font-size: 1.1rem; line-height: 1.6; color: #2a1b0f;">
-      This unofficial fan site celebrates the Samurai Sakura Season in Brawl Stars, curated by <strong>bblamed</strong>. 
-      It showcases seasonal brawlers, art, and updates. For official info, go to 
-      <a href="https://brawlstars.com" target="_blank">brawlstars.com</a>.
-    </p>
+  <section class="section" id="about">
+    <h3>About This Site</h3>
+    <p>This is a fan-made tribute site created by <strong>bblamed</strong> for the Samurai Season in Brawl Stars. All characters and assets belong to Supercell.</p>
   </section>
 
   <footer>

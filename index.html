@@ -1,15 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>Bblamed's Official Brawl Stars Fan Hub</title>
 
-  <!-- Brawl Stars style font from Google Fonts -->
+  <!-- Brawl Stars style font -->
   <link href="https://fonts.googleapis.com/css2?family=Luckiest+Guy&display=swap" rel="stylesheet" />
 
   <style>
-    /* Root colors from Brawl Stars palette */
     :root {
       --bs-yellow: #fcee09;
       --bs-red: #ed1c24;
@@ -19,7 +18,7 @@
       --bs-shadow-red: #aa1b1bcc;
     }
 
-    /* Reset and base */
+    /* Reset */
     * {
       margin: 0; padding: 0; box-sizing: border-box;
       user-select: none;
@@ -27,49 +26,38 @@
 
     body {
       font-family: 'Luckiest Guy', cursive;
-      background: radial-gradient(circle at center, #fcee09, #ed1c24);
-      color: var(--bs-blue);
+      color: var(--bs-white);
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      overflow-x: hidden;
       position: relative;
+      overflow-x: hidden;
+      background: url('https://static.wikia.nocookie.net/brawlstars/images/5/5e/Lobby_Background_Season_37.png/revision/latest?cb=20230518121550') no-repeat center center fixed;
+      background-size: cover;
     }
 
-    /* Star particle background effect */
-    body::before {
+    /* Dark overlay for text readability */
+    body::after {
       content: '';
       position: fixed;
       top: 0; left: 0; width: 100%; height: 100%;
+      background-color: rgba(10, 26, 64, 0.75);
       pointer-events: none;
-      background-image:
-        radial-gradient(circle, #ffd800 2px, transparent 2.5px),
-        radial-gradient(circle, #ed1c24 2px, transparent 2.5px);
-      background-size: 50px 50px;
-      background-position: 0 0, 25px 25px;
-      opacity: 0.1;
       z-index: 0;
-      animation: starTwinkle 10s infinite alternate ease-in-out;
-    }
-    @keyframes starTwinkle {
-      0% {opacity: 0.1;}
-      50% {opacity: 0.3;}
-      100% {opacity: 0.1;}
     }
 
     header {
       width: 100%;
-      background: var(--bs-blue);
+      background: rgba(10, 26, 64, 0.9);
       padding: 1rem 0;
       text-align: center;
       box-shadow: 0 8px 20px var(--bs-shadow-red);
       position: sticky;
       top: 0;
-      z-index: 999;
+      z-index: 10;
     }
 
-    /* Brawl Stars Logo with shine */
     header img {
       height: 120px;
       filter:
@@ -96,7 +84,6 @@
       font-weight: 900;
     }
 
-    /* Brawler cards container */
     .brawler-container {
       margin-top: 2rem;
       display: flex;
@@ -115,7 +102,6 @@
       display: none;
     }
 
-    /* Each brawler card */
     .brawler-card {
       flex: 0 0 190px;
       background: linear-gradient(135deg, var(--bs-yellow), var(--bs-red));
@@ -159,7 +145,6 @@
       pointer-events: none;
     }
 
-    /* Icons bar at bottom of card */
     .icon-bar {
       position: absolute;
       bottom: 16px;
@@ -175,7 +160,6 @@
       pointer-events: none;
     }
 
-    /* Big button like in-game UI */
     #quote-button {
       background: linear-gradient(135deg, var(--bs-yellow), var(--bs-red));
       border: 5px solid var(--bs-blue);
@@ -194,6 +178,7 @@
       margin-top: 2rem;
       transition: background 0.4s ease, box-shadow 0.4s ease, transform 0.15s ease;
       outline-offset: 7px;
+      z-index: 10;
     }
     #quote-button:hover, #quote-button:focus {
       background: linear-gradient(135deg, var(--bs-red), var(--bs-yellow));
@@ -209,29 +194,28 @@
         inset 0 0 10px var(--bs-yellow);
     }
 
-    /* Quote text area */
     #quote-display {
       margin-top: 1.5rem;
       font-size: 2.8rem;
       font-weight: 900;
-      color: var(--bs-blue);
+      color: var(--bs-yellow);
       text-shadow:
-        4px 4px var(--bs-yellow),
-        0 0 15px var(--bs-yellow);
+        4px 4px var(--bs-red),
+        0 0 15px var(--bs-red);
       max-width: 700px;
       text-align: center;
       padding: 0 1rem;
       min-height: 90px;
       user-select: text;
       transition: color 0.4s ease;
-      user-select: text;
       line-height: 1.2;
+      z-index: 10;
+      position: relative;
     }
   </style>
 </head>
 
 <body>
-
   <header>
     <img
       src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/Brawl_Stars_logo.png/220px-Brawl_Stars_logo.png"
@@ -248,7 +232,7 @@
       aria-label="Brawler selection area"
       role="list"
     >
-      <!-- Brawler Card: Shelly -->
+      <!-- Shelly -->
       <article class="brawler-card" tabindex="0" role="listitem" aria-label="Shelly Brawler Card">
         <img
           src="https://static.wikia.nocookie.net/brawlstars/images/6/66/Shelly_Icon.png/revision/latest?cb=20180514182903"
@@ -260,13 +244,13 @@
         Shelly
         <div class="icon-bar" aria-hidden="true">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Power_Cube_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/9/9d/Power_Cube_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Power Cube Icon"
             title="Power Cube"
             draggable="false"
           />
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Trophy_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/e/e2/Trophy_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Trophy Icon"
             title="Trophy"
             draggable="false"
@@ -274,7 +258,7 @@
         </div>
       </article>
 
-      <!-- Brawler Card: Colt -->
+      <!-- Colt -->
       <article class="brawler-card" tabindex="0" role="listitem" aria-label="Colt Brawler Card">
         <img
           src="https://static.wikia.nocookie.net/brawlstars/images/5/5f/Colt_Icon.png/revision/latest?cb=20180514182903"
@@ -286,13 +270,13 @@
         Colt
         <div class="icon-bar" aria-hidden="true">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Power_Cube_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/9/9d/Power_Cube_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Power Cube Icon"
             title="Power Cube"
             draggable="false"
           />
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Trophy_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/e/e2/Trophy_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Trophy Icon"
             title="Trophy"
             draggable="false"
@@ -300,7 +284,7 @@
         </div>
       </article>
 
-      <!-- Brawler Card: Nita -->
+      <!-- Nita -->
       <article class="brawler-card" tabindex="0" role="listitem" aria-label="Nita Brawler Card">
         <img
           src="https://static.wikia.nocookie.net/brawlstars/images/4/48/Nita_Icon.png/revision/latest?cb=20180514182904"
@@ -312,13 +296,13 @@
         Nita
         <div class="icon-bar" aria-hidden="true">
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/9/9e/Power_Cube_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/9/9d/Power_Cube_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Power Cube Icon"
             title="Power Cube"
             draggable="false"
           />
           <img
-            src="https://upload.wikimedia.org/wikipedia/commons/e/e2/Trophy_icon_BrawlStars.png"
+            src="https://static.wikia.nocookie.net/brawlstars/images/e/e2/Trophy_icon_BrawlStars.png/revision/latest?cb=20190506050508"
             alt="Trophy Icon"
             title="Trophy"
             draggable="false"
@@ -354,12 +338,11 @@
     quoteButton.addEventListener('click', () => {
       const randomQuote = quotes[Math.floor(Math.random() * quotes.length)];
       quoteDisplay.textContent = randomQuote;
-      quoteDisplay.style.color = 'var(--bs-red)';
+      quoteDisplay.style.color = 'var(--bs-yellow)';
       setTimeout(() => {
-        quoteDisplay.style.color = 'var(--bs-blue)';
+        quoteDisplay.style.color = 'var(--bs-red)';
       }, 3000);
     });
   </script>
-
 </body>
 </html>

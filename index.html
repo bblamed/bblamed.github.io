@@ -6,129 +6,180 @@
   <title>One Piece Fan Site</title>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
-    body {
+
+    * {
       margin: 0;
-      font-family: 'Pirata One', cursive, serif;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Pirata One', cursive;
       background: url('https://wallpaperaccess.com/full/2513477.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
       text-shadow:
         -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+      overflow-x: hidden;
+      animation: fadeIn 1s ease-in;
     }
+
     header {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
-      background-color: rgba(0,0,0,0.7);
-      border-bottom: 3px solid #f4d35e;
+      text-align: center;
+      padding: 40px 20px;
+      background-color: rgba(0, 0, 0, 0.7);
+      backdrop-filter: blur(3px);
+      animation: slideDown 1s ease-out;
     }
+
     header h1 {
-      font-size: 3rem;
+      font-size: 4rem;
       letter-spacing: 5px;
-      margin: 0;
       color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
     }
+
     nav {
-      background: #f4d35e;
       display: flex;
       justify-content: center;
-      gap: 30px;
-      padding: 10px 0;
-      font-weight: bold;
-      text-transform: uppercase;
+      gap: 40px;
+      padding: 15px 0;
+      background: rgba(244, 211, 94, 0.9);
+      backdrop-filter: blur(3px);
     }
+
     nav a {
       text-decoration: none;
+      font-size: 1.2rem;
       color: white;
       text-shadow:
         -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
-      transition: color 0.3s ease;
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+      transition: transform 0.3s ease, color 0.3s ease;
     }
+
     nav a:hover {
+      transform: scale(1.1);
       color: #d94f00;
       text-shadow: none;
     }
+
     main {
-      max-width: 900px;
+      max-width: 1000px;
       margin: 40px auto;
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 20px 30px;
-      border-radius: 10px;
+      background-color: rgba(0, 0, 0, 0.65);
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.6);
+      animation: fadeIn 1.2s ease-in-out;
     }
-    section {
-      margin-bottom: 40px;
-    }
+
     h2 {
-      color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
-      border-bottom: 2px solid #f4d35e;
-      padding-bottom: 10px;
+      font-size: 2rem;
       margin-bottom: 20px;
+      color: white;
+      border-bottom: 2px solid #f4d35e;
+      padding-bottom: 8px;
     }
+
+    p, blockquote {
+      font-size: 1.2rem;
+      line-height: 1.6;
+    }
+
     .characters {
       display: flex;
-      gap: 20px;
       flex-wrap: wrap;
       justify-content: center;
+      gap: 25px;
+      margin-top: 20px;
     }
+
     .character-card {
       background: rgba(244, 211, 94, 0.9);
-      color: black;
-      width: 150px;
-      border-radius: 10px;
-      padding: 10px;
+      color: white;
+      width: 180px;
+      border-radius: 12px;
+      padding: 15px;
       text-align: center;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
-      transition: transform 0.3s ease;
+      box-shadow: 0 6px 10px rgba(0,0,0,0.4);
       cursor: pointer;
+      transition: transform 0.4s ease, filter 0.3s ease;
+      text-shadow:
+        -1px -1px 0 #000,
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
     }
+
     .character-card:hover {
       transform: scale(1.1);
+      filter: brightness(1.2) blur(0.5px);
     }
+
     .character-card img {
       width: 100%;
-      border-radius: 8px;
+      border-radius: 10px;
       margin-bottom: 10px;
+      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
+      transition: transform 0.3s ease;
     }
+
+    .character-card:hover img {
+      transform: scale(1.05);
+    }
+
+    blockquote {
+      font-style: italic;
+      margin: 30px 0;
+      text-align: center;
+    }
+
     footer {
       text-align: center;
       padding: 20px;
-      color: white;
-      font-weight: bold;
-      background-color: rgba(0, 0, 0, 0.7);
-      margin-top: 40px;
-      border-top: 3px solid #f4d35e;
+      font-size: 1rem;
+      background-color: rgba(0, 0, 0, 0.8);
+      border-top: 2px solid #f4d35e;
       text-shadow:
         -1px -1px 0 #000,
-        1px -1px 0 #000,
-        -1px 1px 0 #000,
-        1px 1px 0 #000;
+         1px -1px 0 #000,
+        -1px  1px 0 #000,
+         1px  1px 0 #000;
+    }
+
+    /* Animations */
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes slideDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 600px) {
+      .characters {
+        flex-direction: column;
+        align-items: center;
+      }
     }
   </style>
 </head>
 <body>
+
   <header>
     <h1>ONE PIECE</h1>
   </header>
+
   <nav>
     <a href="#about">About</a>
-    <a href="#characters">Characters</a>
+    <a href="#characters">Crew</a>
     <a href="#quote">Quote</a>
   </nav>
 
@@ -136,7 +187,7 @@
     <section id="about">
       <h2>About One Piece</h2>
       <p>
-        <strong>One Piece</strong> is a Japanese manga series written and illustrated by Eiichiro Oda. It follows the adventures of Monkey D. Luffy and his crew of pirates as they search for the ultimate treasure known as "One Piece" to become the Pirate King.
+        <strong>One Piece</strong> is a legendary manga and anime series by Eiichiro Oda. It follows Monkey D. Luffy and his ragtag crew on a journey across the Grand Line in search of the ultimate treasure—the One Piece. With unforgettable characters, thrilling battles, and deep lore, One Piece has captured hearts worldwide.
       </p>
     </section>
 
@@ -144,33 +195,33 @@
       <h2>Main Characters</h2>
       <div class="characters">
         <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/9/9b/Monkey_D_Luffy_Anime_Post_Timeskip_Infobox.png" alt="Monkey D. Luffy" />
+          <img src="https://static.wikia.nocookie.net/onepiece/images/9/9b/Monkey_D_Luffy_Anime_Post_Timeskip_Infobox.png" alt="Luffy">
           <h3>Monkey D. Luffy</h3>
-          <p>The rubber-powered captain of the Straw Hat Pirates.</p>
+          <p>The rubber-powered captain with a dream to become Pirate King.</p>
         </div>
         <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/f/f0/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png" alt="Roronoa Zoro" />
+          <img src="https://static.wikia.nocookie.net/onepiece/images/f/f0/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png" alt="Zoro">
           <h3>Roronoa Zoro</h3>
-          <p>The swordsman who aims to be the world's best.</p>
+          <p>Master swordsman wielding three blades with unshakable loyalty.</p>
         </div>
         <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/5/57/Nami_Anime_Post_Timeskip_Infobox.png" alt="Nami" />
+          <img src="https://static.wikia.nocookie.net/onepiece/images/5/57/Nami_Anime_Post_Timeskip_Infobox.png" alt="Nami">
           <h3>Nami</h3>
-          <p>The navigator and thief with a love for money.</p>
+          <p>The brilliant navigator with a sharp mind—and even sharper heels.</p>
         </div>
         <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/7/73/Sanji_Anime_Post_Timeskip_Infobox.png" alt="Sanji" />
+          <img src="https://static.wikia.nocookie.net/onepiece/images/7/73/Sanji_Anime_Post_Timeskip_Infobox.png" alt="Sanji">
           <h3>Sanji</h3>
-          <p>The cook with powerful kicks and a chivalrous heart.</p>
+          <p>A cook and a fighter who kicks as hard as he loves beautiful women.</p>
         </div>
       </div>
     </section>
 
     <section id="quote">
       <h2>Famous Quote</h2>
-      <blockquote style="font-size: 1.5rem; font-style: italic; margin: 0 20px;">
-        “When do you think people die? When they are shot with a bullet? No! When they eat a soup made from a poisonous mushroom? No! People die... when they are forgotten.”
-        <br>– Dr. Hiluluk
+      <blockquote>
+        “When do you think people die? When they are shot with a bullet? No! When they eat a soup made from a poisonous mushroom? No! People die... when they are forgotten.”<br>
+        – Dr. Hiluluk
       </blockquote>
     </section>
   </main>
@@ -178,5 +229,6 @@
   <footer>
     &copy; 2025 One Piece Fan Site by bblamed
   </footer>
+
 </body>
 </html>

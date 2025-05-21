@@ -2,130 +2,95 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Brawl Stars - Samurai Season</title>
-  <link href="https://fonts.googleapis.com/css2?family=Unica+One&family=Noto+Sans+JP:wght@400;700&display=swap" rel="stylesheet" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bblamed | One Piece</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Noto Sans JP', sans-serif;
-      background: #f9f1e7 url('assets/bg.png') repeat;
-      color: #2a1b0f;
-    }
-
-    header {
-      background-color: #d94444;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      padding: 1rem 2rem;
-    }
-
-    header .logo {
-      display: flex;
-      align-items: center;
-      gap: 1rem;
-    }
-
-    header .logo img {
-      height: 48px;
-    }
-
-    header .logo h1 {
-      font-family: 'Unica One', cursive;
-      color: #fff;
-      font-size: 2rem;
-    }
-
-    nav a {
-      color: #fff;
-      text-decoration: none;
-      margin-left: 2rem;
-      font-weight: bold;
-    }
-
-    .hero {
-      background: #ffe8e2;
-      text-align: center;
-      padding: 4rem 2rem;
-    }
-
-    .hero img {
-      max-width: 300px;
-      border-radius: 12px;
-      margin-bottom: 1rem;
-    }
-
-    .hero h2 {
-      font-size: 2.5rem;
-      color: #b32a2a;
-      font-family: 'Unica One', cursive;
-    }
-
-    .hero p {
-      max-width: 600px;
-      margin: auto;
-      font-size: 1.1rem;
-      color: #3b2b23;
-    }
-
-    .section {
-      text-align: center;
-      padding: 3rem 2rem;
-    }
-
-    .section h3 {
-      font-size: 2rem;
-      color: #b32a2a;
-      font-family: 'Unica One', cursive;
-      margin-bottom: 1.5rem;
-    }
-
-    footer {
-      background: #d94444;
+      font-family: 'Pirata One', cursive;
+      background: url('https://wallpapercave.com/wp/wp7458754.jpg') no-repeat center center fixed;
+      background-size: cover;
       color: white;
+    }
+    header {
+      background-color: rgba(0, 0, 0, 0.7);
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+    header h1 {
+      font-size: 4rem;
+      margin: 0;
+    }
+    nav {
+      background-color: rgba(0, 0, 0, 0.8);
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      padding: 1rem 0;
+    }
+    nav a {
+      color: gold;
+      text-decoration: none;
+      font-size: 1.5rem;
+    }
+    .content {
+      padding: 2rem;
+      background-color: rgba(0, 0, 0, 0.6);
+      max-width: 800px;
+      margin: auto;
+      border-radius: 10px;
+    }
+    footer {
       text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.7);
+      font-size: 1rem;
     }
-
-    a {
-      color: inherit;
+    .crew {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 1rem;
+      justify-content: center;
+    }
+    .crew img {
+      width: 150px;
+      border-radius: 8px;
     }
   </style>
 </head>
 <body>
-
   <header>
-    <div class="logo">
-      <img src="assets/brawl-stars-logo.png" alt="Brawl Stars Logo" />
-      <h1>Samurai Season</h1>
-    </div>
-    <nav>
-      <a href="#about">About</a>
-      <a href="#brawlers">Brawlers</a>
-    </nav>
+    <h1>BBlamed's Grand Line</h1>
+    <p>Set sail with the Straw Hat Pirates!</p>
   </header>
-
-  <section class="hero">
-    <img src="assets/sakura-char.png" alt="Samurai Brawler" />
-    <h2>Sakura Showdown Begins</h2>
-    <p>Honor, blades, and blossoms! Explore the newest samurai-themed season in Brawl Stars with all-new skins, brawlers, and showdown vibes.</p>
-  </section>
-
-  <section class="section" id="brawlers">
-    <h3>Featured Brawlers</h3>
-    <p>Sakura Shelly • Oni Otis • Shogun Buzz • Kitsune Lola</p>
-  </section>
-
-  <section class="section" id="about">
-    <h3>About This Site</h3>
-    <p>This is a fan-made tribute site created by <strong>bblamed</strong> for the Samurai Season in Brawl Stars. All characters and assets belong to Supercell.</p>
-  </section>
-
+  <nav>
+    <a href="#about">About</a>
+    <a href="#crew">Crew</a>
+    <a href="#contact">Contact</a>
+  </nav>
+  <div class="content">
+    <section id="about">
+      <h2>About One Piece</h2>
+      <p>One Piece follows the adventures of Monkey D. Luffy and his pirate crew as they search for the legendary treasure known as One Piece. Join us on a journey full of action, friendship, and freedom!</p>
+    </section>
+    <section id="crew">
+      <h2>The Straw Hat Crew</h2>
+      <div class="crew">
+        <img src="https://static.wikia.nocookie.net/onepiece/images/5/5f/Luffy_Mugshot.png" alt="Luffy" />
+        <img src="https://static.wikia.nocookie.net/onepiece/images/8/89/Zoro_Mugshot.png" alt="Zoro" />
+        <img src="https://static.wikia.nocookie.net/onepiece/images/6/6d/Nami_Mugshot.png" alt="Nami" />
+        <img src="https://static.wikia.nocookie.net/onepiece/images/0/03/Usopp_Mugshot.png" alt="Usopp" />
+        <img src="https://static.wikia.nocookie.net/onepiece/images/d/d4/Sanji_Mugshot.png" alt="Sanji" />
+      </div>
+    </section>
+    <section id="contact">
+      <h2>Contact</h2>
+      <p>Reach out at <a style="color: gold;" href="mailto:bblamed@grandline.com">bblamed@grandline.com</a></p>
+    </section>
+  </div>
   <footer>
-    © 2025 bblamed | <a href="https://github.com/bblamed" target="_blank">GitHub</a>
+    <p>&copy; 2025 bblamed | Made with passion for One Piece fans</p>
   </footer>
-
 </body>
 </html>

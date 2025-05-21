@@ -2,150 +2,150 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bblamed | One Piece</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>One Piece Fan Site</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
     body {
       margin: 0;
-      font-family: 'Roboto Slab', serif;
-      background: url('https://images4.alphacoders.com/975/975839.jpg') no-repeat center center fixed;
+      font-family: 'Pirata One', cursive, serif;
+      background: url('https://wallpaperaccess.com/full/2513477.jpg') no-repeat center center fixed;
       background-size: cover;
-      color: white;
+      color: #f0e6d2;
+      text-shadow: 2px 2px 5px #000;
     }
     header {
-      background-color: rgba(0, 0, 0, 0.85);
+      background-color: rgba(0, 0, 0, 0.7);
+      padding: 20px;
       text-align: center;
-      padding: 2rem 1rem;
-      border-bottom: 3px solid gold;
-    }
-    header h1 {
-      font-size: 4rem;
-      margin: 0;
-      color: gold;
-      text-shadow: 2px 2px 5px black;
+      font-size: 3rem;
+      letter-spacing: 5px;
+      border-bottom: 3px solid #f4d35e;
     }
     nav {
-      background-color: rgba(0, 0, 0, 0.9);
+      background: #f4d35e;
       display: flex;
       justify-content: center;
-      gap: 2rem;
-      padding: 1rem 0;
-      border-bottom: 2px solid goldenrod;
+      gap: 30px;
+      padding: 10px 0;
+      font-weight: bold;
+      text-transform: uppercase;
     }
     nav a {
-      color: gold;
       text-decoration: none;
-      font-size: 1.5rem;
+      color: #333;
+      transition: color 0.3s ease;
     }
-    .content {
-      padding: 2rem;
-      background-color: rgba(0, 0, 0, 0.75);
-      max-width: 1000px;
-      margin: auto;
+    nav a:hover {
+      color: #d94f00;
+    }
+    main {
+      max-width: 900px;
+      margin: 40px auto;
+      background-color: rgba(0, 0, 0, 0.6);
+      padding: 20px 30px;
       border-radius: 10px;
+    }
+    section {
+      margin-bottom: 40px;
+    }
+    h2 {
+      color: #f4d35e;
+      border-bottom: 2px solid #f4d35e;
+      padding-bottom: 10px;
+      margin-bottom: 20px;
+    }
+    .characters {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .character-card {
+      background: rgba(244, 211, 94, 0.9);
+      color: #222;
+      width: 150px;
+      border-radius: 10px;
+      padding: 10px;
+      text-align: center;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease;
+      cursor: pointer;
+    }
+    .character-card:hover {
+      transform: scale(1.1);
+    }
+    .character-card img {
+      width: 100%;
+      border-radius: 8px;
+      margin-bottom: 10px;
     }
     footer {
       text-align: center;
-      padding: 1rem;
-      background-color: rgba(0, 0, 0, 0.8);
-      font-size: 1rem;
-      border-top: 2px solid gold;
-    }
-    .crew {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1.5rem;
-      justify-content: center;
-      padding-top: 1rem;
-    }
-    .crew-member {
-      background-color: rgba(255, 215, 0, 0.15);
-      padding: 1rem;
-      border-radius: 8px;
-      text-align: center;
-      width: 180px;
-      box-shadow: 0 0 10px gold;
-    }
-    .crew-member img {
-      width: 150px;
-      height: 150px;
-      object-fit: cover;
-      border-radius: 8px;
-      border: 3px solid gold;
-    }
-    .crew-member h3 {
-      margin-top: 0.5rem;
-      font-size: 1.2rem;
-      color: gold;
-    }
-    .crew-member p {
-      font-size: 0.9rem;
+      padding: 20px;
+      color: #f4d35e;
+      font-weight: bold;
+      background-color: rgba(0, 0, 0, 0.7);
+      margin-top: 40px;
+      border-top: 3px solid #f4d35e;
     }
   </style>
 </head>
 <body>
   <header>
-    <h1>BBlamed's Grand Line</h1>
-    <p>Explore the epic world of One Piece</p>
+    ONE PIECE
   </header>
   <nav>
     <a href="#about">About</a>
-    <a href="#crew">Crew</a>
-    <a href="#contact">Contact</a>
+    <a href="#characters">Characters</a>
+    <a href="#quote">Quote</a>
   </nav>
-  <div class="content">
+
+  <main>
     <section id="about">
       <h2>About One Piece</h2>
-      <p><strong>One Piece</strong> is a legendary anime and manga series created by <strong>Eiichiro Oda</strong>. It follows the adventures of <em>Monkey D. Luffy</em> and his crew of pirates as they travel across dangerous seas, face formidable foes, and pursue the fabled treasure known as <strong>One Piece</strong>. This is a tale of dreams, friendship, and the spirit of adventure.</p>
+      <p>
+        <strong>One Piece</strong> is a Japanese manga series written and illustrated by Eiichiro Oda. It follows the adventures of Monkey D. Luffy and his crew of pirates as they search for the ultimate treasure known as "One Piece" to become the Pirate King.
+      </p>
     </section>
-    <section id="crew">
-      <h2>The Straw Hat Pirates</h2>
-      <div class="crew">
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/5/57/Monkey_D._Luffy_Anime_Pre_Timeskip_Infobox.png" alt="Luffy" />
-          <h3>Luffy</h3>
-          <p>Captain with the power of the Gum-Gum Fruit and the dream to become Pirate King.</p>
+
+    <section id="characters">
+      <h2>Main Characters</h2>
+      <div class="characters">
+        <div class="character-card">
+          <img src="https://static.wikia.nocookie.net/onepiece/images/9/9b/Monkey_D_Luffy_Anime_Post_Timeskip_Infobox.png" alt="Monkey D. Luffy" />
+          <h3>Monkey D. Luffy</h3>
+          <p>The rubber-powered captain of the Straw Hat Pirates.</p>
         </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/f/f2/Roronoa_Zoro_Anime_Pre_Timeskip_Infobox.png" alt="Zoro" />
-          <h3>Zoro</h3>
-          <p>Master swordsman who uses three swords. Loyal and fiercely strong.</p>
+        <div class="character-card">
+          <img src="https://static.wikia.nocookie.net/onepiece/images/f/f0/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png" alt="Roronoa Zoro" />
+          <h3>Roronoa Zoro</h3>
+          <p>The swordsman who aims to be the world's best.</p>
         </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/7/73/Nami_Anime_Pre_Timeskip_Infobox.png" alt="Nami" />
+        <div class="character-card">
+          <img src="https://static.wikia.nocookie.net/onepiece/images/5/57/Nami_Anime_Post_Timeskip_Infobox.png" alt="Nami" />
           <h3>Nami</h3>
-          <p>The navigator with unmatched skills in weather and navigation.</p>
+          <p>The navigator and thief with a love for money.</p>
         </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/9/99/Usopp_Anime_Pre_Timeskip_Infobox.png" alt="Usopp" />
-          <h3>Usopp</h3>
-          <p>Brave sniper, storyteller, and dreamer of heroism.</p>
-        </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/1/1a/Sanji_Anime_Pre_Timeskip_Infobox.png" alt="Sanji" />
+        <div class="character-card">
+          <img src="https://static.wikia.nocookie.net/onepiece/images/7/73/Sanji_Anime_Post_Timeskip_Infobox.png" alt="Sanji" />
           <h3>Sanji</h3>
-          <p>Cook of the crew, always fighting with chivalry and fiery kicks.</p>
-        </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/1/19/Tony_Tony_Chopper_Anime_Pre_Timeskip_Infobox.png" alt="Chopper" />
-          <h3>Chopper</h3>
-          <p>Reindeer doctor who ate the Human-Human Fruit. Adorable and brilliant.</p>
-        </div>
-        <div class="crew-member">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/2/2d/Nico_Robin_Anime_Pre_Timeskip_Infobox.png" alt="Robin" />
-          <h3>Robin</h3>
-          <p>Archaeologist with the power to read Poneglyphs and sprout limbs.</p>
+          <p>The cook with powerful kicks and a chivalrous heart.</p>
         </div>
       </div>
     </section>
-    <section id="contact">
-      <h2>Contact</h2>
-      <p>Fan mail, theories, and Straw Hat dreams welcome at <a style="color: gold;" href="mailto:bblamed@grandline.com">bblamed@grandline.com</a></p>
+
+    <section id="quote">
+      <h2>Famous Quote</h2>
+      <blockquote style="font-size: 1.5rem; font-style: italic; margin: 0 20px;">
+        “When do you think people die? When they are shot with a bullet? No! When they eat a soup made from a poisonous mushroom? No! People die... when they are forgotten.”
+        <br>– Dr. Hiluluk
+      </blockquote>
     </section>
-  </div>
+  </main>
+
   <footer>
-    <p>&copy; 2025 bblamed | Tribute to One Piece | For the Pirate King!</p>
+    &copy; 2025 One Piece Fan Site by bblamed
   </footer>
 </body>
 </html>

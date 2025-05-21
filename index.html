@@ -2,10 +2,13 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>One Piece Fan Site</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pirata+One&display=swap" rel="stylesheet">
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Pirata+One&display=swap');
+    html {
+      scroll-behavior: smooth;
+    }
 
     * {
       margin: 0;
@@ -18,26 +21,17 @@
       background: url('https://wallpaperaccess.com/full/2513477.jpg') no-repeat center center fixed;
       background-size: cover;
       color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
-      overflow-x: hidden;
-      animation: fadeIn 1s ease-in;
+      text-shadow: -1px -1px 0 #000, 1px -1px 0 #000, -1px 1px 0 #000, 1px 1px 0 #000;
     }
 
     header {
       text-align: center;
       padding: 40px 20px;
       background-color: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(3px);
-      animation: slideDown 1s ease-out;
     }
 
     header h1 {
       font-size: 4rem;
-      letter-spacing: 5px;
       color: white;
     }
 
@@ -45,27 +39,20 @@
       display: flex;
       justify-content: center;
       gap: 40px;
-      padding: 15px 0;
+      padding: 15px;
       background: rgba(244, 211, 94, 0.9);
-      backdrop-filter: blur(3px);
     }
 
     nav a {
+      color: white;
       text-decoration: none;
       font-size: 1.2rem;
-      color: white;
-      text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
-      transition: transform 0.3s ease, color 0.3s ease;
+      transition: transform 0.3s;
     }
 
     nav a:hover {
       transform: scale(1.1);
       color: #d94f00;
-      text-shadow: none;
     }
 
     main {
@@ -74,29 +61,13 @@
       background-color: rgba(0, 0, 0, 0.65);
       padding: 30px;
       border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0,0,0,0.6);
-      animation: fadeIn 1.2s ease-in-out;
-    }
-
-    h2 {
-      font-size: 2rem;
-      margin-bottom: 20px;
-      color: white;
-      border-bottom: 2px solid #f4d35e;
-      padding-bottom: 8px;
-    }
-
-    p, blockquote {
-      font-size: 1.2rem;
-      line-height: 1.6;
     }
 
     .characters {
       display: flex;
       flex-wrap: wrap;
+      gap: 20px;
       justify-content: center;
-      gap: 25px;
-      margin-top: 20px;
     }
 
     .character-card {
@@ -107,128 +78,179 @@
       padding: 15px;
       text-align: center;
       box-shadow: 0 6px 10px rgba(0,0,0,0.4);
-      cursor: pointer;
-      transition: transform 0.4s ease, filter 0.3s ease;
-      text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
+      transition: transform 0.4s, filter 0.3s;
     }
 
     .character-card:hover {
       transform: scale(1.1);
-      filter: brightness(1.2) blur(0.5px);
+      filter: brightness(1.2);
     }
 
     .character-card img {
       width: 100%;
       border-radius: 10px;
-      margin-bottom: 10px;
-      filter: drop-shadow(2px 2px 4px rgba(0,0,0,0.7));
-      transition: transform 0.3s ease;
-    }
-
-    .character-card:hover img {
-      transform: scale(1.05);
-    }
-
-    blockquote {
-      font-style: italic;
-      margin: 30px 0;
-      text-align: center;
     }
 
     footer {
       text-align: center;
       padding: 20px;
-      font-size: 1rem;
       background-color: rgba(0, 0, 0, 0.8);
       border-top: 2px solid #f4d35e;
-      text-shadow:
-        -1px -1px 0 #000,
-         1px -1px 0 #000,
-        -1px  1px 0 #000,
-         1px  1px 0 #000;
     }
 
-    /* Animations */
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    /* Scrollbar */
+    ::-webkit-scrollbar {
+      width: 16px;
     }
 
-    @keyframes slideDown {
-      from { opacity: 0; transform: translateY(-30px); }
-      to { opacity: 1; transform: translateY(0); }
+    ::-webkit-scrollbar-track {
+      background: #f4d35e;
+      border-radius: 8px;
     }
 
-    @media (max-width: 600px) {
-      .characters {
-        flex-direction: column;
-        align-items: center;
-      }
+    ::-webkit-scrollbar-thumb {
+      background: linear-gradient(#c22e2e, #802020);
+      border-radius: 30px;
+      border: 3px solid #f4d35e;
+      background-image: url('https://upload.wikimedia.org/wikipedia/commons/2/26/Fist.svg');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: 60%;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background-color: #a32222;
+    }
+
+    #music-btn {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: #f4d35e;
+      border: none;
+      padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      z-index: 1000;
+    }
+
+    #backToTop {
+      position: fixed;
+      bottom: 80px;
+      right: 20px;
+      background: rgba(0, 0, 0, 0.6);
+      color: white;
+      border: 2px solid #f4d35e;
+      padding: 10px;
+      border-radius: 50%;
+      font-size: 18px;
+      display: none;
+      z-index: 1000;
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>ONE PIECE</h1>
   </header>
-
   <nav>
     <a href="#about">About</a>
     <a href="#characters">Crew</a>
     <a href="#quote">Quote</a>
   </nav>
-
   <main>
     <section id="about">
       <h2>About One Piece</h2>
-      <p>
-        <strong>One Piece</strong> is a legendary manga and anime series by Eiichiro Oda. It follows Monkey D. Luffy and his ragtag crew on a journey across the Grand Line in search of the ultimate treasure—the One Piece. With unforgettable characters, thrilling battles, and deep lore, One Piece has captured hearts worldwide.
-      </p>
+      <p>One Piece is an anime and manga following Monkey D. Luffy and his crew on their quest to find the legendary treasure known as the One Piece.</p>
     </section>
-
     <section id="characters">
       <h2>Main Characters</h2>
       <div class="characters">
         <div class="character-card">
           <img src="https://static.wikia.nocookie.net/onepiece/images/9/9b/Monkey_D_Luffy_Anime_Post_Timeskip_Infobox.png" alt="Luffy">
           <h3>Monkey D. Luffy</h3>
-          <p>The rubber-powered captain with a dream to become Pirate King.</p>
+          <p>Captain with rubber powers and big dreams.</p>
         </div>
-        <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/f/f0/Roronoa_Zoro_Anime_Post_Timeskip_Infobox.png" alt="Zoro">
-          <h3>Roronoa Zoro</h3>
-          <p>Master swordsman wielding three blades with unshakable loyalty.</p>
-        </div>
-        <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/5/57/Nami_Anime_Post_Timeskip_Infobox.png" alt="Nami">
-          <h3>Nami</h3>
-          <p>The brilliant navigator with a sharp mind—and even sharper heels.</p>
-        </div>
-        <div class="character-card">
-          <img src="https://static.wikia.nocookie.net/onepiece/images/7/73/Sanji_Anime_Post_Timeskip_Infobox.png" alt="Sanji">
-          <h3>Sanji</h3>
-          <p>A cook and a fighter who kicks as hard as he loves beautiful women.</p>
-        </div>
+        <!-- Add more character cards here -->
       </div>
     </section>
-
     <section id="quote">
       <h2>Famous Quote</h2>
       <blockquote>
-        “When do you think people die? When they are shot with a bullet? No! When they eat a soup made from a poisonous mushroom? No! People die... when they are forgotten.”<br>
-        – Dr. Hiluluk
+        "When do you think people die? When they are shot with a bullet? No!... People die when they are forgotten." – Dr. Hiluluk
       </blockquote>
     </section>
   </main>
-
   <footer>
     &copy; 2025 One Piece Fan Site by bblamed
   </footer>
+  <canvas id="sakura-canvas" style="position: fixed; top: 0; left: 0; pointer-events: none; z-index: 999;"></canvas>
+  <audio id="bg-music" loop>
+    <source src="https://vgmsite.com/soundtracks/one-piece-binks-sake-theme.mp3" type="audio/mpeg">
+  </audio>
+  <button id="music-btn">🔊 Toggle Music</button>
+  <button id="backToTop" onclick="window.scrollTo({top: 0, behavior: 'smooth'});">↑</button>
+  <script>
+    const canvas = document.getElementById('sakura-canvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+    function createPetal() {
+      return {
+        x: Math.random() * canvas.width,
+        y: -20,
+        speed: 1 + Math.random() * 3,
+        size: 10 + Math.random() * 15,
+        swing: Math.random() * 2,
+        sway: Math.random() * 0.5,
+        angle: Math.random() * Math.PI * 2
+      };
+    }
+    function drawPetal(p) {
+      ctx.save();
+      ctx.translate(p.x, p.y);
+      ctx.rotate(p.angle);
+      ctx.fillStyle = 'rgba(255, 183, 197, 0.8)';
+      ctx.beginPath();
+      ctx.ellipse(0, 0, p.size * 0.6, p.size, 0, 0, Math.PI * 2);
+      ctx.fill();
+      ctx.restore();
+    }
+    function animate() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (Math.random() < 0.3) petals.push(createPetal());
+      petals.forEach((p, i) => {
+        p.y += p.speed;
+        p.x += Math.sin(p.swing) * p.sway;
+        p.swing += 0.05;
+        p.angle += 0.01;
+        drawPetal(p);
+        if (p.y > canvas.height) petals.splice(i, 1);
+      });
+      requestAnimationFrame(animate);
+    }
+    animate();
 
+    // Music Toggle
+    const music = document.getElementById("bg-music");
+    const musicBtn = document.getElementById("music-btn");
+    let playing = false;
+    musicBtn.onclick = () => {
+      playing = !playing;
+      if (playing) music.play(); else music.pause();
+    };
+
+    // Back to top button
+    const backToTop = document.getElementById("backToTop");
+    window.onscroll = () => {
+      backToTop.style.display = window.scrollY > 300 ? "block" : "none";
+    };
+  </script>
 </body>
 </html>

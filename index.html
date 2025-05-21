@@ -15,12 +15,17 @@
       text-shadow: 2px 2px 5px #000;
     }
     header {
-      background-color: rgba(0, 0, 0, 0.7);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background-color: rgba(0,0,0,0.7);
       padding: 20px;
-      text-align: center;
-      font-size: 3rem;
-      letter-spacing: 5px;
       border-bottom: 3px solid #f4d35e;
+    }
+    header img {
+      height: 50px;
+      width: auto;
     }
     nav {
       background: #f4d35e;
@@ -93,7 +98,8 @@
 </head>
 <body>
   <header>
-    ONE PIECE
+    <img src="strawhat-logo.jpg" alt="Straw Hat Pirates Logo" />
+    <h1>ONE PIECE</h1>
   </header>
   <nav>
     <a href="#about">About</a>

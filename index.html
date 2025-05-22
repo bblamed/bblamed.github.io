@@ -1,56 +1,98 @@
-import React from "react";
-import { Card, CardContent } from "@/components/ui/card";
-import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
-import { Button } from "@/components/ui/button";
-import { Leaf, PawPrint, Hammer } from "lucide-react";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Grow a Garden - Stock Tracker</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background-color: #f8f9fa;
+      margin: 0;
+      padding: 2rem;
+      color: #212529;
+    }
+    h1 {
+      text-align: center;
+      color: #28a745;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 2rem;
+    }
+    th, td {
+      border: 1px solid #dee2e6;
+      padding: 0.75rem;
+      text-align: left;
+    }
+    th {
+      background-color: #e9ecef;
+    }
+    .category {
+      background-color: #d4edda;
+      font-weight: bold;
+    }
+    @media (max-width: 600px) {
+      table, thead, tbody, th, td, tr {
+        display: block;
+      }
+      th, td {
+        padding: 0.5rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <h1>🌱 Grow a Garden - Live Stock</h1>
+  <table id="stock-table">
+    <thead>
+      <tr><th>Item</th><th>Quantity</th></tr>
+    </thead>
+    <tbody id="stock-body">
+      <tr><td colspan="2">Loading...</td></tr>
+    </tbody>
+  </table>
 
-const items = {
-  seeds: [
-    { name: "Sunflower Seed", price: "10 coins" },
-    { name: "Carrot Seed", price: "15 coins" },
-    { name: "Pumpkin Seed", price: "20 coins" },
-  ],
-  pets: [
-    { name: "Bunny", price: "50 coins" },
-    { name: "Chick", price: "40 coins" },
-    { name: "Fox Cub", price: "100 coins" },
-  ],
-  tools: [
-    { name: "Watering Can", price: "25 coins" },
-    { name: "Hoe", price: "30 coins" },
-    { name: "Shovel", price: "35 coins" },
-  ],
-};
+  <script>
+    const FIREBASE_URL = 'https://your-project-id.firebaseio.com/stock.json'; // replace with your Firebase endpoint
 
-export default function GardenStockPage() {
-  return (
-    <div className="max-w-4xl mx-auto py-10 px-4">
-      <h1 className="text-4xl font-bold text-center mb-6">BBLamed Garden Stock</h1>
-      <p className="text-center text-lg text-gray-600 mb-10">
-        Welcome to the official Roblox garden shop! Browse seeds, pets, and tools for your garden adventure.
-      </p>
+    async function fetchStock() {
+      const tbody = document.getElementById('stock-body');
+      try {
+        const res = await fetch(FIREBASE_URL);
+        const data = await res.json();
 
-      <Tabs defaultValue="seeds" className="w-full">
-        <TabsList className="flex justify-center mb-4">
-          <TabsTrigger value="seeds"><Leaf className="inline mr-1" /> Seeds</TabsTrigger>
-          <TabsTrigger value="pets"><PawPrint className="inline mr-1" /> Pets</TabsTrigger>
-          <TabsTrigger value="tools"><Hammer className="inline mr-1" /> Tools</TabsTrigger>
-        </TabsList>
+        tbody.innerHTML = '';
 
-        {Object.entries(items).map(([key, list]) => (
-          <TabsContent key={key} value={key} className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {list.map((item, idx) => (
-              <Card key={idx}>
-                <CardContent className="p-4">
-                  <h2 className="text-xl font-semibold">{item.name}</h2>
-                  <p className="text-gray-500">{item.price}</p>
-                  <Button className="mt-2">Buy</Button>
-                </CardContent>
-              </Card>
-            ))}
-          </TabsContent>
-        ))}
-      </Tabs>
-    </div>
-  );
-}
+        const grouped = {};
+        for (const item in data) {
+          const category = item.split('_')[0];
+          if (!grouped[category]) grouped[category] = [];
+          grouped[category].push({ name: item, count: data[item] });
+        }
+
+        for (const cat in grouped) {
+          const catRow = document.createElement('tr');
+          catRow.className = 'category';
+          catRow.innerHTML = `<td colspan="2">${cat.charAt(0).toUpperCase() + cat.slice(1)}</td>`;
+          tbody.appendChild(catRow);
+
+          grouped[cat].forEach(entry => {
+            const row = document.createElement('tr');
+            row.innerHTML = `<td>${entry.name}</td><td>${entry.count}</td>`;
+            tbody.appendChild(row);
+          });
+        }
+
+      } catch (err) {
+        tbody.innerHTML = '<tr><td colspan="2">Error loading data.</td></tr>';
+        console.error(err);
+      }
+    }
+
+    fetchStock();
+    setInterval(fetchStock, 30000); // refresh every 30 sec
+  </script>
+</body>
+</html>

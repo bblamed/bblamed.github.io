@@ -1,294 +1,444 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" >
 <head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta name="description" content="#1 beaming sites and methods!" />
-<title>WARO</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="#1 beaming sites and methods!" />
+  <title>WARO</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-  /* Reset & base */
-  *, *::before, *::after {
-    box-sizing: border-box;
-  }
-  body, h1, h2, p, button {
-    margin: 0; padding: 0;
-  }
-  body {
-    background: #120000;
-    font-family: 'Orbitron', sans-serif;
-    color: #ff3d3d;
-    min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 2rem 1rem 4rem;
-    overflow-x: hidden;
-  }
-
-  /* Wavy animated background behind header */
-  header {
-    position: relative;
-    width: 100%;
-    max-width: 900px;
-    text-align: center;
-    margin-bottom: 3rem;
-    user-select: none;
-    z-index: 1;
-  }
-  header::before {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120%;
-    height: 220px;
-    background: repeating-radial-gradient(circle at center, #ff1a1a22 0 10px, transparent 10px 20px);
-    transform: translate(-50%, -50%) rotate(15deg);
-    filter: blur(30px);
-    animation: waveShift 8s linear infinite;
-    border-radius: 50%;
-    z-index: -1;
-  }
-  @keyframes waveShift {
-    0% { background-position: 0 0; }
-    100% { background-position: 200px 200px; }
-  }
-
-  /* WARO logo with glowing neon + layered shadow */
-  .logo {
-    font-size: 6rem;
-    font-weight: 900;
-    letter-spacing: 0.15em;
-    color: #ff3d3d;
-    text-transform: uppercase;
-    position: relative;
-    user-select: none;
-    filter: drop-shadow(0 0 5px #ff3d3d);
-  }
-  .logo::after {
-    content: 'WARO';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%;
-    height: 100%;
-    color: #ff0000;
-    opacity: 0.4;
-    filter: blur(8px);
-    z-index: -1;
-    animation: pulseGlow 3s ease-in-out infinite alternate;
-  }
-  @keyframes pulseGlow {
-    0%, 100% { opacity: 0.4; filter: blur(8px) drop-shadow(0 0 15px #ff0000); }
-    50% { opacity: 0.8; filter: blur(12px) drop-shadow(0 0 30px #ff4c4c); }
-  }
-
-  nav {
-    margin-top: 1.5rem;
-  }
-  nav button {
-    background: linear-gradient(45deg, #ff3d3d, #7f0000);
-    border: none;
-    color: #120000;
-    font-weight: 900;
-    font-size: 1.3rem;
-    padding: 1rem 3rem;
-    border-radius: 9999px;
-    cursor: pointer;
-    box-shadow: 0 0 20px #ff3d3daa;
-    transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
-    letter-spacing: 0.1em;
-  }
-  nav button:hover {
-    background: linear-gradient(45deg, #ff6666, #b30000);
-    color: #fff5f5;
-    box-shadow: 0 0 40px #ff6666ff;
-  }
-
-  main {
-    max-width: 900px;
-    width: 100%;
-    background: #330000ee;
-    border-radius: 20px;
-    border: 2px solid #ff3d3d;
-    padding: 3rem 3.5rem;
-    box-shadow: 0 0 40px #ff3d3d99;
-  }
-
-  main section {
-    margin-bottom: 3rem;
-  }
-
-  h2 {
-    font-weight: 900;
-    font-size: 2rem;
-    color: #ff6666;
-    border-bottom: 3px solid #ff6666;
-    padding-bottom: 0.4rem;
-    letter-spacing: 0.1em;
-    margin-bottom: 1.25rem;
-    text-shadow: 0 0 6px #ff3d3d99;
-  }
-
-  p {
-    font-size: 1.2rem;
-    line-height: 1.65;
-    color: #ff9999;
-    text-shadow: 0 0 3px #7f000033;
-  }
-
-  /* FAQ styles */
-  .faq .faq-item {
-    border-radius: 15px;
-    background: #4b0000dd;
-    box-shadow: inset 0 0 10px #ff4c4caa;
-    margin-bottom: 1.5rem;
-    overflow: hidden;
-    transition: transform 0.3s ease;
-    border: 1.5px solid #ff3d3d;
-  }
-  .faq-item:hover {
-    transform: translateY(-5px);
-    box-shadow: 0 0 30px #ff6666cc, inset 0 0 15px #ff4c4ccc;
-  }
-
-  .faq-question {
-    width: 100%;
-    padding: 1.1rem 1.75rem;
-    background: #7f0000;
-    border: none;
-    color: #ff4c4c;
-    font-size: 1.25rem;
-    font-weight: 700;
-    text-align: left;
-    cursor: pointer;
-    letter-spacing: 0.05em;
-    user-select: none;
-    position: relative;
-    transition: background-color 0.3s ease;
-  }
-  .faq-question::after {
-    content: '▼';
-    position: absolute;
-    right: 1.5rem;
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 1rem;
-    color: #ff4c4c;
-    transition: transform 0.3s ease;
-  }
-  .faq-item.active .faq-question::after {
-    transform: translateY(-50%) rotate(180deg);
-  }
-  .faq-question:hover {
-    background: #ff4c4c;
-    color: #4b0000;
-  }
-
-  .faq-answer {
-    padding: 1.3rem 1.75rem 2rem;
-    font-size: 1.05rem;
-    line-height: 1.5;
-    color: #ffb3b3;
-    display: none;
-    user-select: text;
-    border-top: 1.5px solid #ff4c4c;
-    background: #5c0000dd;
-  }
-  .faq-item.active .faq-answer {
-    display: block;
-  }
-
-  footer {
-    margin-top: 3.5rem;
-    color: #990000cc;
-    font-size: 0.9rem;
-    user-select: none;
-    text-align: center;
-    letter-spacing: 0.07em;
-  }
-
-  /* Responsive */
-  @media (max-width: 640px) {
-    main {
-      padding: 2rem 2.5rem;
+    /* Reset */
+    *, *::before, *::after {
+      box-sizing: border-box;
     }
+    body, h1, h2, p, button {
+      margin: 0; padding: 0;
+    }
+
+    /* Background and font */
+    body {
+      background: linear-gradient(135deg, #1b0000, #330000);
+      font-family: 'Orbitron', sans-serif;
+      color: #ff3d3d;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 3rem 1rem 5rem;
+      overflow-x: hidden;
+      position: relative;
+      user-select: none;
+    }
+
+    /* Floating glowing orbs */
+    @keyframes drift {
+      0% { transform: translateY(0) translateX(0); opacity: 0.6; }
+      50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
+      100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+    }
+    .orb {
+      position: fixed;
+      border-radius: 50%;
+      background: radial-gradient(circle at center, #ff1a1aee, transparent 70%);
+      filter: drop-shadow(0 0 10px #ff1a1aaa);
+      opacity: 0.7;
+      animation: drift 6s ease-in-out infinite;
+      pointer-events: none;
+      z-index: 0;
+    }
+    .orb.small {
+      width: 40px; height: 40px;
+      animation-duration: 7s;
+    }
+    .orb.medium {
+      width: 60px; height: 60px;
+      animation-duration: 8s;
+      animation-delay: 2s;
+    }
+    .orb.large {
+      width: 100px; height: 100px;
+      animation-duration: 10s;
+      animation-delay: 4s;
+    }
+    .orb1 { top: 10%; left: 15%; }
+    .orb2 { top: 30%; left: 80%; }
+    .orb3 { top: 75%; left: 25%; }
+
+    /* Header with water text effect */
+    header {
+      position: relative;
+      max-width: 900px;
+      width: 100%;
+      text-align: center;
+      margin-bottom: 3rem;
+      z-index: 2;
+    }
+    /* Water-text animation */
     .logo {
-      font-size: 4rem;
+      font-size: 6.5rem;
+      font-weight: 900;
+      letter-spacing: 0.15em;
+      color: #ff3d3d;
+      text-transform: uppercase;
+      position: relative;
+      filter:
+        drop-shadow(0 0 5px #ff3d3d)
+        drop-shadow(0 0 10px #ff1a1a);
+      cursor: default;
+      user-select: none;
+      line-height: 1;
+      animation: waterFlow 5s ease-in-out infinite;
+      background: linear-gradient(45deg, #ff3d3d, #ff0000, #b30000, #ff3d3d);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      text-shadow:
+        0 0 15px #ff3d3d88,
+        0 0 40px #ff0000cc;
     }
-    h2 {
-      font-size: 1.5rem;
+    @keyframes waterFlow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+    .logo::before {
+      content: '';
+      position: absolute;
+      top: 100%;
+      left: 50%;
+      width: 120%;
+      height: 40px;
+      background: radial-gradient(ellipse at center, #ff1a1a99 0%, transparent 80%);
+      filter: blur(10px);
+      transform: translateX(-50%);
+      z-index: -1;
+    }
+
+    /* Join Now Button */
+    nav {
+      margin-top: 1.5rem;
     }
     nav button {
-      font-size: 1.1rem;
-      padding: 0.9rem 2.5rem;
+      background: linear-gradient(135deg, #ff3d3d, #7f0000);
+      border: none;
+      color: #120000;
+      font-weight: 900;
+      font-size: 1.5rem;
+      padding: 1.2rem 4rem;
+      border-radius: 9999px;
+      cursor: pointer;
+      box-shadow: 0 0 25px #ff3d3daa;
+      transition: background 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      user-select: none;
+      position: relative;
+      overflow: hidden;
+      z-index: 2;
     }
-  }
-</style>
+    nav button::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, #ff6666aa 10%, transparent 60%);
+      opacity: 0;
+      transform: scale(0.8);
+      transition: opacity 0.3s ease, transform 0.3s ease;
+      border-radius: 9999px;
+      z-index: -1;
+    }
+    nav button:hover {
+      background: linear-gradient(135deg, #ff6666, #b30000);
+      color: #fff5f5;
+      box-shadow: 0 0 45px #ff6666ff;
+    }
+    nav button:hover::before {
+      opacity: 1;
+      transform: scale(1.1);
+    }
+
+    /* Main content */
+    main {
+      max-width: 900px;
+      width: 100%;
+      background: rgba(51, 0, 0, 0.9);
+      border-radius: 25px;
+      border: 3px solid #ff3d3d;
+      padding: 3.5rem 4rem;
+      box-shadow:
+        0 0 50px #ff3d3daa,
+        inset 0 0 20px #7f00007f;
+      z-index: 2;
+      user-select: text;
+    }
+
+    /* About Section */
+    main section.about {
+      margin-bottom: 4rem;
+      text-align: center;
+    }
+    main section.about h2 {
+      font-weight: 900;
+      font-size: 2.8rem;
+      color: #ff6666;
+      letter-spacing: 0.15em;
+      margin-bottom: 1rem;
+      text-shadow: 0 0 12px #ff3d3d99;
+      user-select: none;
+    }
+    main section.about p {
+      font-size: 1.4rem;
+      line-height: 1.7;
+      color: #ff9999;
+      text-shadow: 0 0 6px #7f000033;
+      max-width: 600px;
+      margin: 0 auto;
+    }
+
+    /* FAQ styles */
+    .faq h2 {
+      font-weight: 900;
+      font-size: 2.4rem;
+      color: #ff6666;
+      letter-spacing: 0.12em;
+      border-bottom: 4px solid #ff6666;
+      padding-bottom: 0.5rem;
+      margin-bottom: 2rem;
+      user-select: none;
+      text-shadow: 0 0 15px #ff3d3dbb;
+    }
+    .faq-item {
+      border-radius: 20px;
+      background: #4b000033;
+      margin-bottom: 1.8rem;
+      overflow: hidden;
+      border: 2px solid #ff3d3d88;
+      box-shadow: inset 0 0 12px #ff4c4caa;
+      transition: box-shadow 0.3s ease, transform 0.3s ease;
+      cursor: pointer;
+      user-select: none;
+      position: relative;
+    }
+    .faq-item:hover {
+      box-shadow:
+        0 0 40px #ff6666cc,
+        inset 0 0 25px #ff4c4ccc;
+      transform: translateY(-5px);
+    }
+
+    .faq-question {
+      padding: 1.3rem 2rem;
+      font-size: 1.3rem;
+      font-weight: 700;
+      color: #ff4c4c;
+      background: transparent;
+      border: none;
+      width: 100%;
+      text-align: left;
+      letter-spacing: 0.05em;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      user-select: none;
+      outline: none;
+    }
+    .faq-question:focus {
+      outline: 2px solid #ff6666;
+      outline-offset: 4px;
+    }
+    .faq-question::after {
+      content: '▼';
+      font-size: 1.1rem;
+      color: #ff4c4c;
+      transition: transform 0.3s ease;
+      user-select: none;
+    }
+    .faq-item.active .faq-question::after {
+      transform: rotate(180deg);
+    }
+
+    .faq-answer {
+      background: #5c000044;
+      color: #ffb3b3;
+      padding: 1.4rem 2rem 2rem;
+      font-size: 1.1rem;
+      line-height: 1.6;
+      display: none;
+      user-select: text;
+      border-top: 2px solid #ff4c4c88;
+      text-shadow: 0 0 6px #7f000055;
+    }
+    .faq-item.active .faq-answer {
+      display: block;
+      animation: fadeIn 0.4s ease forwards;
+    }
+
+    @keyframes fadeIn {
+      from {opacity: 0;}
+      to {opacity: 1;}
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 4rem;
+      font-size: 0.9rem;
+      color: #990000cc;
+      text-align: center;
+      user-select: none;
+      letter-spacing: 0.08em;
+      filter: drop-shadow(0 0 6px #660000cc);
+      animation: glowPulse 3s ease-in-out infinite alternate;
+      z-index: 2;
+    }
+    @keyframes glowPulse {
+      0%, 100% { text-shadow: 0 0 6px #660000cc; color: #990000cc; }
+      50% { text-shadow: 0 0 20px #ff3d3ddd; color: #ff3d3ddd; }
+    }
+
+    /* Responsive */
+    @media (max-width: 640px) {
+      main {
+        padding: 2rem 2.5rem;
+      }
+      .logo {
+        font-size: 4.5rem;
+      }
+      h2 {
+        font-size: 1.8rem;
+      }
+      nav button {
+        font-size: 1.25rem;
+        padding: 1rem 3rem;
+      }
+    }
+  </style>
 </head>
 <body>
 
-<header>
-  <h1 class="logo" aria-label="WARO">WARO</h1>
-  <nav>
-    <button onclick="window.open('https://discord.gg/mj9EcgeceJ', '_blank')" aria-label="Join WARO Discord Server">Join now!</button>
-  </nav>
-</header>
+  <!-- Floating Orbs -->
+  <div class="orb orb1 large"></div>
+  <div class="orb orb2 medium"></div>
+  <div class="orb orb3 small"></div>
 
-<main>
-  <section class="about">
-    <h2>About WARO</h2>
-    <p>The best Roblox beaming stuff around — methods, tips, and more all in one place.</p>
-  </section>
+  <header>
+    <h1 class="logo" aria-label="WARO">WARO</h1>
+    <nav>
+      <button
+        onclick="window.open('https://discord.gg/mj9EcgeceJ', '_blank')"
+        aria-label="Join WARO Discord Server"
+        >Join now!</button
+      >
+    </nav>
+  </header>
 
-  <section class="faq">
-    <h2>Frequently Asked Questions</h2>
+  <main>
+    <section class="about" aria-label="About WARO">
+      <h2>About WARO</h2>
+      <p>
+        The best Roblox beaming stuff around — methods, tips, and more all in one place.
+      </p>
+    </section>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">What is beaming?</button>
-      <div class="faq-answer" hidden>
-        "Beaming" refers to stealing virtual items or access to another player's account, usually through phishing or social engineering. This site explores how these tactics work purely for educational or entertainment purposes — we do not support or condone any illegal activity.
+    <section class="faq" aria-label="Frequently Asked Questions">
+      <h2>Frequently Asked Questions</h2>
+
+      <div class="faq-item" role="region" aria-labelledby="faq1_question">
+        <button
+          id="faq1_question"
+          class="faq-question"
+          aria-expanded="false"
+          aria-controls="faq1_answer"
+          >What is beaming?</button
+        >
+        <div id="faq1_answer" class="faq-answer" hidden>
+          In Roblox, ‘beaming’ refers to the act of stealing another player’s virtual items or account information, often through deceitful means.
+        </div>
       </div>
-    </div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Is WARO a real group?</button>
-      <div class="faq-answer" hidden>
-        ._.
+      <div class="faq-item" role="region" aria-labelledby="faq2_question">
+        <button
+          id="faq2_question"
+          class="faq-question"
+          aria-expanded="false"
+          aria-controls="faq2_answer"
+          >Is WARO a real group?</button
+        >
+        <div id="faq2_answer" class="faq-answer" hidden>
+          ._.
+        </div>
       </div>
-    </div>
 
-    <div class="faq-item">
-      <button class="faq-question" aria-expanded="false">Can I join WARO?</button>
-      <div class="faq-answer" hidden>
-        You can click "Join now" to get into our Discord server — its a place where u get methods, best beams and more!.
+      <div class="faq-item" role="region" aria-labelledby="faq3_question">
+        <button
+          id="faq3_question"
+          class="faq-question"
+          aria-expanded="false"
+          aria-controls="faq3_answer"
+          >Can I join WARO?</button
+        >
+        <div id="faq3_answer" class="faq-answer" hidden>
+          You can click "Join now" to get into our Discord server — it's a place where you get methods, best beams, and more!
+        </div>
       </div>
-    </div>
-  </section>
-</main>
 
-<footer>
-  &copy; 2025 WARO. All rights reserved.
-</footer>
+      <!-- Bonus FAQ Q's -->
+      <div class="faq-item" role="region" aria-labelledby="faq4_question">
+        <button
+          id="faq4_question"
+          class="faq-question"
+          aria-expanded="false"
+          aria-controls="faq4_answer"
+          >Is beaming legal?</button
+        >
+        <div id="faq4_answer" class="faq-answer" hidden>
+          This site is for educational and entertainment purposes only. Beaming is against Roblox’s rules and can have legal consequences.
+        </div>
+      </div>
 
-<script>
-  // FAQ toggle functionality with ARIA support
-  document.querySelectorAll('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-      const faqItem = button.parentElement;
-      const isActive = faqItem.classList.toggle('active');
-      const answer = faqItem.querySelector('.faq-answer');
-      if (isActive) {
-        answer.hidden = false;
-        button.setAttribute('aria-expanded', 'true');
-      } else {
-        answer.hidden = true;
-        button.setAttribute('aria-expanded', 'false');
-      }
+      <div class="faq-item" role="region" aria-labelledby="faq5_question">
+        <button
+          id="faq5_question"
+          class="faq-question"
+          aria-expanded="false"
+          aria-controls="faq5_answer"
+          >How can I protect myself?</button
+        >
+        <div id="faq5_answer" class="faq-answer" hidden>
+          Never share your login info, beware of phishing links, and enable two-factor authentication on your Roblox account.
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    &copy; 2025 WARO — All content is for educational & entertainment purposes only.
+  </footer>
+
+  <script>
+    // FAQ toggle with accessibility
+    document.querySelectorAll('.faq-question').forEach(button => {
+      button.addEventListener('click', () => {
+        const faqItem = button.parentElement;
+        const isActive = faqItem.classList.contains('active');
+        faqItem.classList.toggle('active', !isActive);
+
+        // Toggle aria-expanded
+        button.setAttribute('aria-expanded', String(!isActive));
+
+        // Toggle visibility of answer
+        const answer = faqItem.querySelector('.faq-answer');
+        if (!isActive) {
+          answer.removeAttribute('hidden');
+        } else {
+          answer.setAttribute('hidden', '');
+        }
+      });
     });
-  });
-</script>
-
+  </script>
 </body>
 </html>

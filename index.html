@@ -1,464 +1,56 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>WARO</title>
-<style>
-  @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
-  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+import React from "react";
+import { Card, CardContent } from "@/components/ui/card";
+import { Tabs, TabsList, TabsTrigger, TabsContent } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import { Leaf, PawPrint, Hammer } from "lucide-react";
 
-  /* Reset */
-  * {
-    margin: 0; padding: 0;
-    box-sizing: border-box;
-  }
-  body {
-    background: #0a0000;
-    color: #e13b3b;
-    font-family: 'Share Tech Mono', monospace;
-    overflow-x: hidden;
-    min-height: 100vh;
-    cursor: none;
-    position: relative;
-    background-image:
-      repeating-linear-gradient(
-        0deg,
-        transparent 0,
-        transparent 2px,
-        #33000015 3px,
-        transparent 5px
-      ),
-      repeating-linear-gradient(
-        90deg,
-        transparent 0,
-        transparent 2px,
-        #33000015 3px,
-        transparent 5px
-      );
-  }
+const items = {
+  seeds: [
+    { name: "Sunflower Seed", price: "10 coins" },
+    { name: "Carrot Seed", price: "15 coins" },
+    { name: "Pumpkin Seed", price: "20 coins" },
+  ],
+  pets: [
+    { name: "Bunny", price: "50 coins" },
+    { name: "Chick", price: "40 coins" },
+    { name: "Fox Cub", price: "100 coins" },
+  ],
+  tools: [
+    { name: "Watering Can", price: "25 coins" },
+    { name: "Hoe", price: "30 coins" },
+    { name: "Shovel", price: "35 coins" },
+  ],
+};
 
-  /* Digital noise overlay */
-  body::after {
-    content: '';
-    pointer-events: none;
-    position: fixed;
-    inset: 0;
-    background: url('https://www.transparenttextures.com/patterns/asfalt-dark.png');
-    opacity: 0.06;
-    z-index: 5;
-    mix-blend-mode: overlay;
-    animation: noiseAnim 15s linear infinite;
-  }
-  @keyframes noiseAnim {
-    0% { background-position: 0 0; }
-    100% { background-position: 500px 500px; }
-  }
-
-  /* Glitchy layered WARO logo */
-  header {
-    padding: 4rem 1rem 2rem;
-    text-align: center;
-    position: relative;
-    z-index: 10;
-  }
-  .logo {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 900;
-    font-size: 7rem;
-    position: relative;
-    letter-spacing: 0.3em;
-    color: #e13b3b;
-    user-select: none;
-    text-transform: uppercase;
-    filter: drop-shadow(0 0 12px #ff3939cc);
-  }
-  .logo::before,
-  .logo::after {
-    content: 'WARO';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    opacity: 0.6;
-    clip-path: polygon(0 10%, 100% 10%, 100% 20%, 0 20%);
-    animation: glitchRed 3s infinite linear alternate-reverse;
-  }
-  .logo::after {
-    clip-path: polygon(0 75%, 100% 75%, 100% 85%, 0 85%);
-    color: #ff0000;
-    animation-delay: 1.4s;
-    mix-blend-mode: screen;
-  }
-  @keyframes glitchRed {
-    0%   { transform: translate(0, 0); }
-    20%  { transform: translate(-3px, 1.5px); }
-    40%  { transform: translate(3px, -1.5px); }
-    60%  { transform: translate(-1.5px, 2px); }
-    80%  { transform: translate(2px, -2.5px); }
-    100% { transform: translate(0, 0); }
-  }
-
-  /* Neon pulse radial behind logo */
-  .logo::after {
-    /* The above is used for glitch, so let's add a separate behind via wrapper */
-  }
-  header .logo-wrapper {
-    position: relative;
-    display: inline-block;
-    padding: 0 1rem;
-  }
-  header .logo-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: -12px;
-    border-radius: 12px;
-    background:
-      radial-gradient(circle at center, #e03b3b60 40%, transparent 70%);
-    filter: blur(24px);
-    z-index: -1;
-    animation: pulseNeon 3.8s ease-in-out infinite;
-  }
-  @keyframes pulseNeon {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 0.3; }
-  }
-
-  /* Join button */
-  nav {
-    margin-top: 1.5rem;
-  }
-  nav button {
-    background: transparent;
-    border: 3px solid #e03b3b;
-    color: #e03b3b;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 1.8rem;
-    padding: 1.2rem 4rem;
-    border-radius: 50px;
-    cursor: pointer;
-    position: relative;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 0.2em;
-    box-shadow:
-      0 0 10px #e03b3b88,
-      inset 0 0 15px #ff1a1aaa;
-    transition: color 0.3s ease, background 0.3s ease;
-    user-select: none;
-  }
-  nav button::before,
-  nav button::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 0;
-    width: 100%; height: 100%;
-    border-radius: 50px;
-    pointer-events: none;
-    mix-blend-mode: screen;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-  }
-  nav button::before {
-    border: 2px solid #ff4a4a;
-    filter: blur(4px);
-    animation: flickerBtn 2.5s infinite;
-  }
-  nav button::after {
-    border: 2px solid #ff0000;
-    filter: blur(9px);
-    animation: flickerBtnAlt 3.2s infinite;
-    animation-delay: 1.3s;
-  }
-  nav button:hover {
-    color: #fff;
-    background: #2a0000cc;
-    box-shadow:
-      0 0 25px #ff3f3f,
-      inset 0 0 25px #ff0000cc;
-  }
-  nav button:hover::before,
-  nav button:hover::after {
-    opacity: 1;
-  }
-  @keyframes flickerBtn {
-    0%, 100% { opacity: 0.6; }
-    50% { opacity: 0.1; }
-  }
-  @keyframes flickerBtnAlt {
-    0%, 100% { opacity: 0.7; }
-    50% { opacity: 0.15; }
-  }
-
-  /* Content container with glassmorphism */
-  main {
-    max-width: 760px;
-    margin: 3rem auto 5rem;
-    background: rgba(30, 0, 0, 0.45);
-    border-radius: 22px;
-    padding: 3.5rem 3rem 4rem;
-    color: #ffbaba;
-    backdrop-filter: saturate(180%) blur(12px);
-    -webkit-backdrop-filter: saturate(180%) blur(12px);
-    box-shadow:
-      0 0 38px #b3222220,
-      inset 0 0 30px #ff1111cc;
-    border: 2px solid #e03b3b66;
-    user-select: text;
-    font-size: 1.18rem;
-    letter-spacing: 0.04em;
-    line-height: 1.5;
-  }
-  main section.about {
-    text-align: center;
-    margin-bottom: 3rem;
-  }
-  main section.about h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 2.6rem;
-    color: #ff5a5a;
-    margin-bottom: 0.6rem;
-    text-shadow: 0 0 18px #ff4f4fbb;
-    user-select: none;
-  }
-  main section.about p {
-    max-width: 650px;
-    margin: 0 auto;
-    font-style: italic;
-    color: #ffbebecc;
-    text-shadow: 0 0 6px #330000bb;
-  }
-
-  /* FAQ */
-  .faq {
-    user-select: none;
-  }
-  .faq h2 {
-    font-family: 'Orbitron', sans-serif;
-    font-weight: 800;
-    font-size: 2.2rem;
-    color: #ff4848;
-    margin-bottom: 2rem;
-    border-bottom: 3px solid #ff4848aa;
-    padding-bottom: 0.3rem;
-    text-shadow: 0 0 14px #ff2f2fdd;
-  }
-  .faq-item {
-    background: rgba(255, 64, 64, 0.09);
-    margin-bottom: 1.6rem;
-    border-radius: 18px;
-    border: 1.6px solid #ff3939bb;
-    overflow: hidden;
-    box-shadow:
-      inset 0 0 12px #ff393933;
-    perspective: 700px;
-    transition: box-shadow 0.3s ease;
-  }
-  .faq-item:hover {
-    box-shadow:
-      0 0 26px #ff2f2fdd,
-      inset 0 0 20px #ff3939dd;
-  }
-  .faq-question {
-    background: transparent;
-    color: #ff4040;
-    font-family: 'Share Tech Mono', monospace;
-    font-weight: 700;
-    font-size: 1.3rem;
-    padding: 1.25rem 2rem;
-    width: 100%;
-    text-align: left;
-    border: none;
-    cursor: pointer;
-    position: relative;
-    letter-spacing: 0.1em;
-    filter: drop-shadow(0 0 4px #ff4949cc);
-    transition: color 0.25s ease;
-    user-select: text;
-  }
-  .faq-question::after {
-    content: '+';
-    position: absolute;
-    right: 2rem;
-    font-size: 1.9rem;
-    font-weight: 900;
-    line-height: 1;
-    transition: transform 0.4s ease;
-    color: #ff2a2a;
-    filter: drop-shadow(0 0 3px #ff2a2a88);
-  }
-  .faq-item.active .faq-question::after {
-    content: '-';
-    transform: rotate(180deg);
-    color: #ff4f4fdd;
-  }
-
-  .faq-answer {
-    color: #ffcccccc;
-    padding: 0 2rem 1.8rem 2rem;
-    font-style: italic;
-    font-size: 1.06rem;
-    letter-spacing: 0.02em;
-    line-height: 1.55;
-    transform-origin: top center;
-    transform-style: preserve-3d;
-    backface-visibility: hidden;
-    max-height: 0;
-    overflow: hidden;
-    transition: max-height 0.5s ease, transform 0.6s ease;
-  }
-  .faq-item.active .faq-answer {
-    max-height: 1200px;
-    transform: rotateX(0deg);
-    transition-delay: 0.15s;
-    padding-top: 0.8rem;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    font-family: 'Share Tech Mono', monospace;
-    font-size: 0.9rem;
-    color: #770000cc;
-    padding: 3rem 1rem 5rem;
-    user-select: none;
-    text-shadow: 0 0 7px #33000088;
-  }
-
-  /* Custom cursor */
-  .cursor {
-    position: fixed;
-    top: 0; left: 0;
-    width: 22px;
-    height: 22px;
-    border: 2.5px solid #ff3333;
-    border-radius: 50%;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    transition: background-color 0.3s ease;
-    mix-blend-mode: screen;
-    filter: drop-shadow(0 0 4px #ff1111cc);
-    z-index: 9999;
-  }
-  .cursor.trail {
-    position: fixed;
-    width: 10px;
-    height: 10px;
-    background: #ff3c3cdd;
-    border-radius: 50%;
-    filter: blur(2.3px);
-    opacity: 0.6;
-    pointer-events: none;
-    transform: translate(-50%, -50%);
-    mix-blend-mode: screen;
-    animation: trailPulse 1.8s ease-in-out infinite;
-    z-index: 9998;
-  }
-  @keyframes trailPulse {
-    0%, 100% { opacity: 0.2; }
-    50% { opacity: 0.6; }
-  }
-
-</style>
-</head>
-<body>
-
-  <header role="banner" aria-label="WARO main header">
-    <div class="logo-wrapper">
-      <h1 class="logo" aria-label="WARO">WARO</h1>
-    </div>
-    <nav role="navigation" aria-label="Main navigation">
-      <button id="joinBtn" aria-label="Join WARO Discord Server">Join now!</button>
-    </nav>
-  </header>
-
-  <main role="main">
-    <section class="about" aria-labelledby="aboutTitle">
-      <h2 id="aboutTitle">About WARO</h2>
-      <p>
-        Best Roblox beaming resources, methods, and a community dedicated to understanding the craft.
+export default function GardenStockPage() {
+  return (
+    <div className="max-w-4xl mx-auto py-10 px-4">
+      <h1 className="text-4xl font-bold text-center mb-6">BBLamed Garden Stock</h1>
+      <p className="text-center text-lg text-gray-600 mb-10">
+        Welcome to the official Roblox garden shop! Browse seeds, pets, and tools for your garden adventure.
       </p>
-    </section>
 
-    <section class="faq" aria-label="Frequently Asked Questions" role="region">
-      <h2>Frequently Asked Questions</h2>
+      <Tabs defaultValue="seeds" className="w-full">
+        <TabsList className="flex justify-center mb-4">
+          <TabsTrigger value="seeds"><Leaf className="inline mr-1" /> Seeds</TabsTrigger>
+          <TabsTrigger value="pets"><PawPrint className="inline mr-1" /> Pets</TabsTrigger>
+          <TabsTrigger value="tools"><Hammer className="inline mr-1" /> Tools</TabsTrigger>
+        </TabsList>
 
-      <div class="faq-item" role="region" aria-labelledby="faq1_question">
-        <button
-          id="faq1_question"
-          class="faq-question"
-          aria-expanded="false"
-          aria-controls="faq1_answer"
-          >What is beaming?</button
-        >
-        <div id="faq1_answer" class="faq-answer" hidden>
-          In Roblox, ‘beaming’ refers to the act of stealing another player’s virtual items or account information, often through deceitful means.
-        </div>
-      </div>
-
-      <div class="faq-item" role="region" aria-labelledby="faq2_question">
-        <button
-          id="faq2_question"
-          class="faq-question"
-          aria-expanded="false"
-          aria-controls="faq2_answer"
-          >Is WARO a real group?</button
-        >
-        <div id="faq2_answer" class="faq-answer" hidden>
-          ._.
-        </div>
-      </div>
-    </section>
-  </main>
-
-  <footer>
-    &copy; 2025 WARO — All content is for educational & entertainment purposes only.
-  </footer>
-
-  <div class="cursor"></div>
-  <div class="cursor trail"></div>
-
-<script>
-  // Join button redirect
-  document.getElementById('joinBtn').addEventListener('click', () => {
-    window.open('https://discord.gg/mj9EcgeceJ', '_blank');
-  });
-
-  // FAQ toggle with 3D flip effect
-  document.querySelectorAll('.faq-question').forEach(button => {
-    button.addEventListener('click', () => {
-      const faqItem = button.parentElement;
-      const isActive = faqItem.classList.contains('active');
-      faqItem.classList.toggle('active', !isActive);
-      button.setAttribute('aria-expanded', String(!isActive));
-      const answer = faqItem.querySelector('.faq-answer');
-      if (!isActive) {
-        answer.removeAttribute('hidden');
-      } else {
-        answer.setAttribute('hidden', '');
-      }
-    });
-  });
-
-  // Custom cursor & trailing effect
-  const cursor = document.querySelector('.cursor');
-  const trail = document.querySelector('.cursor.trail');
-  let mouseX = 0, mouseY = 0, trailX = 0, trailY = 0;
-
-  document.addEventListener('mousemove', e => {
-    mouseX = e.clientX;
-    mouseY = e.clientY;
-    cursor.style.transform = `translate(${mouseX}px, ${mouseY}px)`;
-  });
-
-  function animateTrail() {
-    trailX += (mouseX - trailX) * 0.2;
-    trailY += (mouseY - trailY) * 0.2;
-    trail.style.transform = `translate(${trailX}px, ${trailY}px)`;
-    requestAnimationFrame(animateTrail);
-  }
-  animateTrail();
-
-</script>
-</body>
-</html>
+        {Object.entries(items).map(([key, list]) => (
+          <TabsContent key={key} value={key} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {list.map((item, idx) => (
+              <Card key={idx}>
+                <CardContent className="p-4">
+                  <h2 className="text-xl font-semibold">{item.name}</h2>
+                  <p className="text-gray-500">{item.price}</p>
+                  <Button className="mt-2">Buy</Button>
+                </CardContent>
+              </Card>
+            ))}
+          </TabsContent>
+        ))}
+      </Tabs>
+    </div>
+  );
+}

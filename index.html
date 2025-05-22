@@ -50,359 +50,155 @@
     margin-bottom: 10px;
   }
   @keyframes waterFlow {
-    0%, 100% { text-shadow: 0 0 10px #ff0000; }
-    50% { text-shadow: 0 0 25px #ff4d4d, 0 0 40px #ff1a1a; }
+    0%, 100% { text-shadow: 0 0 10px #ff0000cc, 0 0 20px #ff0000cc, 0 0 40px #ff3300cc, 0 0 80px #ff3300cc; }
+    50% { text-shadow: 0 0 20px #ff3300cc, 0 0 30px #ff3300cc, 0 0 50px #ff6600cc, 0 0 100px #ff6600cc; }
   }
 
-  /* Typing effect tagline */
-  .tagline {
-    font-size: 1.8rem;
-    color: #ff9999;
-    height: 40px;
-    font-weight: 600;
-    letter-spacing: 1.2px;
-    white-space: nowrap;
-    overflow: hidden;
-    border-right: 4px solid #ff1a1a;
-    animation: typing 4s steps(30, end) infinite, blink 0.75s step-end infinite;
-    margin-bottom: 40px;
-  }
-  @keyframes typing {
-    0%, 100% { width: 0; }
-    50% { width: 23ch; }
-  }
-  @keyframes blink {
-    50% { border-color: transparent; }
+  header.hero p {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #ff6666;
+    text-shadow: 0 0 5px #ff1a1a;
   }
 
-  /* Neon button */
-  .btn {
-    background: linear-gradient(45deg, #ff0000, #cc0000);
+  button.join-btn {
+    background: #ff0000;
     border: none;
-    padding: 16px 40px;
-    font-weight: 800;
+    padding: 15px 40px;
     font-size: 1.3rem;
     color: white;
-    border-radius: 14px;
+    border-radius: 40px;
     cursor: pointer;
-    box-shadow:
-      0 0 10px #ff0000,
-      0 0 20px #ff4d4d,
-      0 0 40px #ff1a1a;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-    position: relative;
-    overflow: hidden;
+    box-shadow: 0 0 25px #ff3300;
+    transition: all 0.3s ease;
   }
-  .btn:hover {
-    transform: scale(1.1);
-    box-shadow:
-      0 0 20px #ff0000,
-      0 0 40px #ff4d4d,
-      0 0 70px #ff1a1a;
-  }
-  .btn:after {
-    content: "";
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    width: 0;
-    height: 0;
-    background: rgba(255, 0, 0, 0.5);
-    border-radius: 100%;
-    transform: translate(-50%, -50%);
-    transition: width 0.5s ease, height 0.5s ease;
-    z-index: 0;
-  }
-  .btn:active:after {
-    width: 200px;
-    height: 200px;
-    transition: 0s;
-  }
-  .btn span {
-    position: relative;
-    z-index: 1;
+  button.join-btn:hover {
+    background: #cc0000;
+    box-shadow: 0 0 40px #ff6600;
+    transform: scale(1.05);
   }
 
-  /* Sections */
-  section {
+  /* About Section */
+  section.about {
+    margin-top: 40px;
     background: #1a0000;
-    padding: 60px 20px;
-    border-radius: 16px;
-    box-shadow: 0 0 40px #99000088;
-    margin-bottom: 60px;
-    opacity: 0;
-    transform: translateY(40px);
-    animation: fadeInUp 1s forwards;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 25px #ff1a1a99;
+    animation: fadeInUp 1s ease forwards;
   }
-  section:nth-child(odd) {
-    background: #330000;
-    box-shadow: 0 0 50px #cc000088;
+  section.about h2 {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: #ff3300;
+    text-shadow: 0 0 10px #ff3300bb;
   }
-  @keyframes fadeInUp {
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
+  section.about p {
+    font-size: 1.2rem;
+    line-height: 1.6;
+    color: #ff6666;
   }
 
-  /* Section headings */
-  h2 {
-    font-size: 3rem;
-    margin-bottom: 25px;
-    color: #ff3333;
-    text-shadow: 0 0 15px #ff0000cc;
+  /* FAQ Section */
+  section.faq {
+    margin-top: 50px;
+    background: #1a0000;
+    border-radius: 15px;
+    padding: 30px;
+    box-shadow: 0 0 25px #ff1a1a99;
+    animation: fadeInUp 1.2s ease forwards;
   }
-  p {
-    font-size: 1.2rem;
+  section.faq h2 {
+    font-size: 2.5rem;
+    margin-bottom: 25px;
+    color: #ff3300;
+    text-shadow: 0 0 10px #ff3300bb;
+  }
+  .faq-item {
+    margin-bottom: 20px;
+    border-bottom: 1px solid #660000;
+    padding-bottom: 15px;
+  }
+  .faq-item button {
+    background: none;
+    border: none;
+    font-size: 1.3rem;
+    color: #ff4d4d;
+    cursor: pointer;
+    text-align: left;
+    width: 100%;
+    padding: 0;
+    font-weight: 700;
+    text-shadow: 0 0 6px #ff1a1a;
+    transition: color 0.3s ease;
+  }
+  .faq-item button:hover {
+    color: #ff0000;
+  }
+  .faq-answer {
+    margin-top: 8px;
+    font-size: 1.1rem;
     color: #ff9999;
-    max-width: 750px;
-    margin: auto;
+    display: none;
     line-height: 1.5;
   }
 
-  /* Tool cards */
-  .tool-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
-    gap: 30px;
-    margin-top: 35px;
-  }
-  .tool-card {
-    background: #1a0000;
-    padding: 30px;
-    border-radius: 18px;
-    box-shadow: 0 0 20px #990000cc;
-    transition: transform 0.3s ease, box-shadow 0.3s ease;
-  }
-  .tool-card:hover {
-    transform: scale(1.1);
-    box-shadow: 0 0 35px #ff0000bb;
-  }
-  .tool-card h3 {
-    color: #ff4d4d;
-    margin-bottom: 15px;
-  }
-  .tool-card p {
-    font-size: 1rem;
-    color: #ff9999;
-  }
-
-  /* FAQ Accordion */
-  .faq {
-    max-width: 700px;
-    margin: auto;
-  }
-  .faq-item {
-    background: #330000;
-    margin-bottom: 15px;
-    border-radius: 12px;
-    box-shadow: 0 0 30px #cc000088;
-    overflow: hidden;
-  }
-  .faq-question {
-    padding: 20px;
-    font-weight: 700;
-    font-size: 1.3rem;
-    cursor: pointer;
-    color: #ff6666;
-    user-select: none;
-    position: relative;
-  }
-  .faq-question::after {
-    content: '+';
-    position: absolute;
-    right: 20px;
-    font-size: 1.6rem;
-    transition: transform 0.3s ease;
-  }
-  .faq-question.active::after {
-    transform: rotate(45deg);
-  }
-  .faq-answer {
-    max-height: 0;
-    overflow: hidden;
-    color: #ff9999;
-    font-size: 1.1rem;
-    padding: 0 20px;
-    transition: max-height 0.5s ease;
-  }
-  .faq-answer.open {
-    max-height: 200px;
-    padding: 15px 20px 20px;
-  }
-
-  /* Footer */
-  footer {
-    text-align: center;
-    padding: 30px 15px;
-    font-size: 0.9rem;
-    color: #666;
-    border-top: 1px solid #330000;
-    margin-top: 50px;
-  }
-
-  /* Console */
-  #console {
-    background: #000000cc;
-    color: #ff4d4d;
-    font-family: 'Courier New', Courier, monospace;
-    padding: 20px;
-    margin-top: 20px;
-    height: 150px;
-    overflow-y: auto;
-    border-radius: 12px;
-    box-shadow: 0 0 20px #cc0000bb inset;
-    user-select: none;
-    white-space: pre-wrap;
-    font-size: 0.9rem;
-  }
-
-  /* Social icons */
-  .social {
-    text-align: center;
-    margin-top: 10px;
-  }
-  .social a {
-    margin: 0 15px;
-    display: inline-block;
-    color: #ff3333;
-    font-size: 2rem;
-    text-decoration: none;
-    transition: color 0.3s ease, text-shadow 0.3s ease;
-  }
-  .social a:hover {
-    color: #ff6666;
-    text-shadow: 0 0 10px #ff0000;
-  }
-
-  /* Responsive */
-  @media (max-width: 600px) {
-    header.hero h1 {
-      font-size: 3.5rem;
+  /* Animations */
+  @keyframes fadeInUp {
+    0% {
+      opacity: 0;
+      transform: translateY(30px);
     }
-    .tagline {
-      font-size: 1.2rem;
-      height: 30px;
-    }
-    .tool-grid {
-      grid-template-columns: 1fr;
+    100% {
+      opacity: 1;
+      transform: translateY(0);
     }
   }
 </style>
 </head>
 <body>
 
-<!-- Particle background -->
 <canvas id="particles"></canvas>
 
 <div class="container">
   <header class="hero">
     <h1>WARO</h1>
-    <div class="tagline" id="typing-tagline">#1 Beaming Sites and Methods!</div>
-    <button class="btn" id="joinBtn"><span>Join Now!</span></button>
+    <p>#1 Beaming Sites and Methods!</p>
+    <button class="join-btn" id="joinBtn">Join now!</button>
   </header>
 
   <section class="about" style="animation-delay: 0.2s;">
     <h2>About WARO</h2>
-    <p>WARO is an elite digital collective buried deep within the fabric of Roblox. We explore, decode, and dominate the platform through precision, power, and code. Our mission: total grid control.</p>
+    <p>WARO is your go-to hub for the best Roblox beaming techniques, tools, and insider methods. We focus on delivering powerful and reliable ways to enhance your Roblox beaming experience and unlock new possibilities.</p>
   </section>
 
-  <section class="tools" style="animation-delay: 0.4s;">
-    <h2>Tech Arsenal</h2>
-    <div class="tool-grid">
-      <div class="tool-card">
-        <h3>Packet Ghost</h3>
-        <p>Intercept and visualize digital echoes for strategic advantage.</p>
-      </div>
-      <div class="tool-card">
-        <h3>Avatar Scrambler</h3>
-        <p>Replicate or distort any avatar's appearance with pixel-perfect fidelity.</p>
-      </div>
-      <div class="tool-card">
-        <h3>Trade Watcher</h3>
-        <p>Track limited items and uncover market anomalies in real time.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="faq" style="animation-delay: 0.6s;">
+  <section class="faq" style="animation-delay: 0.4s;">
     <h2>Frequently Asked Questions</h2>
-
     <div class="faq-item">
-      <div class="faq-question">What is Beaming?</div>
-      <div class="faq-answer">Beaming is a method used to duplicate or clone Roblox limited items for trading advantages.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">Is WARO safe to join?</div>
-      <div class="faq-answer">WARO is a fictional collective for educational and entertainment purposes only.</div>
-    </div>
-    <div class="faq-item">
-      <div class="faq-question">How do I join WARO?</div>
-      <div class="faq-answer">Click the 'Join Now!' button to visit our Discord community and start your journey.</div>
+      <button class="faq-question">What is beaming?</button>
+      <div class="faq-answer">"Beaming" refers to the act of stealing another player’s virtual items or account information, often through deceitful means.</div>
     </div>
   </section>
-
-  <section class="join" style="animation-delay: 0.8s;">
-    <h2>Console Feed</h2>
-    <div id="console"></div>
-  </section>
-
-  <div class="social" style="animation-delay: 1s;">
-    <a href="https://discord.gg/mj9EcgeceJ" target="_blank" title="Discord">&#x1F4AC;</a>
-    <a href="https://twitter.com/" target="_blank" title="Twitter">&#x1F426;</a>
-    <a href="https://github.com/bblamed" target="_blank" title="GitHub">&#x1F4BB;</a>
-  </div>
-
-  <footer>
-    &copy; 2025 WARO. All Rights Reserved.
-  </footer>
 </div>
 
 <script>
-  // Join button redirect
+  // Join button opens Discord invite
   document.getElementById('joinBtn').addEventListener('click', () => {
     window.open('https://discord.gg/mj9EcgeceJ', '_blank');
   });
 
-  // FAQ accordion logic
-  document.querySelectorAll('.faq-question').forEach(q => {
-    q.addEventListener('click', () => {
-      const currentlyActive = document.querySelector('.faq-question.active');
-      if(currentlyActive && currentlyActive !== q) {
-        currentlyActive.classList.remove('active');
-        currentlyActive.nextElementSibling.classList.remove('open');
-      }
-      q.classList.toggle('active');
-      q.nextElementSibling.classList.toggle('open');
+  // FAQ toggle
+  const faqQuestions = document.querySelectorAll('.faq-question');
+  faqQuestions.forEach(question => {
+    question.addEventListener('click', () => {
+      const answer = question.nextElementSibling;
+      const isVisible = answer.style.display === 'block';
+      // Close all answers
+      document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
+      // Toggle current
+      answer.style.display = isVisible ? 'none' : 'block';
     });
   });
-
-  // Fake console feed
-  const consoleEl = document.getElementById('console');
-  const messages = [
-    'Initializing WARO protocols...',
-    'Connecting to Roblox servers...',
-    'Intercepting packets... done.',
-    'Launching Avatar Scrambler module...',
-    'Trade Watcher activated.',
-    'Scanning market anomalies...',
-    'Warning: Suspicious activity detected.',
-    'Beaming sequence initiated...',
-    'Cloning avatar assets... success.',
-    'WARO operational. All systems nominal.'
-  ];
-  let idx = 0;
-  function addConsoleLine() {
-    if(idx >= messages.length) {
-      idx = 0;
-      consoleEl.textContent = '';
-    }
-    consoleEl.textContent += '> ' + messages[idx] + '\n';
-    consoleEl.scrollTop = consoleEl.scrollHeight;
-    idx++;
-  }
-  setInterval(addConsoleLine, 2200);
-  addConsoleLine();
 
   // Particle background
   const canvas = document.getElementById('particles');
@@ -410,18 +206,14 @@
   let width, height;
   let particlesArray = [];
 
-  function initCanvas() {
-    width = canvas.width = window.innerWidth;
-    height = canvas.height = window.innerHeight;
-  }
-  window.addEventListener('resize', initCanvas);
-  initCanvas();
-
   class Particle {
     constructor() {
+      this.reset();
+    }
+    reset() {
       this.x = Math.random() * width;
       this.y = Math.random() * height;
-      this.radius = Math.random() * 1.5 + 1;
+      this.radius = Math.random() * 2 + 1;
       this.speedX = (Math.random() - 0.5) * 0.4;
       this.speedY = (Math.random() - 0.5) * 0.4;
       this.alpha = 0.3 + Math.random() * 0.7;
@@ -429,7 +221,6 @@
     update() {
       this.x += this.speedX;
       this.y += this.speedY;
-
       if(this.x < 0 || this.x > width) this.speedX = -this.speedX;
       if(this.y < 0 || this.y > height) this.speedY = -this.speedY;
     }
@@ -475,15 +266,23 @@
   }
 
   function initParticles() {
+    width = window.innerWidth;
+    height = window.innerHeight;
+    canvas.width = width;
+    canvas.height = height;
     particlesArray = [];
-    let count = Math.floor(window.innerWidth / 15);
+    let count = Math.floor(width / 15);
     for(let i = 0; i < count; i++) {
       particlesArray.push(new Particle());
     }
   }
+
+  window.addEventListener('resize', () => {
+    initParticles();
+  });
+
   initParticles();
   animateParticles();
-
 </script>
 
 </body>

@@ -2,136 +2,14 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>One Piece Fan Page</title>
-  <link href="https://fonts.googleapis.com/css2?family=Bangers&display=swap" rel="stylesheet">
-
-  <style>
-    body {
-      margin: 0;
-      font-family: 'Bangers', sans-serif;
-      background: linear-gradient(to bottom, #001f3f, #0074D9);
-      color: white;
-      overflow-x: hidden;
-    }
-
-    h1 {
-      text-align: center;
-      font-size: 4em;
-      margin-top: 1em;
-      text-shadow: 2px 2px 0 black;
-    }
-
-    .content {
-      padding: 50px;
-      line-height: 1.6;
-      max-width: 800px;
-      margin: auto;
-    }
-
-    /* Fake long content for scroll */
-    .filler {
-      height: 2000px;
-    }
-
-    /* Scrollbar: Rubber Hand Inspired */
-    ::-webkit-scrollbar {
-      width: 16px;
-    }
-
-    ::-webkit-scrollbar-track {
-      background: #f4d35e;
-      border-radius: 8px;
-    }
-
-    ::-webkit-scrollbar-thumb {
-      background: linear-gradient(#c22e2e, #802020);
-      border-radius: 50px;
-      border: 4px solid #f4d35e;
-    }
-
-    ::-webkit-scrollbar-thumb:hover {
-      background: #a32222;
-    }
-
-    /* Sakura Canvas */
-    #sakura-canvas {
-      position: fixed;
-      top: 0;
-      left: 0;
-      pointer-events: none;
-      z-index: 9999;
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>WARO</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-
 <body>
-  <canvas id="sakura-canvas"></canvas>
-
-  <h1>Straw Hat Pirates</h1>
-  <div class="content">
-    <p>Welcome to the Grand Line! Join Luffy and the crew on their quest to find the One Piece!</p>
-    <div class="filler"></div>
+  <div class="container">
+    <h1>WARO</h1>
+    <p>Welcome to WARO — enter the darkness.</p>
   </div>
-
-  <script>
-    const canvas = document.getElementById('sakura-canvas');
-    const ctx = canvas.getContext('2d');
-    let petals = [];
-
-    function resize() {
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-    }
-
-    window.addEventListener('resize', resize);
-    resize();
-
-    function createPetal() {
-      return {
-        x: Math.random() * canvas.width,
-        y: -20,
-        speed: 1 + Math.random() * 2,
-        size: 8 + Math.random() * 10,
-        swing: Math.random() * 2,
-        sway: Math.random() * 0.5,
-        angle: Math.random() * Math.PI * 2
-      };
-    }
-
-    function drawPetal(p) {
-      ctx.save();
-      ctx.translate(p.x, p.y);
-      ctx.rotate(p.angle);
-      ctx.fillStyle = 'rgba(255, 183, 197, 0.8)';
-      ctx.beginPath();
-      ctx.ellipse(0, 0, p.size * 0.6, p.size, 0, 0, Math.PI * 2);
-      ctx.fill();
-      ctx.restore();
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-
-      // Add petals only if fewer than 40
-      if (petals.length < 40 && Math.random() < 0.3) {
-        petals.push(createPetal());
-      }
-
-      petals.forEach((p, i) => {
-        p.y += p.speed;
-        p.x += Math.sin(p.swing) * p.sway;
-        p.swing += 0.05;
-        p.angle += 0.01;
-        drawPetal(p);
-
-        if (p.y > canvas.height) petals.splice(i, 1);
-      });
-
-      requestAnimationFrame(animate);
-    }
-
-    animate();
-  </script>
 </body>
 </html>

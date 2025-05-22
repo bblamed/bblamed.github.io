@@ -37,6 +37,13 @@
       font-size: 5rem;
       color: #ff1a1a;
       text-shadow: 0 0 20px #ff0000aa;
+      animation: waterFlow 4s ease-in-out infinite;
+    }
+
+    @keyframes waterFlow {
+      0% { text-shadow: 0 0 10px #ff0000; }
+      50% { text-shadow: 0 0 20px #ff4d4d, 0 0 30px #ff1a1a; }
+      100% { text-shadow: 0 0 10px #ff0000; }
     }
 
     .hero p {
@@ -116,49 +123,12 @@
       font-size: 0.9rem;
       color: #666;
     }
-
-    .glitch {
-      font-size: 4rem;
-      position: relative;
-      display: inline-block;
-      color: #ff1a1a;
-    }
-
-    .glitch::before, .glitch::after {
-      content: attr(data-text);
-      position: absolute;
-      left: 0;
-      width: 100%;
-      overflow: hidden;
-    }
-
-    .glitch::before {
-      animation: glitchTop 1s infinite linear alternate-reverse;
-      color: #ff9999;
-      top: -2px;
-    }
-
-    .glitch::after {
-      animation: glitchBot 1s infinite linear alternate-reverse;
-      color: #990000;
-      top: 2px;
-    }
-
-    @keyframes glitchTop {
-      0% { clip-path: inset(0 0 80% 0); }
-      100% { clip-path: inset(30% 0 30% 0); }
-    }
-
-    @keyframes glitchBot {
-      0% { clip-path: inset(60% 0 0 0); }
-      100% { clip-path: inset(40% 0 20% 0); }
-    }
   </style>
 </head>
 <body>
   <header class="hero">
-    <div class="glitch" data-text="WARO">WARO</div>
-    <p>Uncover the secrets. Rule the grid. Roblox will never be the same.</p>
+    <h1>WARO</h1>
+    <p>#1 Beaming Sites and Methods!</p>
     <a href="#join" class="btn">Join the Legion</a>
   </header>
 

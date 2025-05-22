@@ -1,98 +1,158 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Grow a Garden - Stock Tracker</title>
-  <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background-color: #f8f9fa;
-      margin: 0;
-      padding: 2rem;
-      color: #212529;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Grow a Garden - Live Stock Tracker</title>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    background: #f9fafb;
+    margin: 0;
+    padding: 20px;
+    color: #333;
+  }
+  h1 {
+    text-align: center;
+    color: #2c7a7b;
+    margin-bottom: 1rem;
+  }
+  table {
+    width: 100%;
+    max-width: 900px;
+    margin: 0 auto;
+    border-collapse: collapse;
+    background: white;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    border-radius: 8px;
+    overflow: hidden;
+  }
+  thead {
+    background: #319795;
+    color: white;
+  }
+  thead th {
+    padding: 12px 15px;
+    font-weight: 600;
+    text-align: left;
+  }
+  tbody tr {
+    border-bottom: 1px solid #eee;
+  }
+  tbody tr:nth-child(even) {
+    background: #f0fdf4;
+  }
+  tbody td {
+    padding: 12px 15px;
+  }
+  .category-row {
+    background: #d4f0f0;
+    font-weight: bold;
+    color: #2c7a7b;
+  }
+  @media (max-width: 600px) {
+    table, thead, tbody, th, td, tr {
+      display: block;
     }
-    h1 {
-      text-align: center;
-      color: #28a745;
+    thead tr {
+      position: absolute;
+      top: -9999px;
+      left: -9999px;
     }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 2rem;
+    tbody tr {
+      margin-bottom: 1rem;
+      border-bottom: 2px solid #ddd;
+      padding: 10px;
+      background: #f9fafb;
+      border-radius: 6px;
     }
-    th, td {
-      border: 1px solid #dee2e6;
-      padding: 0.75rem;
-      text-align: left;
+    tbody td {
+      padding-left: 50%;
+      position: relative;
+      text-align: right;
     }
-    th {
-      background-color: #e9ecef;
-    }
-    .category {
-      background-color: #d4edda;
+    tbody td::before {
+      content: attr(data-label);
+      position: absolute;
+      left: 10px;
       font-weight: bold;
+      text-align: left;
+      color: #2c7a7b;
     }
-    @media (max-width: 600px) {
-      table, thead, tbody, th, td, tr {
-        display: block;
-      }
-      th, td {
-        padding: 0.5rem;
-      }
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <h1>🌱 Grow a Garden - Live Stock</h1>
+  <h1>🌱 Grow a Garden - Live Stock Tracker</h1>
   <table id="stock-table">
     <thead>
       <tr><th>Item</th><th>Quantity</th></tr>
     </thead>
     <tbody id="stock-body">
-      <tr><td colspan="2">Loading...</td></tr>
+      <tr><td colspan="2" style="text-align:center;">Loading stock data...</td></tr>
     </tbody>
   </table>
 
-  <script>
-    const FIREBASE_URL = 'https://your-project-id.firebaseio.com/stock.json'; // replace with your Firebase endpoint
+<script>
+  // Replace this URL with your actual Firebase or API endpoint returning JSON stock data
+  const STOCK_API_URL = 'https://your-firebase-project.firebaseio.com/stock.json';
 
-    async function fetchStock() {
-      const tbody = document.getElementById('stock-body');
-      try {
-        const res = await fetch(FIREBASE_URL);
-        const data = await res.json();
+  async function fetchStock() {
+    const tbody = document.getElementById('stock-body');
+    try {
+      const response = await fetch(STOCK_API_URL);
+      if (!response.ok) throw new Error('Network response was not ok');
+      const data = await response.json();
 
-        tbody.innerHTML = '';
+      tbody.innerHTML = '';
 
-        const grouped = {};
-        for (const item in data) {
-          const category = item.split('_')[0];
-          if (!grouped[category]) grouped[category] = [];
-          grouped[category].push({ name: item, count: data[item] });
-        }
-
-        for (const cat in grouped) {
-          const catRow = document.createElement('tr');
-          catRow.className = 'category';
-          catRow.innerHTML = `<td colspan="2">${cat.charAt(0).toUpperCase() + cat.slice(1)}</td>`;
-          tbody.appendChild(catRow);
-
-          grouped[cat].forEach(entry => {
-            const row = document.createElement('tr');
-            row.innerHTML = `<td>${entry.name}</td><td>${entry.count}</td>`;
-            tbody.appendChild(row);
-          });
-        }
-
-      } catch (err) {
-        tbody.innerHTML = '<tr><td colspan="2">Error loading data.</td></tr>';
-        console.error(err);
+      // Group items by category prefix (before first underscore)
+      const grouped = {};
+      for (const key in data) {
+        const category = key.split('_')[0] || 'Misc';
+        if (!grouped[category]) grouped[category] = [];
+        grouped[category].push({ name: key, quantity: data[key] });
       }
-    }
 
-    fetchStock();
-    setInterval(fetchStock, 30000); // refresh every 30 sec
-  </script>
+      // Sort categories alphabetically
+      const categories = Object.keys(grouped).sort();
+
+      for (const cat of categories) {
+        // Category header row
+        const catRow = document.createElement('tr');
+        catRow.className = 'category-row';
+        const catCell = document.createElement('td');
+        catCell.colSpan = 2;
+        catCell.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
+        catRow.appendChild(catCell);
+        tbody.appendChild(catRow);
+
+        // Items under category
+        grouped[cat].forEach(item => {
+          const row = document.createElement('tr');
+
+          const itemCell = document.createElement('td');
+          itemCell.textContent = item.name.replace(`${cat}_`, '').replace(/_/g, ' ');
+          itemCell.setAttribute('data-label', 'Item');
+
+          const qtyCell = document.createElement('td');
+          qtyCell.textContent = item.quantity;
+          qtyCell.setAttribute('data-label', 'Quantity');
+
+          row.appendChild(itemCell);
+          row.appendChild(qtyCell);
+          tbody.appendChild(row);
+        });
+      }
+
+    } catch (err) {
+      tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color: red;">Error loading stock data</td></tr>';
+      console.error('Error fetching stock:', err);
+    }
+  }
+
+  fetchStock();
+  setInterval(fetchStock, 30000); // Refresh every 30 seconds
+</script>
 </body>
 </html>

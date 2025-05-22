@@ -1,143 +1,313 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>WARO | The Dark Side of Roblox</title>
-  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css" />
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>WARO | #1 Beaming Sites and Methods!</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet" />
+<style>
+  /* Reset & base */
+  * {
+    margin: 0; padding: 0; box-sizing: border-box;
+  }
+  body {
+    background: #0d0d0d;
+    color: #ff4d4d;
+    font-family: 'Orbitron', sans-serif;
+    overflow-x: hidden;
+    cursor: url('data:image/svg+xml;utf8,<svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8"/></svg>') 12 12, auto;
+  }
 
-    body {
-      background: #0d0d0d;
-      color: #ff4d4d;
-      font-family: 'Orbitron', sans-serif;
-      line-height: 1.6;
-    }
+  /* Particle background canvas */
+  #particles {
+    position: fixed;
+    top:0; left:0;
+    width: 100%;
+    height: 100%;
+    z-index: 0;
+    background: #0d0d0d;
+  }
 
-    header.hero {
-      text-align: center;
-      padding: 120px 20px;
-      background: radial-gradient(circle at top, #330000 0%, #0d0d0d 80%);
-      box-shadow: inset 0 0 40px #ff000080;
-      animation: pulseGlow 3s infinite alternate;
-    }
+  /* Container */
+  .container {
+    position: relative;
+    z-index: 1;
+    max-width: 900px;
+    margin: auto;
+    padding: 60px 20px 120px;
+  }
 
-    @keyframes pulseGlow {
-      from { box-shadow: inset 0 0 40px #ff000080; }
-      to { box-shadow: inset 0 0 80px #ff1a1a; }
-    }
+  /* Header */
+  header.hero {
+    text-align: center;
+    padding: 140px 20px 60px;
+  }
+  header.hero h1 {
+    font-size: 5rem;
+    color: #ff1a1a;
+    text-shadow: 0 0 30px #ff0000cc;
+    animation: waterFlow 4s ease-in-out infinite;
+    margin-bottom: 10px;
+  }
+  @keyframes waterFlow {
+    0%, 100% { text-shadow: 0 0 10px #ff0000; }
+    50% { text-shadow: 0 0 25px #ff4d4d, 0 0 40px #ff1a1a; }
+  }
 
-    .hero h1 {
-      font-size: 5rem;
-      color: #ff1a1a;
-      text-shadow: 0 0 20px #ff0000aa;
-      animation: waterFlow 4s ease-in-out infinite;
-    }
+  /* Typing effect tagline */
+  .tagline {
+    font-size: 1.8rem;
+    color: #ff9999;
+    height: 40px;
+    font-weight: 600;
+    letter-spacing: 1.2px;
+    white-space: nowrap;
+    overflow: hidden;
+    border-right: 4px solid #ff1a1a;
+    animation: typing 4s steps(30, end) infinite, blink 0.75s step-end infinite;
+    margin-bottom: 40px;
+  }
+  @keyframes typing {
+    0%, 100% { width: 0; }
+    50% { width: 23ch; }
+  }
+  @keyframes blink {
+    50% { border-color: transparent; }
+  }
 
-    @keyframes waterFlow {
-      0% { text-shadow: 0 0 10px #ff0000; }
-      50% { text-shadow: 0 0 20px #ff4d4d, 0 0 30px #ff1a1a; }
-      100% { text-shadow: 0 0 10px #ff0000; }
-    }
+  /* Neon button */
+  .btn {
+    background: linear-gradient(45deg, #ff0000, #cc0000);
+    border: none;
+    padding: 16px 40px;
+    font-weight: 800;
+    font-size: 1.3rem;
+    color: white;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow:
+      0 0 10px #ff0000,
+      0 0 20px #ff4d4d,
+      0 0 40px #ff1a1a;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    position: relative;
+    overflow: hidden;
+  }
+  .btn:hover {
+    transform: scale(1.1);
+    box-shadow:
+      0 0 20px #ff0000,
+      0 0 40px #ff4d4d,
+      0 0 70px #ff1a1a;
+  }
+  .btn:after {
+    content: "";
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 0;
+    height: 0;
+    background: rgba(255, 0, 0, 0.5);
+    border-radius: 100%;
+    transform: translate(-50%, -50%);
+    transition: width 0.5s ease, height 0.5s ease;
+    z-index: 0;
+  }
+  .btn:active:after {
+    width: 200px;
+    height: 200px;
+    transition: 0s;
+  }
+  .btn span {
+    position: relative;
+    z-index: 1;
+  }
 
-    .hero p {
-      font-size: 1.5rem;
-      color: #ffb3b3;
-      margin-top: 10px;
+  /* Sections */
+  section {
+    background: #1a0000;
+    padding: 60px 20px;
+    border-radius: 16px;
+    box-shadow: 0 0 40px #99000088;
+    margin-bottom: 60px;
+    opacity: 0;
+    transform: translateY(40px);
+    animation: fadeInUp 1s forwards;
+  }
+  section:nth-child(odd) {
+    background: #330000;
+    box-shadow: 0 0 50px #cc000088;
+  }
+  @keyframes fadeInUp {
+    to {
+      opacity: 1;
+      transform: translateY(0);
     }
+  }
 
-    .btn {
-      display: inline-block;
-      margin-top: 30px;
-      padding: 14px 28px;
-      background: #ff1a1a;
-      color: #fff;
-      border-radius: 12px;
-      text-decoration: none;
-      font-weight: 800;
-      transition: all 0.3s ease;
+  /* Section headings */
+  h2 {
+    font-size: 3rem;
+    margin-bottom: 25px;
+    color: #ff3333;
+    text-shadow: 0 0 15px #ff0000cc;
+  }
+  p {
+    font-size: 1.2rem;
+    color: #ff9999;
+    max-width: 750px;
+    margin: auto;
+    line-height: 1.5;
+  }
+
+  /* Tool cards */
+  .tool-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px,1fr));
+    gap: 30px;
+    margin-top: 35px;
+  }
+  .tool-card {
+    background: #1a0000;
+    padding: 30px;
+    border-radius: 18px;
+    box-shadow: 0 0 20px #990000cc;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .tool-card:hover {
+    transform: scale(1.1);
+    box-shadow: 0 0 35px #ff0000bb;
+  }
+  .tool-card h3 {
+    color: #ff4d4d;
+    margin-bottom: 15px;
+  }
+  .tool-card p {
+    font-size: 1rem;
+    color: #ff9999;
+  }
+
+  /* FAQ Accordion */
+  .faq {
+    max-width: 700px;
+    margin: auto;
+  }
+  .faq-item {
+    background: #330000;
+    margin-bottom: 15px;
+    border-radius: 12px;
+    box-shadow: 0 0 30px #cc000088;
+    overflow: hidden;
+  }
+  .faq-question {
+    padding: 20px;
+    font-weight: 700;
+    font-size: 1.3rem;
+    cursor: pointer;
+    color: #ff6666;
+    user-select: none;
+    position: relative;
+  }
+  .faq-question::after {
+    content: '+';
+    position: absolute;
+    right: 20px;
+    font-size: 1.6rem;
+    transition: transform 0.3s ease;
+  }
+  .faq-question.active::after {
+    transform: rotate(45deg);
+  }
+  .faq-answer {
+    max-height: 0;
+    overflow: hidden;
+    color: #ff9999;
+    font-size: 1.1rem;
+    padding: 0 20px;
+    transition: max-height 0.5s ease;
+  }
+  .faq-answer.open {
+    max-height: 200px;
+    padding: 15px 20px 20px;
+  }
+
+  /* Footer */
+  footer {
+    text-align: center;
+    padding: 30px 15px;
+    font-size: 0.9rem;
+    color: #666;
+    border-top: 1px solid #330000;
+    margin-top: 50px;
+  }
+
+  /* Console */
+  #console {
+    background: #000000cc;
+    color: #ff4d4d;
+    font-family: 'Courier New', Courier, monospace;
+    padding: 20px;
+    margin-top: 20px;
+    height: 150px;
+    overflow-y: auto;
+    border-radius: 12px;
+    box-shadow: 0 0 20px #cc0000bb inset;
+    user-select: none;
+    white-space: pre-wrap;
+    font-size: 0.9rem;
+  }
+
+  /* Social icons */
+  .social {
+    text-align: center;
+    margin-top: 10px;
+  }
+  .social a {
+    margin: 0 15px;
+    display: inline-block;
+    color: #ff3333;
+    font-size: 2rem;
+    text-decoration: none;
+    transition: color 0.3s ease, text-shadow 0.3s ease;
+  }
+  .social a:hover {
+    color: #ff6666;
+    text-shadow: 0 0 10px #ff0000;
+  }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    header.hero h1 {
+      font-size: 3.5rem;
     }
-
-    .btn:hover {
-      background: #cc0000;
-      box-shadow: 0 0 20px #ff4d4d;
-      transform: scale(1.05);
+    .tagline {
+      font-size: 1.2rem;
+      height: 30px;
     }
-
-    section {
-      padding: 80px 20px;
-      text-align: center;
-    }
-
-    .about, .join {
-      background-color: #1a1a1a;
-    }
-
-    .tools {
-      background: linear-gradient(to bottom, #0d0d0d, #1a0000);
-    }
-
     .tool-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-      gap: 30px;
-      margin-top: 40px;
+      grid-template-columns: 1fr;
     }
-
-    .tool-card {
-      background: #1a0000;
-      padding: 30px;
-      border-radius: 16px;
-      box-shadow: 0 0 15px #99000088;
-      transition: transform 0.3s, box-shadow 0.3s;
-    }
-
-    .tool-card:hover {
-      transform: scale(1.07);
-      box-shadow: 0 0 25px #ff000066;
-    }
-
-    h2 {
-      font-size: 2.8rem;
-      margin-bottom: 20px;
-      color: #ff3333;
-    }
-
-    p {
-      font-size: 1.1rem;
-      color: #ff9999;
-      max-width: 800px;
-      margin: 0 auto;
-    }
-
-    footer {
-      text-align: center;
-      padding: 30px;
-      background: #0d0d0d;
-      font-size: 0.9rem;
-      color: #666;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
+
+<!-- Particle background -->
+<canvas id="particles"></canvas>
+
+<div class="container">
   <header class="hero">
     <h1>WARO</h1>
-    <p>#1 Beaming Sites and Methods!</p>
-    <a href="#join" class="btn">Join Now!</a>
+    <div class="tagline" id="typing-tagline">#1 Beaming Sites and Methods!</div>
+    <button class="btn" id="joinBtn"><span>Join Now!</span></button>
   </header>
 
-  <section class="about">
+  <section class="about" style="animation-delay: 0.2s;">
     <h2>About WARO</h2>
     <p>WARO is an elite digital collective buried deep within the fabric of Roblox. We explore, decode, and dominate the platform through precision, power, and code. Our mission: total grid control.</p>
   </section>
 
-  <section class="tools">
+  <section class="tools" style="animation-delay: 0.4s;">
     <h2>Tech Arsenal</h2>
     <div class="tool-grid">
       <div class="tool-card">
@@ -155,14 +325,166 @@
     </div>
   </section>
 
-  <section class="join" id="join">
-    <h2>Join Now!</h2>
-    <p>We're not just players — we're architects of the matrix. Enter WARO, where power flows through scripts and shadows.</p>
-    <a href="https://discord.gg/mj9EcgeceJ" target="_blank" class="btn">Enter the Nexus</a>
+  <section class="faq" style="animation-delay: 0.6s;">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-question">What is Beaming?</div>
+      <div class="faq-answer">Beaming is a method used to duplicate or clone Roblox limited items for trading advantages.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">Is WARO safe to join?</div>
+      <div class="faq-answer">WARO is a fictional collective for educational and entertainment purposes only.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-question">How do I join WARO?</div>
+      <div class="faq-answer">Click the 'Join Now!' button to visit our Discord community and start your journey.</div>
+    </div>
   </section>
 
+  <section class="join" style="animation-delay: 0.8s;">
+    <h2>Console Feed</h2>
+    <div id="console"></div>
+  </section>
+
+  <div class="social" style="animation-delay: 1s;">
+    <a href="https://discord.gg/mj9EcgeceJ" target="_blank" title="Discord">&#x1F4AC;</a>
+    <a href="https://twitter.com/" target="_blank" title="Twitter">&#x1F426;</a>
+    <a href="https://github.com/bblamed" target="_blank" title="GitHub">&#x1F4BB;</a>
+  </div>
+
   <footer>
-    &copy; 2025 WARO Collective. Designed for educational and aesthetic purposes only.
+    &copy; 2025 WARO. All Rights Reserved.
   </footer>
+</div>
+
+<script>
+  // Join button redirect
+  document.getElementById('joinBtn').addEventListener('click', () => {
+    window.open('https://discord.gg/mj9EcgeceJ', '_blank');
+  });
+
+  // FAQ accordion logic
+  document.querySelectorAll('.faq-question').forEach(q => {
+    q.addEventListener('click', () => {
+      const currentlyActive = document.querySelector('.faq-question.active');
+      if(currentlyActive && currentlyActive !== q) {
+        currentlyActive.classList.remove('active');
+        currentlyActive.nextElementSibling.classList.remove('open');
+      }
+      q.classList.toggle('active');
+      q.nextElementSibling.classList.toggle('open');
+    });
+  });
+
+  // Fake console feed
+  const consoleEl = document.getElementById('console');
+  const messages = [
+    'Initializing WARO protocols...',
+    'Connecting to Roblox servers...',
+    'Intercepting packets... done.',
+    'Launching Avatar Scrambler module...',
+    'Trade Watcher activated.',
+    'Scanning market anomalies...',
+    'Warning: Suspicious activity detected.',
+    'Beaming sequence initiated...',
+    'Cloning avatar assets... success.',
+    'WARO operational. All systems nominal.'
+  ];
+  let idx = 0;
+  function addConsoleLine() {
+    if(idx >= messages.length) {
+      idx = 0;
+      consoleEl.textContent = '';
+    }
+    consoleEl.textContent += '> ' + messages[idx] + '\n';
+    consoleEl.scrollTop = consoleEl.scrollHeight;
+    idx++;
+  }
+  setInterval(addConsoleLine, 2200);
+  addConsoleLine();
+
+  // Particle background
+  const canvas = document.getElementById('particles');
+  const ctx = canvas.getContext('2d');
+  let width, height;
+  let particlesArray = [];
+
+  function initCanvas() {
+    width = canvas.width = window.innerWidth;
+    height = canvas.height = window.innerHeight;
+  }
+  window.addEventListener('resize', initCanvas);
+  initCanvas();
+
+  class Particle {
+    constructor() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.radius = Math.random() * 1.5 + 1;
+      this.speedX = (Math.random() - 0.5) * 0.4;
+      this.speedY = (Math.random() - 0.5) * 0.4;
+      this.alpha = 0.3 + Math.random() * 0.7;
+    }
+    update() {
+      this.x += this.speedX;
+      this.y += this.speedY;
+
+      if(this.x < 0 || this.x > width) this.speedX = -this.speedX;
+      if(this.y < 0 || this.y > height) this.speedY = -this.speedY;
+    }
+    draw() {
+      ctx.beginPath();
+      ctx.fillStyle = `rgba(255, 0, 0, ${this.alpha})`;
+      ctx.shadowColor = 'rgba(255, 0, 0, 0.8)';
+      ctx.shadowBlur = 5;
+      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+      ctx.fill();
+    }
+  }
+
+  function connectParticles() {
+    for(let a = 0; a < particlesArray.length; a++) {
+      for(let b = a + 1; b < particlesArray.length; b++) {
+        let dx = particlesArray[a].x - particlesArray[b].x;
+        let dy = particlesArray[a].y - particlesArray[b].y;
+        let dist = Math.sqrt(dx*dx + dy*dy);
+        if(dist < 100) {
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(255,0,0,${1 - dist/100})`;
+          ctx.lineWidth = 1;
+          ctx.shadowColor = 'rgba(255, 0, 0, 0.6)';
+          ctx.shadowBlur = 10;
+          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
+          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
+          ctx.stroke();
+          ctx.closePath();
+        }
+      }
+    }
+  }
+
+  function animateParticles() {
+    ctx.clearRect(0, 0, width, height);
+    particlesArray.forEach(p => {
+      p.update();
+      p.draw();
+    });
+    connectParticles();
+    requestAnimationFrame(animateParticles);
+  }
+
+  function initParticles() {
+    particlesArray = [];
+    let count = Math.floor(window.innerWidth / 15);
+    for(let i = 0; i < count; i++) {
+      particlesArray.push(new Particle());
+    }
+  }
+  initParticles();
+  animateParticles();
+
+</script>
+
 </body>
 </html>

@@ -3,286 +3,202 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>WARO | #1 Beaming Sites and Methods!</title>
-<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet" />
+<meta name="description" content="#1 beaming sites and methods!" />
+<title>WARO</title>
 <style>
-  /* Reset & base */
+  @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
+
+  /* Basic resets */
   * {
-    margin: 0; padding: 0; box-sizing: border-box;
-  }
-  body {
-    background: #0d0d0d;
-    color: #ff4d4d;
-    font-family: 'Orbitron', sans-serif;
-    overflow-x: hidden;
-    cursor: url('data:image/svg+xml;utf8,<svg fill="red" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><circle cx="12" cy="12" r="8"/></svg>') 12 12, auto;
-  }
-
-  /* Particle background canvas */
-  #particles {
-    position: fixed;
-    top:0; left:0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    background: #0d0d0d;
-  }
-
-  /* Container */
-  .container {
-    position: relative;
-    z-index: 1;
-    max-width: 900px;
-    margin: auto;
-    padding: 60px 20px 120px;
-  }
-
-  /* Header */
-  header.hero {
-    text-align: center;
-    padding: 140px 20px 60px;
-  }
-  header.hero h1 {
-    font-size: 5rem;
-    color: #ff1a1a;
-    text-shadow: 0 0 30px #ff0000cc;
-    animation: waterFlow 4s ease-in-out infinite;
-    margin-bottom: 10px;
-  }
-  @keyframes waterFlow {
-    0%, 100% { text-shadow: 0 0 10px #ff0000cc, 0 0 20px #ff0000cc, 0 0 40px #ff3300cc, 0 0 80px #ff3300cc; }
-    50% { text-shadow: 0 0 20px #ff3300cc, 0 0 30px #ff3300cc, 0 0 50px #ff6600cc, 0 0 100px #ff6600cc; }
-  }
-
-  header.hero p {
-    font-size: 1.5rem;
-    margin-bottom: 30px;
-    color: #ff6666;
-    text-shadow: 0 0 5px #ff1a1a;
-  }
-
-  button.join-btn {
-    background: #ff0000;
-    border: none;
-    padding: 15px 40px;
-    font-size: 1.3rem;
-    color: white;
-    border-radius: 40px;
-    cursor: pointer;
-    box-shadow: 0 0 25px #ff3300;
-    transition: all 0.3s ease;
-  }
-  button.join-btn:hover {
-    background: #cc0000;
-    box-shadow: 0 0 40px #ff6600;
-    transform: scale(1.05);
-  }
-
-  /* About Section */
-  section.about {
-    margin-top: 40px;
-    background: #1a0000;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 0 25px #ff1a1a99;
-    animation: fadeInUp 1s ease forwards;
-  }
-  section.about h2 {
-    font-size: 2.5rem;
-    margin-bottom: 20px;
-    color: #ff3300;
-    text-shadow: 0 0 10px #ff3300bb;
-  }
-  section.about p {
-    font-size: 1.2rem;
-    line-height: 1.6;
-    color: #ff6666;
-  }
-
-  /* FAQ Section */
-  section.faq {
-    margin-top: 50px;
-    background: #1a0000;
-    border-radius: 15px;
-    padding: 30px;
-    box-shadow: 0 0 25px #ff1a1a99;
-    animation: fadeInUp 1.2s ease forwards;
-  }
-  section.faq h2 {
-    font-size: 2.5rem;
-    margin-bottom: 25px;
-    color: #ff3300;
-    text-shadow: 0 0 10px #ff3300bb;
-  }
-  .faq-item {
-    margin-bottom: 20px;
-    border-bottom: 1px solid #660000;
-    padding-bottom: 15px;
-  }
-  .faq-item button {
-    background: none;
-    border: none;
-    font-size: 1.3rem;
-    color: #ff4d4d;
-    cursor: pointer;
-    text-align: left;
-    width: 100%;
+    box-sizing: border-box;
+    margin: 0;
     padding: 0;
-    font-weight: 700;
-    text-shadow: 0 0 6px #ff1a1a;
-    transition: color 0.3s ease;
-  }
-  .faq-item button:hover {
-    color: #ff0000;
-  }
-  .faq-answer {
-    margin-top: 8px;
-    font-size: 1.1rem;
-    color: #ff9999;
-    display: none;
-    line-height: 1.5;
   }
 
-  /* Animations */
-  @keyframes fadeInUp {
+  body {
+    background: linear-gradient(135deg, #1a0000, #330000);
+    font-family: 'Orbitron', sans-serif;
+    color: #ff1a1a;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  header {
+    margin-bottom: 2rem;
+    text-align: center;
+  }
+
+  /* Water flow text effect for WARO */
+  .logo {
+    font-size: 5rem;
+    font-weight: 900;
+    color: #ff0000;
+    background: linear-gradient(270deg, #ff0000, #660000, #ff0000);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: waterFlow 8s ease-in-out infinite;
+    user-select: none;
+  }
+
+  @keyframes waterFlow {
     0% {
-      opacity: 0;
-      transform: translateY(30px);
+      background-position: 0% 50%;
+    }
+    50% {
+      background-position: 100% 50%;
     }
     100% {
-      opacity: 1;
-      transform: translateY(0);
+      background-position: 0% 50%;
     }
+  }
+
+  nav button {
+    background: #660000;
+    border: 2px solid #ff1a1a;
+    color: #ff1a1a;
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+    font-weight: 700;
+    cursor: pointer;
+    border-radius: 8px;
+    transition: background 0.3s ease, color 0.3s ease;
+    margin: 1rem 0;
+  }
+
+  nav button:hover {
+    background: #ff1a1a;
+    color: #330000;
+  }
+
+  main {
+    max-width: 900px;
+    width: 100%;
+    background: #1a0000cc;
+    border: 2px solid #ff1a1a;
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 0 30px #ff1a1a;
+  }
+
+  main section {
+    margin-bottom: 2rem;
+  }
+
+  main h2 {
+    color: #ff3333;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ff3333;
+    padding-bottom: 0.3rem;
+  }
+
+  p {
+    font-size: 1.1rem;
+    line-height: 1.6;
+    color: #ff9999;
+  }
+
+  /* FAQ styles */
+  .faq .faq-item {
+    margin-bottom: 1rem;
+    border: 1px solid #ff1a1a;
+    border-radius: 8px;
+    background: #330000cc;
+  }
+
+  .faq-question {
+    width: 100%;
+    text-align: left;
+    padding: 0.75rem 1rem;
+    background: #660000;
+    border: none;
+    color: #ff1a1a;
+    font-size: 1.1rem;
+    cursor: pointer;
+    font-weight: 700;
+    border-radius: 8px 8px 0 0;
+    transition: background 0.3s ease;
+  }
+
+  .faq-question:hover {
+    background: #ff1a1a;
+    color: #330000;
+  }
+
+  .faq-answer {
+    padding: 1rem;
+    display: none;
+    color: #ffb3b3;
+    font-size: 1rem;
+  }
+
+  .faq-item.active .faq-answer {
+    display: block;
+  }
+
+  footer {
+    margin-top: 3rem;
+    font-size: 0.9rem;
+    color: #990000;
   }
 </style>
 </head>
 <body>
 
-<canvas id="particles"></canvas>
+<header>
+  <h1 class="logo">WARO</h1>
+  <nav>
+    <button onclick="window.open('https://discord.gg/mj9EcgeceJ', '_blank')">Join now!</button>
+  </nav>
+</header>
 
-<div class="container">
-  <header class="hero">
-    <h1>WARO</h1>
-    <p>#1 Beaming Sites and Methods!</p>
-    <button class="join-btn" id="joinBtn">Join now!</button>
-  </header>
-
+<main>
   <section class="about" style="animation-delay: 0.2s;">
     <h2>About WARO</h2>
-    <p>WARO is your go-to hub for the best Roblox beaming techniques, tools, and insider methods. We focus on delivering powerful and reliable ways to enhance your Roblox beaming experience and unlock new possibilities.</p>
+    <p>The best Roblox beaming stuff around — methods, tips, and more all in one place.</p>
   </section>
 
   <section class="faq" style="animation-delay: 0.4s;">
     <h2>Frequently Asked Questions</h2>
+
     <div class="faq-item">
       <button class="faq-question">What is beaming?</button>
-      <div class="faq-answer">"Beaming" refers to the act of stealing another player’s virtual items or account information, often through deceitful means.</div>
+      <div class="faq-answer">
+        "Beaming" refers to stealing virtual items or access to another player's account, usually through phishing or social engineering. This site explores how these tactics work purely for educational or entertainment purposes — we do not support or condone any illegal activity.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Is WARO a real group?</button>
+      <div class="faq-answer">
+        WARO is a beaming server that helps u get beams and more.
+      </div>
+    </div>
+
+    <div class="faq-item">
+      <button class="faq-question">Can I join WARO?</button>
+      <div class="faq-answer">
+        You can click "Join now" to get into our Discord server — its a place where u get methods, best beams and more!.
+      </div>
     </div>
   </section>
-</div>
+</main>
+
+<footer>
+  &copy; 2025 WARO. All rights reserved.
+</footer>
 
 <script>
-  // Join button opens Discord invite
-  document.getElementById('joinBtn').addEventListener('click', () => {
-    window.open('https://discord.gg/mj9EcgeceJ', '_blank');
-  });
-
-  // FAQ toggle
-  const faqQuestions = document.querySelectorAll('.faq-question');
-  faqQuestions.forEach(question => {
-    question.addEventListener('click', () => {
-      const answer = question.nextElementSibling;
-      const isVisible = answer.style.display === 'block';
-      // Close all answers
-      document.querySelectorAll('.faq-answer').forEach(ans => ans.style.display = 'none');
-      // Toggle current
-      answer.style.display = isVisible ? 'none' : 'block';
+  // FAQ toggle functionality
+  document.querySelectorAll('.faq-question').forEach(button => {
+    button.addEventListener('click', () => {
+      const faqItem = button.parentElement;
+      faqItem.classList.toggle('active');
     });
   });
-
-  // Particle background
-  const canvas = document.getElementById('particles');
-  const ctx = canvas.getContext('2d');
-  let width, height;
-  let particlesArray = [];
-
-  class Particle {
-    constructor() {
-      this.reset();
-    }
-    reset() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.radius = Math.random() * 2 + 1;
-      this.speedX = (Math.random() - 0.5) * 0.4;
-      this.speedY = (Math.random() - 0.5) * 0.4;
-      this.alpha = 0.3 + Math.random() * 0.7;
-    }
-    update() {
-      this.x += this.speedX;
-      this.y += this.speedY;
-      if(this.x < 0 || this.x > width) this.speedX = -this.speedX;
-      if(this.y < 0 || this.y > height) this.speedY = -this.speedY;
-    }
-    draw() {
-      ctx.beginPath();
-      ctx.fillStyle = `rgba(255, 0, 0, ${this.alpha})`;
-      ctx.shadowColor = 'rgba(255, 0, 0, 0.8)';
-      ctx.shadowBlur = 5;
-      ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
-      ctx.fill();
-    }
-  }
-
-  function connectParticles() {
-    for(let a = 0; a < particlesArray.length; a++) {
-      for(let b = a + 1; b < particlesArray.length; b++) {
-        let dx = particlesArray[a].x - particlesArray[b].x;
-        let dy = particlesArray[a].y - particlesArray[b].y;
-        let dist = Math.sqrt(dx*dx + dy*dy);
-        if(dist < 100) {
-          ctx.beginPath();
-          ctx.strokeStyle = `rgba(255,0,0,${1 - dist/100})`;
-          ctx.lineWidth = 1;
-          ctx.shadowColor = 'rgba(255, 0, 0, 0.6)';
-          ctx.shadowBlur = 10;
-          ctx.moveTo(particlesArray[a].x, particlesArray[a].y);
-          ctx.lineTo(particlesArray[b].x, particlesArray[b].y);
-          ctx.stroke();
-          ctx.closePath();
-        }
-      }
-    }
-  }
-
-  function animateParticles() {
-    ctx.clearRect(0, 0, width, height);
-    particlesArray.forEach(p => {
-      p.update();
-      p.draw();
-    });
-    connectParticles();
-    requestAnimationFrame(animateParticles);
-  }
-
-  function initParticles() {
-    width = window.innerWidth;
-    height = window.innerHeight;
-    canvas.width = width;
-    canvas.height = height;
-    particlesArray = [];
-    let count = Math.floor(width / 15);
-    for(let i = 0; i < count; i++) {
-      particlesArray.push(new Particle());
-    }
-  }
-
-  window.addEventListener('resize', () => {
-    initParticles();
-  });
-
-  initParticles();
-  animateParticles();
 </script>
 
 </body>

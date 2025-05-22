@@ -8,131 +8,141 @@
 <style>
   @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@700&display=swap');
 
-  /* Basic resets */
-  * {
+  /* Reset */
+  *, *::before, *::after {
     box-sizing: border-box;
-    margin: 0;
-    padding: 0;
+  }
+  body, h1, h2, p, button {
+    margin: 0; padding: 0;
   }
 
   body {
     background: linear-gradient(135deg, #1a0000, #330000);
     font-family: 'Orbitron', sans-serif;
-    color: #ff1a1a;
+    color: #ff4c4c;
     min-height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 2rem;
+    padding: 2rem 1rem;
   }
 
   header {
-    margin-bottom: 2rem;
     text-align: center;
-  }
-
-  /* Water flow text effect for WARO */
-  .logo {
-    font-size: 5rem;
-    font-weight: 900;
-    color: #ff0000;
-    background: linear-gradient(270deg, #ff0000, #660000, #ff0000);
-    background-size: 600% 600%;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    animation: waterFlow 8s ease-in-out infinite;
+    margin-bottom: 2rem;
     user-select: none;
   }
 
+  /* WARO logo - smooth water flow gradient */
+  .logo {
+    font-size: 5rem;
+    font-weight: 900;
+    background: linear-gradient(270deg, #ff0000, #7f0000, #ff0000);
+    background-size: 400% 400%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: waterFlow 6s ease-in-out infinite;
+  }
+
   @keyframes waterFlow {
-    0% {
+    0%, 100% {
       background-position: 0% 50%;
     }
     50% {
       background-position: 100% 50%;
     }
-    100% {
-      background-position: 0% 50%;
-    }
   }
 
+  nav {
+    margin-top: 1rem;
+  }
   nav button {
-    background: #660000;
-    border: 2px solid #ff1a1a;
-    color: #ff1a1a;
-    padding: 0.75rem 2rem;
+    background-color: #7f0000;
+    border: 2px solid #ff4c4c;
+    color: #ff4c4c;
+    padding: 0.8rem 2.2rem;
     font-size: 1.2rem;
     font-weight: 700;
+    border-radius: 12px;
     cursor: pointer;
-    border-radius: 8px;
-    transition: background 0.3s ease, color 0.3s ease;
-    margin: 1rem 0;
+    transition: background-color 0.25s ease, color 0.25s ease;
+    box-shadow: 0 0 10px #ff4c4caa;
   }
-
   nav button:hover {
-    background: #ff1a1a;
-    color: #330000;
+    background-color: #ff4c4c;
+    color: #4b0000;
+    box-shadow: 0 0 20px #ff4c4cee;
   }
 
   main {
-    max-width: 900px;
+    max-width: 850px;
     width: 100%;
-    background: #1a0000cc;
-    border: 2px solid #ff1a1a;
-    border-radius: 12px;
-    padding: 2rem;
-    box-shadow: 0 0 30px #ff1a1a;
+    background-color: rgba(51, 0, 0, 0.85);
+    border-radius: 16px;
+    border: 2px solid #ff4c4c;
+    padding: 2.5rem 3rem;
+    box-shadow: 0 0 40px #ff4c4c88;
   }
 
   main section {
-    margin-bottom: 2rem;
+    margin-bottom: 2.5rem;
   }
 
-  main h2 {
-    color: #ff3333;
+  h2 {
+    color: #ff6b6b;
+    font-weight: 800;
     margin-bottom: 1rem;
-    border-bottom: 2px solid #ff3333;
+    border-bottom: 3px solid #ff6b6b;
     padding-bottom: 0.3rem;
+    letter-spacing: 0.05em;
   }
 
   p {
-    font-size: 1.1rem;
+    font-size: 1.15rem;
     line-height: 1.6;
     color: #ff9999;
   }
 
   /* FAQ styles */
   .faq .faq-item {
-    margin-bottom: 1rem;
-    border: 1px solid #ff1a1a;
-    border-radius: 8px;
-    background: #330000cc;
+    margin-bottom: 1.25rem;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 0 10px #ff4c4c99;
+    background-color: #330000cc;
+    border: 1px solid #ff4c4c;
+    transition: transform 0.2s ease;
+  }
+  .faq-item:hover {
+    transform: translateY(-3px);
   }
 
   .faq-question {
     width: 100%;
-    text-align: left;
-    padding: 0.75rem 1rem;
-    background: #660000;
+    background-color: #7f0000;
     border: none;
-    color: #ff1a1a;
-    font-size: 1.1rem;
-    cursor: pointer;
+    color: #ff4c4c;
+    padding: 1rem 1.5rem;
+    font-size: 1.15rem;
     font-weight: 700;
-    border-radius: 8px 8px 0 0;
-    transition: background 0.3s ease;
+    text-align: left;
+    cursor: pointer;
+    letter-spacing: 0.03em;
+    user-select: none;
+    transition: background-color 0.3s ease;
   }
-
   .faq-question:hover {
-    background: #ff1a1a;
-    color: #330000;
+    background-color: #ff4c4c;
+    color: #4b0000;
   }
 
   .faq-answer {
-    padding: 1rem;
-    display: none;
+    padding: 1rem 1.5rem 1.5rem;
     color: #ffb3b3;
     font-size: 1rem;
+    line-height: 1.5;
+    display: none;
+    user-select: text;
   }
 
   .faq-item.active .faq-answer {
@@ -141,8 +151,19 @@
 
   footer {
     margin-top: 3rem;
+    color: #a40000;
     font-size: 0.9rem;
-    color: #990000;
+    user-select: none;
+  }
+
+  /* Responsive tweaks */
+  @media (max-width: 600px) {
+    main {
+      padding: 2rem;
+    }
+    .logo {
+      font-size: 3.5rem;
+    }
   }
 </style>
 </head>
@@ -174,7 +195,7 @@
     <div class="faq-item">
       <button class="faq-question">Is WARO a real group?</button>
       <div class="faq-answer">
-        WARO is a beaming server that helps u get beams and more.
+        ._.
       </div>
     </div>
 

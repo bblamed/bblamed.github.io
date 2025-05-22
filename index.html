@@ -4,18 +4,167 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>WARO | The Dark Side of Roblox</title>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@500;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background: #0d0d0d;
+      color: #ff4d4d;
+      font-family: 'Orbitron', sans-serif;
+      line-height: 1.6;
+    }
+
+    header.hero {
+      text-align: center;
+      padding: 120px 20px;
+      background: radial-gradient(circle at top, #330000 0%, #0d0d0d 80%);
+      box-shadow: inset 0 0 40px #ff000080;
+      animation: pulseGlow 3s infinite alternate;
+    }
+
+    @keyframes pulseGlow {
+      from { box-shadow: inset 0 0 40px #ff000080; }
+      to { box-shadow: inset 0 0 80px #ff1a1a; }
+    }
+
+    .hero h1 {
+      font-size: 5rem;
+      color: #ff1a1a;
+      text-shadow: 0 0 20px #ff0000aa;
+    }
+
+    .hero p {
+      font-size: 1.5rem;
+      color: #ffb3b3;
+      margin-top: 10px;
+    }
+
+    .btn {
+      display: inline-block;
+      margin-top: 30px;
+      padding: 14px 28px;
+      background: #ff1a1a;
+      color: #fff;
+      border-radius: 12px;
+      text-decoration: none;
+      font-weight: 800;
+      transition: all 0.3s ease;
+    }
+
+    .btn:hover {
+      background: #cc0000;
+      box-shadow: 0 0 20px #ff4d4d;
+      transform: scale(1.05);
+    }
+
+    section {
+      padding: 80px 20px;
+      text-align: center;
+    }
+
+    .about, .join {
+      background-color: #1a1a1a;
+    }
+
+    .tools {
+      background: linear-gradient(to bottom, #0d0d0d, #1a0000);
+    }
+
+    .tool-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 30px;
+      margin-top: 40px;
+    }
+
+    .tool-card {
+      background: #1a0000;
+      padding: 30px;
+      border-radius: 16px;
+      box-shadow: 0 0 15px #99000088;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    .tool-card:hover {
+      transform: scale(1.07);
+      box-shadow: 0 0 25px #ff000066;
+    }
+
+    h2 {
+      font-size: 2.8rem;
+      margin-bottom: 20px;
+      color: #ff3333;
+    }
+
+    p {
+      font-size: 1.1rem;
+      color: #ff9999;
+      max-width: 800px;
+      margin: 0 auto;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px;
+      background: #0d0d0d;
+      font-size: 0.9rem;
+      color: #666;
+    }
+
+    .glitch {
+      font-size: 4rem;
+      position: relative;
+      display: inline-block;
+      color: #ff1a1a;
+    }
+
+    .glitch::before, .glitch::after {
+      content: attr(data-text);
+      position: absolute;
+      left: 0;
+      width: 100%;
+      overflow: hidden;
+    }
+
+    .glitch::before {
+      animation: glitchTop 1s infinite linear alternate-reverse;
+      color: #ff9999;
+      top: -2px;
+    }
+
+    .glitch::after {
+      animation: glitchBot 1s infinite linear alternate-reverse;
+      color: #990000;
+      top: 2px;
+    }
+
+    @keyframes glitchTop {
+      0% { clip-path: inset(0 0 80% 0); }
+      100% { clip-path: inset(30% 0 30% 0); }
+    }
+
+    @keyframes glitchBot {
+      0% { clip-path: inset(60% 0 0 0); }
+      100% { clip-path: inset(40% 0 20% 0); }
+    }
+  </style>
 </head>
 <body>
   <header class="hero">
-    <h1>WARO</h1>
+    <div class="glitch" data-text="WARO">WARO</div>
     <p>Uncover the secrets. Rule the grid. Roblox will never be the same.</p>
     <a href="#join" class="btn">Join the Legion</a>
   </header>
 
   <section class="about">
     <h2>About WARO</h2>
-    <p>WARO is an elite digital collective buried deep within the fabric of Roblox. We explore, decode, and dominate the platform through precision and power.</p>
+    <p>WARO is an elite digital collective buried deep within the fabric of Roblox. We explore, decode, and dominate the platform through precision, power, and code. Our mission: total grid control.</p>
   </section>
 
   <section class="tools">
@@ -23,23 +172,27 @@
     <div class="tool-grid">
       <div class="tool-card">
         <h3>Packet Ghost</h3>
-        <p>Intercept and analyze invisible requests. 🧠</p>
+        <p>Intercept and visualize digital echoes for strategic advantage.</p>
       </div>
       <div class="tool-card">
         <h3>Avatar Scrambler</h3>
-        <p>Instantly clone or randomize any avatar’s design. 🎭</p>
+        <p>Replicate or distort any avatar's appearance with pixel-perfect fidelity.</p>
       </div>
       <div class="tool-card">
         <h3>Trade Watcher</h3>
-        <p>Predict rare item movements before the crowd. 📈</p>
+        <p>Track limited items and uncover market anomalies in real time.</p>
       </div>
     </div>
   </section>
 
   <section class="join" id="join">
     <h2>Join the Legion</h2>
-    <p>We're not just players — we're system architects. WARO is open to the bold.</p>
+    <p>We're not just players — we're architects of the matrix. Enter WARO, where power flows through scripts and shadows.</p>
     <a href="https://discord.com/" target="_blank" class="btn">Enter the Nexus</a>
   </section>
+
+  <footer>
+    &copy; 2025 WARO Collective. Designed for educational and aesthetic purposes only.
+  </footer>
 </body>
 </html>

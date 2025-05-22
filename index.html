@@ -18,9 +18,9 @@
 
     /* Background and font */
     body {
-      background: linear-gradient(135deg, #1b0000, #330000);
+      background: radial-gradient(circle at center, #1a0000, #330000 90%);
       font-family: 'Orbitron', sans-serif;
-      color: #ff3d3d;
+      color: #e03b3b;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
@@ -33,16 +33,16 @@
 
     /* Floating glowing orbs */
     @keyframes drift {
-      0% { transform: translateY(0) translateX(0); opacity: 0.6; }
-      50% { transform: translateY(-20px) translateX(10px); opacity: 1; }
-      100% { transform: translateY(0) translateX(0); opacity: 0.6; }
+      0% { transform: translateY(0) translateX(0); opacity: 0.35; }
+      50% { transform: translateY(-20px) translateX(10px); opacity: 0.7; }
+      100% { transform: translateY(0) translateX(0); opacity: 0.35; }
     }
     .orb {
       position: fixed;
       border-radius: 50%;
-      background: radial-gradient(circle at center, #ff1a1aee, transparent 70%);
-      filter: drop-shadow(0 0 10px #ff1a1aaa);
-      opacity: 0.7;
+      background: radial-gradient(circle at center, #e03b3bee, transparent 70%);
+      filter: drop-shadow(0 0 7px #e03b3b88);
+      opacity: 0.35;
       animation: drift 6s ease-in-out infinite;
       pointer-events: none;
       z-index: 0;
@@ -78,24 +78,23 @@
     .logo {
       font-size: 6.5rem;
       font-weight: 900;
-      letter-spacing: 0.15em;
-      color: #ff3d3d;
+      letter-spacing: 0.18em;
+      color: #e03b3b;
       text-transform: uppercase;
       position: relative;
       filter:
-        drop-shadow(0 0 5px #ff3d3d)
-        drop-shadow(0 0 10px #ff1a1a);
+        drop-shadow(0 0 4px #e03b3baa);
       cursor: default;
       user-select: none;
       line-height: 1;
       animation: waterFlow 5s ease-in-out infinite;
-      background: linear-gradient(45deg, #ff3d3d, #ff0000, #b30000, #ff3d3d);
+      background: linear-gradient(45deg, #e03b3b, #b82929, #7a1d1d, #e03b3b);
       background-size: 300% 300%;
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       text-shadow:
-        0 0 15px #ff3d3d88,
-        0 0 40px #ff0000cc;
+        0 0 8px #e03b3b77;
+      mix-blend-mode: screen;
     }
     @keyframes waterFlow {
       0% { background-position: 0% 50%; }
@@ -108,9 +107,9 @@
       top: 100%;
       left: 50%;
       width: 120%;
-      height: 40px;
-      background: radial-gradient(ellipse at center, #ff1a1a99 0%, transparent 80%);
-      filter: blur(10px);
+      height: 28px;
+      background: radial-gradient(ellipse at center, #b8292977 0%, transparent 80%);
+      filter: blur(9px);
       transform: translateX(-50%);
       z-index: -1;
     }
@@ -120,22 +119,23 @@
       margin-top: 1.5rem;
     }
     nav button {
-      background: linear-gradient(135deg, #ff3d3d, #7f0000);
+      background: linear-gradient(135deg, #e03b3b, #7a1d1d);
       border: none;
-      color: #120000;
+      color: #1b0000;
       font-weight: 900;
-      font-size: 1.5rem;
-      padding: 1.2rem 4rem;
+      font-size: 1.45rem;
+      padding: 1.1rem 4.2rem;
       border-radius: 9999px;
       cursor: pointer;
-      box-shadow: 0 0 25px #ff3d3daa;
-      transition: background 0.5s ease, color 0.5s ease, box-shadow 0.5s ease;
+      box-shadow: 0 0 12px #e03b3b88;
+      transition: background 0.4s ease, color 0.4s ease, box-shadow 0.4s ease;
       letter-spacing: 0.12em;
       text-transform: uppercase;
       user-select: none;
       position: relative;
       overflow: hidden;
       z-index: 2;
+      font-family: 'Orbitron', monospace;
     }
     nav button::before {
       content: '';
@@ -144,17 +144,18 @@
       left: -50%;
       width: 200%;
       height: 200%;
-      background: radial-gradient(circle, #ff6666aa 10%, transparent 60%);
+      background: radial-gradient(circle, #ff4a4aaa 10%, transparent 60%);
       opacity: 0;
       transform: scale(0.8);
-      transition: opacity 0.3s ease, transform 0.3s ease;
+      transition: opacity 0.25s ease, transform 0.25s ease;
       border-radius: 9999px;
       z-index: -1;
+      filter: blur(10px);
     }
     nav button:hover {
-      background: linear-gradient(135deg, #ff6666, #b30000);
-      color: #fff5f5;
-      box-shadow: 0 0 45px #ff6666ff;
+      background: linear-gradient(135deg, #ff4a4a, #7a1d1d);
+      color: #fff0f0;
+      box-shadow: 0 0 28px #ff4a4aee;
     }
     nav button:hover::before {
       opacity: 1;
@@ -165,186 +166,178 @@
     main {
       max-width: 900px;
       width: 100%;
-      background: rgba(51, 0, 0, 0.9);
-      border-radius: 25px;
-      border: 3px solid #ff3d3d;
-      padding: 3.5rem 4rem;
+      background: rgba(51, 0, 0, 0.85);
+      border-radius: 20px;
+      border: 2.5px solid #e03b3b88;
+      padding: 3.2rem 3.8rem;
       box-shadow:
-        0 0 50px #ff3d3daa,
-        inset 0 0 20px #7f00007f;
+        0 0 28px #e03b3b77,
+        inset 0 0 12px #7a1d1d55;
       z-index: 2;
       user-select: text;
+      font-family: 'Orbitron', monospace;
     }
 
     /* About Section */
     main section.about {
-      margin-bottom: 4rem;
+      margin-bottom: 3.8rem;
       text-align: center;
     }
     main section.about h2 {
       font-weight: 900;
-      font-size: 2.8rem;
-      color: #ff6666;
-      letter-spacing: 0.15em;
-      margin-bottom: 1rem;
-      text-shadow: 0 0 12px #ff3d3d99;
+      font-size: 2.6rem;
+      color: #e06060;
+      letter-spacing: 0.14em;
+      margin-bottom: 0.9rem;
+      text-shadow: 0 0 8px #e03b3b88;
       user-select: none;
     }
     main section.about p {
-      font-size: 1.4rem;
-      line-height: 1.7;
-      color: #ff9999;
-      text-shadow: 0 0 6px #7f000033;
+      font-size: 1.28rem;
+      line-height: 1.6;
+      color: #f0b3b3cc;
+      text-shadow: 0 0 4px #52000033;
       max-width: 600px;
       margin: 0 auto;
+      font-style: italic;
+      letter-spacing: 0.02em;
     }
 
     /* FAQ styles */
     .faq h2 {
       font-weight: 900;
-      font-size: 2.4rem;
-      color: #ff6666;
-      letter-spacing: 0.12em;
-      border-bottom: 4px solid #ff6666;
+      font-size: 2.3rem;
+      color: #e06060;
+      letter-spacing: 0.10em;
+      border-bottom: 3px solid #e06060cc;
       padding-bottom: 0.5rem;
-      margin-bottom: 2rem;
+      margin-bottom: 1.8rem;
       user-select: none;
-      text-shadow: 0 0 15px #ff3d3dbb;
+      text-shadow: 0 0 10px #e03b3baa;
     }
     .faq-item {
-      border-radius: 20px;
-      background: #4b000033;
-      margin-bottom: 1.8rem;
+      border-radius: 18px;
+      background: #4a000011;
+      margin-bottom: 1.5rem;
       overflow: hidden;
-      border: 2px solid #ff3d3d88;
-      box-shadow: inset 0 0 12px #ff4c4caa;
+      border: 1.8px solid #e03b3b66;
+      box-shadow: inset 0 0 8px #c42f2f55;
       transition: box-shadow 0.3s ease, transform 0.3s ease;
       cursor: pointer;
       user-select: none;
       position: relative;
+      font-family: 'Orbitron', monospace;
     }
     .faq-item:hover {
       box-shadow:
-        0 0 40px #ff6666cc,
-        inset 0 0 25px #ff4c4ccc;
-      transform: translateY(-5px);
+        0 0 28px #e03b3bcc,
+        inset 0 0 18px #c42f2fcc;
+      transform: translateY(-3px);
     }
 
     .faq-question {
-      padding: 1.3rem 2rem;
-      font-size: 1.3rem;
+      padding: 1.2rem 2.3rem;
+      font-size: 1.28rem;
       font-weight: 700;
-      color: #ff4c4c;
+      color: #cc4a4a;
       background: transparent;
       border: none;
       width: 100%;
       text-align: left;
-      letter-spacing: 0.05em;
+      letter-spacing: 0.04em;
       position: relative;
       display: flex;
       align-items: center;
       justify-content: space-between;
       user-select: none;
       outline: none;
+      transition: color 0.3s ease;
     }
     .faq-question:focus {
-      outline: 2px solid #ff6666;
+      outline: 2px solid #e06060cc;
       outline-offset: 4px;
     }
     .faq-question::after {
       content: '▼';
       font-size: 1.1rem;
-      color: #ff4c4c;
+      color: #cc4a4a;
       transition: transform 0.3s ease;
       user-select: none;
     }
     .faq-item.active .faq-question::after {
       transform: rotate(180deg);
     }
+    .faq-item.active .faq-question {
+      color: #ff6e6e;
+    }
 
     .faq-answer {
-      background: #5c000044;
-      color: #ffb3b3;
-      padding: 1.4rem 2rem 2rem;
+      background: #56000011;
+      color: #f7b6b6dd;
+      padding: 1.2rem 2.3rem 1.8rem;
       font-size: 1.1rem;
-      line-height: 1.6;
-      display: none;
+      line-height: 1.5;
       user-select: text;
-      border-top: 2px solid #ff4c4c88;
-      text-shadow: 0 0 6px #7f000055;
+      border-top: 1.2px solid #cc4a4a55;
+      white-space: pre-wrap;
+      transition: max-height 0.4s ease, padding 0.3s ease;
+      max-height: 0;
+      overflow: hidden;
     }
     .faq-item.active .faq-answer {
-      display: block;
-      animation: fadeIn 0.4s ease forwards;
-    }
-
-    @keyframes fadeIn {
-      from {opacity: 0;}
-      to {opacity: 1;}
+      max-height: 600px; /* Enough to show content */
+      padding-top: 1.2rem;
     }
 
     /* Footer */
     footer {
-      margin-top: 4rem;
+      margin-top: 3rem;
       font-size: 0.9rem;
-      color: #990000cc;
+      color: #a43a3aaa;
       text-align: center;
       user-select: none;
-      letter-spacing: 0.08em;
-      filter: drop-shadow(0 0 6px #660000cc);
-      animation: glowPulse 3s ease-in-out infinite alternate;
-      z-index: 2;
-    }
-    @keyframes glowPulse {
-      0%, 100% { text-shadow: 0 0 6px #660000cc; color: #990000cc; }
-      50% { text-shadow: 0 0 20px #ff3d3ddd; color: #ff3d3ddd; }
+      font-family: 'Orbitron', monospace;
+      text-shadow: 0 0 4px #33000088;
     }
 
     /* Responsive */
-    @media (max-width: 640px) {
-      main {
-        padding: 2rem 2.5rem;
+    @media (max-width: 600px) {
+      body {
+        padding: 2rem 1rem 4rem;
       }
       .logo {
         font-size: 4.5rem;
-      }
-      h2 {
-        font-size: 1.8rem;
       }
       nav button {
         font-size: 1.25rem;
         padding: 1rem 3rem;
       }
+      main {
+        padding: 2.4rem 2.2rem;
+      }
     }
   </style>
 </head>
 <body>
-
-  <!-- Floating Orbs -->
-  <div class="orb orb1 large"></div>
-  <div class="orb orb2 medium"></div>
-  <div class="orb orb3 small"></div>
+  <!-- Floating orbs for ambiance -->
+  <div class="orb small orb1"></div>
+  <div class="orb medium orb2"></div>
+  <div class="orb large orb3"></div>
 
   <header>
     <h1 class="logo" aria-label="WARO">WARO</h1>
     <nav>
-      <button
-        onclick="window.open('https://discord.gg/mj9EcgeceJ', '_blank')"
-        aria-label="Join WARO Discord Server"
-        >Join now!</button
-      >
+      <button id="joinBtn" aria-label="Join WARO Discord Server">Join now!</button>
     </nav>
   </header>
 
   <main>
-    <section class="about" aria-label="About WARO">
-      <h2>About WARO</h2>
-      <p>
-        The best Roblox beaming stuff around — methods, tips, and more all in one place.
-      </p>
+    <section class="about" aria-labelledby="aboutTitle">
+      <h2 id="aboutTitle">About WARO</h2>
+      <p>Best Roblox beaming resources, methods, and a community dedicated to understanding the craft — all for educational and entertainment purposes only.</p>
     </section>
 
-    <section class="faq" aria-label="Frequently Asked Questions">
+    <section class="faq" aria-label="Frequently Asked Questions" role="region">
       <h2>Frequently Asked Questions</h2>
 
       <div class="faq-item" role="region" aria-labelledby="faq1_question">
@@ -385,33 +378,6 @@
           You can click "Join now" to get into our Discord server — it's a place where you get methods, best beams, and more!
         </div>
       </div>
-
-      <!-- Bonus FAQ Q's -->
-      <div class="faq-item" role="region" aria-labelledby="faq4_question">
-        <button
-          id="faq4_question"
-          class="faq-question"
-          aria-expanded="false"
-          aria-controls="faq4_answer"
-          >Is beaming legal?</button
-        >
-        <div id="faq4_answer" class="faq-answer" hidden>
-          This site is for educational and entertainment purposes only. Beaming is against Roblox’s rules and can have legal consequences.
-        </div>
-      </div>
-
-      <div class="faq-item" role="region" aria-labelledby="faq5_question">
-        <button
-          id="faq5_question"
-          class="faq-question"
-          aria-expanded="false"
-          aria-controls="faq5_answer"
-          >How can I protect myself?</button
-        >
-        <div id="faq5_answer" class="faq-answer" hidden>
-          Never share your login info, beware of phishing links, and enable two-factor authentication on your Roblox account.
-        </div>
-      </div>
     </section>
   </main>
 
@@ -420,6 +386,11 @@
   </footer>
 
   <script>
+    // Join button redirects to Discord invite
+    document.getElementById('joinBtn').addEventListener('click', () => {
+      window.open('https://discord.gg/mj9EcgeceJ', '_blank');
+    });
+
     // FAQ toggle with accessibility
     document.querySelectorAll('.faq-question').forEach(button => {
       button.addEventListener('click', () => {

@@ -1,35 +1,44 @@
-import { motion } from "framer-motion";
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>bblamed</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    .fade-in {
+      opacity: 0;
+      transform: translateY(20px);
+      animation: fadeInUp 1s ease-out forwards;
+    }
 
-export default function Home() {
-  return (
-    <main className="min-h-screen bg-gradient-to-br from-zinc-900 to-black text-white flex flex-col justify-center items-center px-4">
-      <motion.h1
-        initial={{ opacity: 0, y: -50 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.8 }}
-        className="text-5xl md:text-7xl font-bold text-center mb-4"
-      >
-        bblamed
-      </motion.h1>
+    .fade-in:nth-child(2) {
+      animation-delay: 0.3s;
+    }
 
-      <motion.p
-        initial={{ opacity: 0, y: 20 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ delay: 0.3, duration: 0.6 }}
-        className="text-lg md:text-2xl text-gray-400 text-center max-w-xl mb-6"
-      >
-        Creative Developer & Visual Effects Enthusiast
-      </motion.p>
+    .fade-in:nth-child(3) {
+      animation-delay: 0.6s;
+    }
 
-      <motion.a
-        href="#projects"
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ delay: 0.6, duration: 0.4 }}
-        className="bg-white text-black px-6 py-3 rounded-2xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-transform"
-      >
-        View My Work
-      </motion.a>
-    </main>
-  );
-}
+    @keyframes fadeInUp {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col justify-center items-center p-4">
+
+  <h1 class="text-5xl md:text-7xl font-bold text-center mb-4 fade-in">bblamed</h1>
+
+  <p class="text-lg md:text-2xl text-gray-400 text-center max-w-xl mb-6 fade-in">
+    Creative Developer & Visual Effects Enthusiast
+  </p>
+
+  <a href="#projects" class="fade-in bg-white text-black px-6 py-3 rounded-2xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-transform">
+    View My Work
+  </a>
+
+</body>
+</html>

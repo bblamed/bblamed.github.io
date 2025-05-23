@@ -1,158 +1,63 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8" />
-<meta name="viewport" content="width=device-width, initial-scale=1" />
-<title>Grow a Garden - Live Stock Tracker</title>
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    background: #f9fafb;
-    margin: 0;
-    padding: 20px;
-    color: #333;
-  }
-  h1 {
-    text-align: center;
-    color: #2c7a7b;
-    margin-bottom: 1rem;
-  }
-  table {
-    width: 100%;
-    max-width: 900px;
-    margin: 0 auto;
-    border-collapse: collapse;
-    background: white;
-    box-shadow: 0 0 15px rgba(0,0,0,0.1);
-    border-radius: 8px;
-    overflow: hidden;
-  }
-  thead {
-    background: #319795;
-    color: white;
-  }
-  thead th {
-    padding: 12px 15px;
-    font-weight: 600;
-    text-align: left;
-  }
-  tbody tr {
-    border-bottom: 1px solid #eee;
-  }
-  tbody tr:nth-child(even) {
-    background: #f0fdf4;
-  }
-  tbody td {
-    padding: 12px 15px;
-  }
-  .category-row {
-    background: #d4f0f0;
-    font-weight: bold;
-    color: #2c7a7b;
-  }
-  @media (max-width: 600px) {
-    table, thead, tbody, th, td, tr {
-      display: block;
-    }
-    thead tr {
-      position: absolute;
-      top: -9999px;
-      left: -9999px;
-    }
-    tbody tr {
-      margin-bottom: 1rem;
-      border-bottom: 2px solid #ddd;
-      padding: 10px;
-      background: #f9fafb;
-      border-radius: 6px;
-    }
-    tbody td {
-      padding-left: 50%;
-      position: relative;
-      text-align: right;
-    }
-    tbody td::before {
-      content: attr(data-label);
-      position: absolute;
-      left: 10px;
-      font-weight: bold;
-      text-align: left;
-      color: #2c7a7b;
-    }
-  }
-</style>
-</head>
-<body>
-  <h1>🌱 Grow a Garden - Live Stock Tracker</h1>
-  <table id="stock-table">
-    <thead>
-      <tr><th>Item</th><th>Quantity</th></tr>
-    </thead>
-    <tbody id="stock-body">
-      <tr><td colspan="2" style="text-align:center;">Loading stock data...</td></tr>
-    </tbody>
-  </table>
+import { useEffect } from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { Card, CardContent } from "@/components/ui/card";
 
-<script>
-  // Replace this URL with your actual Firebase or API endpoint returning JSON stock data
-  const STOCK_API_URL = 'https://your-firebase-project.firebaseio.com/stock.json';
+export default function Home() {
+  useEffect(() => {
+    document.title = "bblamed | Home";
+  }, []);
 
-  async function fetchStock() {
-    const tbody = document.getElementById('stock-body');
-    try {
-      const response = await fetch(STOCK_API_URL);
-      if (!response.ok) throw new Error('Network response was not ok');
-      const data = await response.json();
+  return (
+    <main className="min-h-screen bg-gradient-to-br from-gray-900 to-black text-white px-4 py-10">
+      <section className="text-center space-y-6">
+        <motion.h1
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="text-4xl md:text-6xl font-bold"
+        >
+          Welcome to bblamed
+        </motion.h1>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.3, duration: 0.6 }}
+          className="text-lg md:text-xl text-gray-300"
+        >
+          Smooth UI, animations, and a sleek experience.
+        </motion.p>
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 0.6, duration: 0.5 }}
+        >
+          <Button className="text-lg px-6 py-2 rounded-2xl shadow-lg">
+            Explore More
+          </Button>
+        </motion.div>
+      </section>
 
-      tbody.innerHTML = '';
-
-      // Group items by category prefix (before first underscore)
-      const grouped = {};
-      for (const key in data) {
-        const category = key.split('_')[0] || 'Misc';
-        if (!grouped[category]) grouped[category] = [];
-        grouped[category].push({ name: key, quantity: data[key] });
-      }
-
-      // Sort categories alphabetically
-      const categories = Object.keys(grouped).sort();
-
-      for (const cat of categories) {
-        // Category header row
-        const catRow = document.createElement('tr');
-        catRow.className = 'category-row';
-        const catCell = document.createElement('td');
-        catCell.colSpan = 2;
-        catCell.textContent = cat.charAt(0).toUpperCase() + cat.slice(1);
-        catRow.appendChild(catCell);
-        tbody.appendChild(catRow);
-
-        // Items under category
-        grouped[cat].forEach(item => {
-          const row = document.createElement('tr');
-
-          const itemCell = document.createElement('td');
-          itemCell.textContent = item.name.replace(`${cat}_`, '').replace(/_/g, ' ');
-          itemCell.setAttribute('data-label', 'Item');
-
-          const qtyCell = document.createElement('td');
-          qtyCell.textContent = item.quantity;
-          qtyCell.setAttribute('data-label', 'Quantity');
-
-          row.appendChild(itemCell);
-          row.appendChild(qtyCell);
-          tbody.appendChild(row);
-        });
-      }
-
-    } catch (err) {
-      tbody.innerHTML = '<tr><td colspan="2" style="text-align:center; color: red;">Error loading stock data</td></tr>';
-      console.error('Error fetching stock:', err);
-    }
-  }
-
-  fetchStock();
-  setInterval(fetchStock, 30000); // Refresh every 30 seconds
-</script>
-</body>
-</html>
+      <section className="mt-20 grid grid-cols-1 md:grid-cols-3 gap-6">
+        {["Projects", "Skills", "Contact"].map((title, i) => (
+          <motion.div
+            key={title}
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ delay: i * 0.2, duration: 0.5 }}
+          >
+            <Card className="bg-gray-800 rounded-2xl shadow-xl hover:scale-[1.02] transition-transform">
+              <CardContent className="p-6 text-center">
+                <h2 className="text-2xl font-semibold mb-2">{title}</h2>
+                <p className="text-gray-400">
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer nec odio.
+                </p>
+              </CardContent>
+            </Card>
+          </motion.div>
+        ))}
+      </section>
+    </main>
+  );
+}

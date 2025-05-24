@@ -1,82 +1,76 @@
-const dictionary = [
-  "there", "other", "another", "react", "friend", "enemy", 
-  "inside", "output", "trend", "clean", "throne", "return", "render", 
-  "enter", "danger", "friend", "inbox", "attend", "owner"
-];
-
-let players = [];
-let currentPlayerIndex = 0;
-let currentCombo = "";
-let timer;
-let timeLeft = 10;
-
-function getRandomCombo() {
-  const alphabet = "abcdefghijklmnopqrstuvwxyz";
-  let combo = "";
-  while (true) {
-    combo = alphabet[Math.floor(Math.random() * alphabet.length)] +
-            alphabet[Math.floor(Math.random() * alphabet.length)];
-    if (combo.length === 2) break;
-  }
-  return combo;
+body {
+  font-family: 'Segoe UI', sans-serif;
+  background: #121212;
+  color: #f5f5f5;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px;
 }
 
-function startGame() {
-  const num = parseInt(document.getElementById("numPlayers").value);
-  players = Array.from({ length: num }, (_, i) => ({ name: `Player ${i + 1}`, eliminated: false }));
-  document.getElementById("setup").classList.add("hidden");
-  document.getElementById("game").classList.remove("hidden");
-  nextTurn();
+.container {
+  width: 100%;
+  max-width: 500px;
+  background-color: #1e1e1e;
+  padding: 30px;
+  border-radius: 16px;
+  box-shadow: 0 0 12px rgba(255, 0, 0, 0.4);
 }
 
-function nextTurn() {
-  if (players.filter(p => !p.eliminated).length === 1) {
-    endGame();
-    return;
-  }
-
-  do {
-    currentPlayerIndex = (currentPlayerIndex + 1) % players.length;
-  } while (players[currentPlayerIndex].eliminated);
-
-  document.getElementById("status").textContent = `${players[currentPlayerIndex].name}'s turn`;
-  currentCombo = getRandomCombo();
-  document.getElementById("letterCombo").textContent = `Use: "${currentCombo}"`;
-  document.getElementById("wordInput").value = "";
-  document.getElementById("wordInput").focus();
-
-  timeLeft = 10;
-  document.getElementById("timer").textContent = `Time: ${timeLeft}`;
-  clearInterval(timer);
-  timer = setInterval(() => {
-    timeLeft--;
-    document.getElementById("timer").textContent = `Time: ${timeLeft}`;
-    if (timeLeft <= 0) {
-      eliminatePlayer();
-    }
-  }, 1000);
+h1 {
+  margin-bottom: 20px;
+  color: #ff3b3f;
 }
 
-function submitWord() {
-  const word = document.getElementById("wordInput").value.trim().toLowerCase();
-  if (!word.includes(currentCombo) || !dictionary.includes(word)) {
-    eliminatePlayer();
-    return;
-  }
-  clearInterval(timer);
-  nextTurn();
+input[type="text"] {
+  padding: 12px;
+  width: 100%;
+  margin: 10px 0;
+  border: none;
+  border-radius: 8px;
+  font-size: 1em;
 }
 
-function eliminatePlayer() {
-  clearInterval(timer);
-  players[currentPlayerIndex].eliminated = true;
-  alert(`${players[currentPlayerIndex].name} is eliminated!`);
-  nextTurn();
+button {
+  padding: 12px;
+  width: 100%;
+  margin: 10px 0;
+  font-size: 1em;
+  border: none;
+  border-radius: 8px;
+  background-color: #ff3b3f;
+  color: white;
+  cursor: pointer;
+  transition: 0.3s;
 }
 
-function endGame() {
-  const winner = players.find(p => !p.eliminated);
-  document.getElementById("game").classList.add("hidden");
-  document.getElementById("gameOver").classList.remove("hidden");
-  document.getElementById("winner").textContent = `${winner.name} wins!`;
+button:hover {
+  background-color: #e23232;
+}
+
+ul {
+  list-style: none;
+  padding: 0;
+  text-align: left;
+}
+
+#letterCombo {
+  font-size: 2em;
+  color: #ffeb3b;
+  margin: 20px 0;
+}
+
+#status {
+  font-size: 1.2em;
+  margin-bottom: 10px;
+}
+
+#timer {
+  font-size: 1.4em;
+  color: #4caf50;
+  margin-top: 10px;
+}
+
+.hidden {
+  display: none;
 }

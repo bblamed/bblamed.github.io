@@ -3,42 +3,29 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>bblamed</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    .fade-in {
-      opacity: 0;
-      transform: translateY(20px);
-      animation: fadeInUp 1s ease-out forwards;
-    }
-
-    .fade-in:nth-child(2) {
-      animation-delay: 0.3s;
-    }
-
-    .fade-in:nth-child(3) {
-      animation-delay: 0.6s;
-    }
-
-    @keyframes fadeInUp {
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-  </style>
+  <title>Word Bomb - Multiplayer</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body class="bg-gradient-to-br from-zinc-900 to-black text-white min-h-screen flex flex-col justify-center items-center p-4">
-
-  <h1 class="text-5xl md:text-7xl font-bold text-center mb-4 fade-in">bblamed</h1>
-
-  <p class="text-lg md:text-2xl text-gray-400 text-center max-w-xl mb-6 fade-in">
-    Creative Developer & Visual Effects Enthusiast
-  </p>
-
-  <a href="#projects" class="fade-in bg-white text-black px-6 py-3 rounded-2xl font-semibold shadow-lg hover:scale-105 hover:shadow-xl transition-transform">
-    View My Work
-  </a>
-
+<body>
+  <div class="container">
+    <h1>🔥 Word Bomb</h1>
+    <div id="setup">
+      <label for="numPlayers">Number of Players:</label>
+      <input type="number" id="numPlayers" min="2" max="8" value="2" />
+      <button onclick="startGame()">Start Game</button>
+    </div>
+    <div id="game" class="hidden">
+      <div id="status"></div>
+      <div id="letterCombo"></div>
+      <input type="text" id="wordInput" placeholder="Type a word..." />
+      <button onclick="submitWord()">Submit</button>
+      <div id="timer"></div>
+    </div>
+    <div id="gameOver" class="hidden">
+      <h2 id="winner"></h2>
+      <button onclick="location.reload()">Play Again</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
 </body>
 </html>

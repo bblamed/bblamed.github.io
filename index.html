@@ -1,35 +1,192 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Word Bomb - Multiplayer</title>
-  <link rel="stylesheet" href="style.css" />
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Word Bomb - Single Player</title>
+<style>
+  /* Reset + basics */
+  * {
+    box-sizing: border-box;
+  }
+  body {
+    margin: 0; 
+    background: #121212;
+    color: #eee;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 100vh;
+    padding: 20px;
+  }
+  h1 {
+    margin-bottom: 0;
+    color: #ff3b3f;
+    text-shadow: 0 0 8px #ff3b3faa;
+  }
+  #game {
+    margin-top: 40px;
+    background: #222;
+    padding: 30px 40px;
+    border-radius: 12px;
+    box-shadow: 0 0 30px #ff3b3f44;
+    max-width: 400px;
+    width: 100%;
+    text-align: center;
+  }
+  #combo {
+    font-size: 48px;
+    font-weight: 900;
+    color: #ff3b3f;
+    margin: 20px 0;
+    user-select: none;
+    letter-spacing: 6px;
+  }
+  input[type="text"] {
+    width: 100%;
+    padding: 14px 18px;
+    font-size: 18px;
+    border-radius: 8px;
+    border: none;
+    outline: none;
+    margin-bottom: 20px;
+  }
+  button {
+    background: #ff3b3f;
+    border: none;
+    padding: 14px 30px;
+    font-size: 18px;
+    font-weight: 700;
+    color: white;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    user-select: none;
+  }
+  button:hover {
+    background: #e23032;
+  }
+  #timer {
+    font-size: 20px;
+    margin-bottom: 15px;
+  }
+  #message {
+    min-height: 24px;
+    font-weight: 600;
+  }
+  @media (max-width: 480px) {
+    #game {
+      padding: 20px;
+    }
+    #combo {
+      font-size: 36px;
+    }
+    input[type="text"], button {
+      font-size: 16px;
+      padding: 12px 16px;
+    }
+  }
+</style>
 </head>
 <body>
-  <div class="container">
-    <h1>🔥 Word Bomb</h1>
 
-    <div id="lobby">
-      <input type="text" id="playerName" placeholder="Enter your name" />
-      <button onclick="joinLobby()">Join Lobby</button>
-      <ul id="playerList"></ul>
-      <button id="startBtn" onclick="startGame()" disabled>Start Game</button>
-    </div>
+<h1>🔥 Word Bomb</h1>
 
-    <div id="game" class="hidden">
-      <div id="status"></div>
-      <div id="letterCombo"></div>
-      <input type="text" id="wordInput" placeholder="Type a word..." />
-      <button onclick="submitWord()">Submit</button>
-      <div id="timer"></div>
-    </div>
+<div id="game">
+  <div id="timer">Time left: 10</div>
+  <div id="combo">??</div>
+  <input type="text" id="wordInput" placeholder="Type a word containing combo" autocomplete="off" />
+  <button id="submitBtn">Submit</button>
+  <div id="message"></div>
+</div>
 
-    <div id="gameOver" class="hidden">
-      <h2 id="winner"></h2>
-      <button onclick="location.reload()">Play Again</button>
-    </div>
-  </div>
-  <script src="script.js"></script>
+<script>
+  // Small sample dictionary (you can replace with a bigger JSON later)
+  const words = [
+    "apple", "banana", "cat", "dog", "elephant",
+    "fish", "goat", "hat", "igloo", "joke",
+    "kite", "lion", "monkey", "night", "orange",
+    "pig", "queen", "rat", "sun", "tree",
+    "umbrella", "vase", "wolf", "xray", "yarn", "zebra"
+  ];
+
+  let combo = "";
+  let timeLeft = 10;
+  let timerId;
+
+  const comboDisplay = document.getElementById("combo");
+  const timerDisplay = document.getElementById("timer");
+  const wordInput = document.getElementById("wordInput");
+  const submitBtn = document.getElementById("submitBtn");
+  const message = document.getElementById("message");
+
+  function randomCombo() {
+    const letters = "abcdefghijklmnopqrstuvwxyz";
+    return letters[Math.floor(Math.random() * 26)] + letters[Math.floor(Math.random() * 26)];
+  }
+
+  function startGame() {
+    combo = randomCombo();
+    comboDisplay.textContent = combo.toUpperCase();
+    wordInput.value = "";
+    wordInput.focus();
+    timeLeft = 10;
+    timerDisplay.textContent = `Time left: ${timeLeft}`;
+    message.textContent = "";
+    clearInterval(timerId);
+    timerId = setInterval(() => {
+      timeLeft--;
+      timerDisplay.textContent = `Time left: ${timeLeft}`;
+      if (timeLeft <= 0) {
+        clearInterval(timerId);
+        endGame("⏰ Time's up! Game Over.");
+      }
+    }, 1000);
+  }
+
+  function endGame(msg) {
+    message.textContent = msg;
+    submitBtn.disabled = true;
+    wordInput.disabled = true;
+  }
+
+  function validateWord(word) {
+    if (!word.toLowerCase().includes(combo)) {
+      message.textContent = `❌ Word must contain "${combo.toUpperCase()}"`;
+      return false;
+    }
+    if (!words.includes(word.toLowerCase())) {
+      message.textContent = "❌ Not a valid word.";
+      return false;
+    }
+    return true;
+  }
+
+  submitBtn.addEventListener("click", () => {
+    const word = wordInput.value.trim().toLowerCase();
+    if (word.length === 0) {
+      message.textContent = "⚠️ Please enter a word.";
+      return;
+    }
+    if (validateWord(word)) {
+      message.textContent = "✅ Correct! New combo...";
+      clearInterval(timerId);
+      setTimeout(() => {
+        startGame();
+      }, 1000);
+    }
+  });
+
+  wordInput.addEventListener("keydown", e => {
+    if (e.key === "Enter") {
+      submitBtn.click();
+    }
+  });
+
+  // Start on page load
+  startGame();
+</script>
+
 </body>
 </html>

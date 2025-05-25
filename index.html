@@ -3,8 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>⚪ Neon Mono Whiteboard</title>
+  <title>⚪ Neon Mono Whiteboard with Multiplayer</title>
   <style>
+    /* (Keep all previous styles from the last snippet) */
     @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
     @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
 
@@ -42,6 +43,7 @@
       backdrop-filter: blur(12px);
       border-bottom: 1px solid #ccc;
       z-index: 20;
+      position: relative;
     }
     #toolbar {
       display: flex;
@@ -57,6 +59,7 @@
       user-select: none;
       flex-wrap: wrap;
       z-index: 20;
+      position: relative;
     }
     #toolbar > * {
       display: flex;
@@ -222,266 +225,607 @@
         0 0 18px 4px #222;
       cursor: crosshair;
     }
+
+    /* Multiplayer UI */
+    #menuBtn {
+      position: absolute;
+      top: 14px;
+      right: 14px;
+      background: rgba(0,0,0,0.05);
+      border-radius: 14px;
+      padding: 8px 18px;
+      font-weight: 700;
+      font-size: 1.1rem;
+      color: #222;
+      cursor: pointer;
+      user-select: none;
+      box-shadow:
+        0 0 10px #6664;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      z-index: 40;
+      border: 2px solid transparent;
+    }
+    #menuBtn:hover {
+      background: rgba(0,0,0,0.1);
+      color: #000;
+      border-color: #555;
+    }
+    #multiplayerMenu {
+      position: absolute;
+      top: 54px;
+      right: 14px;
+      background: rgba(255 255 255 / 0.98);
+      backdrop-filter: blur(14px);
+      border-radius: 16px;
+      padding: 18px 24px;
+      box-shadow: 0 0 30px #aaa8;
+      width: 260px;
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #111;
+      user-select: none;
+      display: none;
+      flex-direction: column;
+      gap: 14px;
+      z-index: 45;
+      border: 1.5px solid #ddd;
+    }
+    #multiplayerMenu.show {
+      display: flex;
+    }
+    #multiplayerMenu button {
+      width: 100%;
+      background: #e0e0e0;
+      border: 1.5px solid #ccc;
+      border-radius: 12px;
+      padding: 0.6rem 0;
+      font-weight: 700;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      color: #333;
+    }
+    #multiplayerMenu button:hover {
+      background: #ccc;
+      color: #111;
+    }
+    #partyCodeInput {
+      padding: 0.5rem 1rem;
+      font-size: 1.05rem;
+      border-radius: 12px;
+      border: 1.5px solid #ccc;
+      outline: none;
+      box-shadow: inset 0 0 8px #ccc;
+      transition: border-color 0.3s ease;
+      font-family: monospace;
+      letter-spacing: 0.15em;
+      color: #444;
+      user-select: text;
+    }
+    #partyCodeInput:focus {
+      border-color: #999;
+      box-shadow: inset 0 0 14px #aaa;
+    }
+
+    #statusMsg {
+      font-size: 0.9rem;
+      color: #666;
+      text-align: center;
+      margin-top: -8px;
+      min-height: 20px;
+      font-weight: 600;
+      user-select: none;
+    }
   </style>
 </head>
 <body>
+  <header>Neon Mono Whiteboard</header>
 
-<header>⚪ Neon Mono Whiteboard</header>
+  <div id="toolbar">
+    <label for="brushSizeInput">Brush Size:</label>
+    <input id="brushSizeInput" type="range" min="1" max="60" value="10" />
+    <label for="colorPicker">Color:</label>
+    <input id="colorPicker" type="color" value="#222222" />
+    <button id="eraserBtn" aria-pressed="false" aria-label="Toggle eraser">Eraser: Off</button>
+    <button id="clearBtn" aria-label="Clear active layer">Clear Layer</button>
+    <button id="addLayerBtn" aria-label="Add new layer">Add Layer</button>
+    <button id="saveBtn" aria-label="Save drawing as image">Save PNG</button>
+    <button id="fullscreenBtn" aria-label="Toggle fullscreen">Fullscreen</button>
+  </div>
 
-<div id="toolbar" role="toolbar" aria-label="Drawing controls">
-  <label for="colorPicker">Brush Color:</label>
-  <input type="color" id="colorPicker" value="#222222" aria-label="Pick brush color" />
+  <div id="container" role="main" tabindex="0"></div>
 
-  <label for="brushSize">Brush Size:</label>
-  <input type="range" id="brushSize" min="1" max="60" value="12" aria-valuemin="1" aria-valuemax="60" aria-valuenow="12" />
-  
-  <button id="eraserBtn" aria-pressed="false" aria-label="Toggle eraser">Eraser: Off</button>
-  <button id="clearBtn" aria-label="Clear current layer">Clear Layer</button>
-  <button id="addLayerBtn" aria-label="Add new layer">+ Layer</button>
-  <button id="saveBtn" aria-label="Save drawing as image">Save</button>
-  <button id="fullscreenBtn" aria-label="Toggle fullscreen mode">Fullscreen</button>
-</div>
+  <div id="layersPanel" role="list" aria-label="Layers"></div>
 
-<div id="container" aria-label="Drawing area" role="main"></div>
+  <button id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-controls="multiplayerMenu">Menu</button>
 
-<div id="layersPanel" aria-label="Layers list" role="list"></div>
+  <div id="multiplayerMenu" role="dialog" aria-modal="true" aria-labelledby="multiplayerTitle">
+    <div id="multiplayerContent" style="display:flex; flex-direction: column; gap: 12px;">
+      <button id="multiplayerBtn">Multiplayer</button>
+    </div>
+  </div>
 
-<script>
-  const container = document.getElementById('container');
-  const layersList = document.getElementById('layersPanel');
-  const brushSizeInput = document.getElementById('brushSize');
-  const eraserBtn = document.getElementById('eraserBtn');
-  const clearBtn = document.getElementById('clearBtn');
-  const addLayerBtn = document.getElementById('addLayerBtn');
-  const saveBtn = document.getElementById('saveBtn');
-  const fullscreenBtn = document.getElementById('fullscreenBtn');
-  const colorPicker = document.getElementById('colorPicker');
+  <script>
+    // Base drawing and layers code (from your snippet)
+    const container = document.getElementById('container');
+    const brushSizeInput = document.getElementById('brushSizeInput');
+    const colorPicker = document.getElementById('colorPicker');
+    const eraserBtn = document.getElementById('eraserBtn');
+    const clearBtn = document.getElementById('clearBtn');
+    const addLayerBtn = document.getElementById('addLayerBtn');
+    const saveBtn = document.getElementById('saveBtn');
+    const fullscreenBtn = document.getElementById('fullscreenBtn');
+    const layersList = document.getElementById('layersPanel');
 
-  let layers = [];
-  let activeLayerIndex = 0;
-  let drawing = false;
-  let lastX = 0;
-  let lastY = 0;
-  let eraserOn = false;
+    let layers = [];
+    let activeLayerIndex = 0;
+    let drawing = false;
+    let lastX = 0;
+    let lastY = 0;
+    let eraserOn = false;
 
-  function createLayer(name) {
-    const canvas = document.createElement('canvas');
-    const ctx = canvas.getContext('2d');
+    function createLayer(name) {
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
 
-    const dpr = window.devicePixelRatio || 1;
-    canvas.width = container.clientWidth * dpr;
-    canvas.height = container.clientHeight * dpr;
-    canvas.style.width = container.clientWidth + 'px';
-    canvas.style.height = container.clientHeight + 'px';
-
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-
-    canvas.classList.add('layerCanvas');
-    if (layers.length === 0) {
-      canvas.classList.add('activeLayer');
-    }
-    container.appendChild(canvas);
-
-    const layerObj = {canvas, ctx, name};
-    layers.push(layerObj);
-    addLayerToPanel(layerObj, layers.length - 1);
-    setActiveLayer(layers.length - 1);
-  }
-
-  function addLayerToPanel(layer, index) {
-    const item = document.createElement('div');
-    item.classList.add('layerItem');
-    item.textContent = layer.name;
-    item.setAttribute('role', 'listitem');
-    if (index === activeLayerIndex) item.classList.add('active');
-
-    // Remove button
-    const removeBtn = document.createElement('span');
-    removeBtn.classList.add('layerRemove');
-    removeBtn.innerHTML = '&times;';
-    removeBtn.title = 'Remove layer';
-    removeBtn.addEventListener('click', (e) => {
-      e.stopPropagation();
-      removeLayer(index);
-    });
-    item.appendChild(removeBtn);
-
-    item.addEventListener('click', () => {
-      setActiveLayer(index);
-    });
-
-    layersList.appendChild(item);
-  }
-
-  function setActiveLayer(index) {
-    if (index < 0 || index >= layers.length) return;
-    activeLayerIndex = index;
-
-    layers.forEach((layer, i) => {
-      if (i === index) {
-        layer.canvas.classList.add('activeLayer');
-      } else {
-        layer.canvas.classList.remove('activeLayer');
-      }
-    });
-
-    // Update layers panel active class
-    [...layersList.children].forEach((el, i) => {
-      el.classList.toggle('active', i === index);
-    });
-  }
-
-  function removeLayer(index) {
-    if (layers.length <= 1) return alert("Can't remove the last layer");
-    const layer = layers[index];
-    container.removeChild(layer.canvas);
-    layers.splice(index, 1);
-    // Remove layer item UI
-    layersList.removeChild(layersList.children[index]);
-    if (activeLayerIndex >= layers.length) activeLayerIndex = layers.length - 1;
-    setActiveLayer(activeLayerIndex);
-  }
-
-  function resizeContainer() {
-    const dpr = window.devicePixelRatio || 1;
-    layers.forEach(layer => {
-      const canvas = layer.canvas;
-      const ctx = layer.ctx;
-      const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
+      const dpr = window.devicePixelRatio || 1;
       canvas.width = container.clientWidth * dpr;
       canvas.height = container.clientHeight * dpr;
       canvas.style.width = container.clientWidth + 'px';
       canvas.style.height = container.clientHeight + 'px';
 
-      ctx.putImageData(imageData, 0, 0);
       ctx.lineCap = 'round';
       ctx.lineJoin = 'round';
-    });
-  }
 
-  function drawLine(ctx, x1, y1, x2, y2, color, size, eraser) {
-    ctx.save();
-    ctx.lineCap = 'round';
-    ctx.lineJoin = 'round';
-    ctx.strokeStyle = color;
-    ctx.lineWidth = size;
+      canvas.classList.add('layerCanvas');
+      if (layers.length === 0) {
+        canvas.classList.add('activeLayer');
+      }
+      container.appendChild(canvas);
 
-    if (eraser) {
-      ctx.globalCompositeOperation = 'destination-out';
-    } else {
-      ctx.globalCompositeOperation = 'source-over';
+      const layerObj = {canvas, ctx, name};
+      layers.push(layerObj);
+      addLayerToPanel(layerObj, layers.length - 1);
+      setActiveLayer(layers.length - 1);
     }
 
-    ctx.beginPath();
-    ctx.moveTo(x1, y1);
-    ctx.lineTo(x2, y2);
-    ctx.stroke();
-    ctx.restore();
-  }
+    function addLayerToPanel(layer, index) {
+      const item = document.createElement('div');
+      item.classList.add('layerItem');
+      item.textContent = layer.name;
+      item.setAttribute('role', 'listitem');
+      if (index === activeLayerIndex) item.classList.add('active');
 
-  function getPointerPos(e, canvas) {
-    const rect = canvas.getBoundingClientRect();
-    const dpr = window.devicePixelRatio || 1;
-    return {
-      x: (e.clientX - rect.left) * dpr,
-      y: (e.clientY - rect.top) * dpr,
-    };
-  }
+      // Remove button
+      const removeBtn = document.createElement('span');
+      removeBtn.classList.add('layerRemove');
+      removeBtn.innerHTML = '&times;';
+      removeBtn.title = 'Remove layer';
+      removeBtn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        removeLayer(index);
+      });
+      item.appendChild(removeBtn);
 
-  function pointerDown(e) {
-    e.preventDefault();
-    drawing = true;
-    const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
-    lastX = pos.x;
-    lastY = pos.y;
-  }
+      item.addEventListener('click', () => {
+        setActiveLayer(index);
+      });
 
-  function pointerMove(e) {
-    if (!drawing) return;
-    e.preventDefault();
-    const ctx = layers[activeLayerIndex].ctx;
-    const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
+      layersList.appendChild(item);
+    }
 
-    const size = parseInt(brushSizeInput.value, 10);
-    const color = eraserOn ? 'rgba(0,0,0,1)' : colorPicker.value;
+    function setActiveLayer(index) {
+      if (index < 0 || index >= layers.length) return;
+      activeLayerIndex = index;
 
-    drawLine(ctx, lastX, lastY, pos.x, pos.y, color, size, eraserOn);
+      layers.forEach((layer, i) => {
+        if (i === index) {
+          layer.canvas.classList.add('activeLayer');
+        } else {
+          layer.canvas.classList.remove('activeLayer');
+        }
+      });
 
-    lastX = pos.x;
-    lastY = pos.y;
-  }
+      // Update layers panel active class
+      [...layersList.children].forEach((el, i) => {
+        el.classList.toggle('active', i === index);
+      });
+    }
 
-  function pointerUp(e) {
-    drawing = false;
-  }
+    function removeLayer(index) {
+      if (layers.length <= 1) return alert("Can't remove the last layer");
+      const layer = layers[index];
+      container.removeChild(layer.canvas);
+      layers.splice(index, 1);
+      // Remove layer item UI
+      layersList.removeChild(layersList.children[index]);
+      if (activeLayerIndex >= layers.length) activeLayerIndex = layers.length - 1;
+      setActiveLayer(activeLayerIndex);
+    }
 
-  function toggleEraser() {
-    eraserOn = !eraserOn;
-    eraserBtn.textContent = eraserOn ? 'Eraser: On' : 'Eraser: Off';
-    eraserBtn.setAttribute('aria-pressed', eraserOn);
-  }
+    function resizeContainer() {
+      const dpr = window.devicePixelRatio || 1;
+      layers.forEach(layer => {
+        const canvas = layer.canvas;
+        const ctx = layer.ctx;
+        // Save current content
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
 
-  function clearActiveLayer() {
-    const ctx = layers[activeLayerIndex].ctx;
-    const canvas = layers[activeLayerIndex].canvas;
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
-  }
+        canvas.width = container.clientWidth * dpr;
+        canvas.height = container.clientHeight * dpr;
+        canvas.style.width = container.clientWidth + 'px';
+        canvas.style.height = container.clientHeight + 'px';
 
-  function saveImage() {
-    // Combine all layers onto a single canvas
-    const exportCanvas = document.createElement('canvas');
-    const dpr = window.devicePixelRatio || 1;
-    exportCanvas.width = container.clientWidth * dpr;
-    exportCanvas.height = container.clientHeight * dpr;
-    const exportCtx = exportCanvas.getContext('2d');
+        ctx.putImageData(imageData, 0, 0);
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+      });
+    }
 
-    // White background for whiteboard
-    exportCtx.fillStyle = '#fff';
-    exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+    function drawLine(ctx, x1, y1, x2, y2, color, size, eraser) {
+      ctx.save();
+      ctx.lineCap = 'round';
+      ctx.lineJoin = 'round';
+      ctx.strokeStyle = color;
+      ctx.lineWidth = size;
 
-    layers.forEach(layer => {
-      exportCtx.drawImage(layer.canvas, 0, 0);
+      if (eraser) {
+        ctx.globalCompositeOperation = 'destination-out';
+      } else {
+        ctx.globalCompositeOperation = 'source-over';
+      }
+
+      ctx.beginPath();
+      ctx.moveTo(x1, y1);
+      ctx.lineTo(x2, y2);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    function getPointerPos(e, canvas) {
+      const rect = canvas.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      return {
+        x: (e.clientX - rect.left) * dpr,
+        y: (e.clientY - rect.top) * dpr,
+      };
+    }
+
+    function pointerDown(e) {
+      e.preventDefault();
+      drawing = true;
+      const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function pointerMove(e) {
+      if (!drawing) return;
+      e.preventDefault();
+      const ctx = layers[activeLayerIndex].ctx;
+      const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
+
+      const size = parseInt(brushSizeInput.value, 10);
+      const color = eraserOn ? 'rgba(0,0,0,1)' : colorPicker.value;
+
+      drawLine(ctx, lastX, lastY, pos.x, pos.y, color, size, eraserOn);
+
+      // Multiplayer send drawing data if connected
+      if (isInParty && channel) {
+        channel.postMessage({
+          type: 'draw',
+          layer: activeLayerIndex,
+          fromX: lastX,
+          fromY: lastY,
+          toX: pos.x,
+          toY: pos.y,
+          color: eraserOn ? null : color,
+          size,
+          eraser: eraserOn,
+        });
+      }
+
+      lastX = pos.x;
+      lastY = pos.y;
+    }
+
+    function pointerUp(e) {
+      drawing = false;
+    }
+
+    function toggleEraser() {
+      eraserOn = !eraserOn;
+      eraserBtn.textContent = eraserOn ? 'Eraser: On' : 'Eraser: Off';
+      eraserBtn.setAttribute('aria-pressed', eraserOn);
+    }
+
+    function clearActiveLayer() {
+      const ctx = layers[activeLayerIndex].ctx;
+      const canvas = layers[activeLayerIndex].canvas;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      if (isInParty && channel) {
+        channel.postMessage({
+          type: 'clear',
+          layer: activeLayerIndex
+        });
+      }
+    }
+
+    function saveImage() {
+      // Combine all layers onto a single canvas
+      const exportCanvas = document.createElement('canvas');
+      const dpr = window.devicePixelRatio || 1;
+      exportCanvas.width = container.clientWidth * dpr;
+      exportCanvas.height = container.clientHeight * dpr;
+      const exportCtx = exportCanvas.getContext('2d');
+
+      // White background for whiteboard
+      exportCtx.fillStyle = '#fff';
+      exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
+
+      layers.forEach(layer => {
+        exportCtx.drawImage(layer.canvas, 0, 0);
+      });
+
+      const dataURL = exportCanvas.toDataURL('image/png');
+
+      const link = document.createElement('a');
+      link.download = 'whiteboard_drawing.png';
+      link.href = dataURL;
+      link.click();
+    }
+
+    function toggleFullscreen() {
+      if (!document.fullscreenElement) {
+        container.requestFullscreen().catch(console.error);
+      } else {
+        document.exitFullscreen();
+      }
+    }
+
+    function init() {
+      createLayer('Layer 1');
+      resizeContainer();
+    }
+
+    container.addEventListener('pointerdown', pointerDown);
+    container.addEventListener('pointermove', pointerMove);
+    window.addEventListener('pointerup', pointerUp);
+    eraserBtn.addEventListener('click', toggleEraser);
+    clearBtn.addEventListener('click', clearActiveLayer);
+    addLayerBtn.addEventListener('click', () => {
+      createLayer(`Layer ${layers.length + 1}`);
+    });
+    saveBtn.addEventListener('click', saveImage);
+    fullscreenBtn.addEventListener('click', toggleFullscreen);
+    window.addEventListener('resize', resizeContainer);
+
+    // Multiplayer UI & logic
+    const menuBtn = document.getElementById('menuBtn');
+    const multiplayerMenu = document.getElementById('multiplayerMenu');
+    let isMenuOpen = false;
+
+    menuBtn.addEventListener('click', () => {
+      isMenuOpen = !isMenuOpen;
+      multiplayerMenu.classList.toggle('show', isMenuOpen);
+      menuBtn.setAttribute('aria-expanded', isMenuOpen);
+      // Reset multiplayer menu content to just the multiplayer button on open
+      resetMultiplayerMenu();
     });
 
-    const dataURL = exportCanvas.toDataURL('image/png');
-
-    const link = document.createElement('a');
-    link.download = 'whiteboard_drawing.png';
-    link.href = dataURL;
-    link.click();
-  }
-
-  function toggleFullscreen() {
-    if (!document.fullscreenElement) {
-      container.requestFullscreen().catch(console.error);
-    } else {
-      document.exitFullscreen();
+    function resetMultiplayerMenu() {
+      const content = document.getElementById('multiplayerContent');
+      content.innerHTML = '';
+      const multiplayerBtn = document.createElement('button');
+      multiplayerBtn.textContent = 'Multiplayer';
+      multiplayerBtn.id = 'multiplayerBtn';
+      multiplayerBtn.addEventListener('click', () => showMultiplayerOptions());
+      content.appendChild(multiplayerBtn);
+      document.getElementById('statusMsg')?.remove();
     }
-  }
 
-  function init() {
-    createLayer('Layer 1');
-    resizeContainer();
-  }
+    function showMultiplayerOptions() {
+      const content = document.getElementById('multiplayerContent');
+      content.innerHTML = '';
 
-  // Event listeners
-  container.addEventListener('pointerdown', pointerDown);
-  container.addEventListener('pointermove', pointerMove);
-  window.addEventListener('pointerup', pointerUp);
-  eraserBtn.addEventListener('click', toggleEraser);
-  clearBtn.addEventListener('click', clearActiveLayer);
-  addLayerBtn.addEventListener('click', () => {
-    createLayer(`Layer ${layers.length + 1}`);
-  });
-  saveBtn.addEventListener('click', saveImage);
-  fullscreenBtn.addEventListener('click', toggleFullscreen);
+      // Party code input
+      const input = document.createElement('input');
+      input.type = 'text';
+      input.placeholder = 'Enter Party Code';
+      input.id = 'partyCodeInput';
+      input.maxLength = 6;
+      input.autocomplete = 'off';
+      input.spellcheck = false;
+      content.appendChild(input);
 
-  window.addEventListener('resize', resizeContainer);
+      // Create Party Button
+      const createBtn = document.createElement('button');
+      createBtn.textContent = 'Create Party';
+      createBtn.addEventListener('click', () => createParty());
+      content.appendChild(createBtn);
 
-  window.onload = init;
-</script>
+      // Join Party Button
+      const joinBtn = document.createElement('button');
+      joinBtn.textContent = 'Join Party';
+      joinBtn.addEventListener('click', () => {
+        const code = input.value.trim().toUpperCase();
+        joinParty(code);
+      });
+      content.appendChild(joinBtn);
 
+      // Status message
+      const status = document.createElement('div');
+      status.id = 'statusMsg';
+      content.appendChild(status);
+    }
+
+    // Multiplayer channel and state
+    let channel = null;
+    let isInParty = false;
+    let currentPartyCode = null;
+
+    // Create a random 6 letter party code (A-Z)
+    function generatePartyCode() {
+      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+      let code = '';
+      for (let i = 0; i < 6; i++) {
+        code += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return code;
+    }
+
+    // Using BroadcastChannel for demo only (works same-origin, multiple tabs)
+    // In real app, swap with WebSocket or other backend channel
+    const parties = {}; // In-memory parties (host tab only)
+
+    function createParty() {
+      if (isInParty) {
+        showStatus('Already in a party. Leave first.');
+        return;
+      }
+      const code = generatePartyCode();
+      currentPartyCode = code;
+      // Mark this tab as host and create channel
+      channel = new BroadcastChannel('whiteboard_' + code);
+      isInParty = true;
+
+      // Store parties on host tab only
+      parties[code] = {members: 1};
+
+      channel.onmessage = handleChannelMessage;
+
+      showStatus(`Party created: ${code}`);
+      setupPartyUI(code, true);
+    }
+
+    function joinParty(code) {
+      if (!code || code.length !== 6) {
+        showStatus('Invalid code!');
+        return;
+      }
+      if (isInParty) {
+        showStatus('Already in a party. Leave first.');
+        return;
+      }
+      // For demo: allow joining any code since no real server
+      // In real scenario, validate code with server
+      currentPartyCode = code.toUpperCase();
+      channel = new BroadcastChannel('whiteboard_' + currentPartyCode);
+      isInParty = true;
+
+      channel.onmessage = handleChannelMessage;
+
+      showStatus(`Joined party: ${currentPartyCode}`);
+      setupPartyUI(currentPartyCode, false);
+
+      // Clear current canvas layers to sync
+      layers.forEach(layer => {
+        layer.ctx.clearRect(0, 0, layer.canvas.width, layer.canvas.height);
+      });
+
+      // Request sync from others
+      channel.postMessage({type: 'request_sync'});
+    }
+
+    function handleChannelMessage(e) {
+      const msg = e.data;
+      if (!msg || !msg.type) return;
+      switch(msg.type) {
+        case 'draw':
+          if (msg.layer >= 0 && msg.layer < layers.length) {
+            const ctx = layers[msg.layer].ctx;
+            drawLine(ctx, msg.fromX, msg.fromY, msg.toX, msg.toY, msg.color || '#fff', msg.size, msg.eraser);
+          }
+          break;
+        case 'clear':
+          if (msg.layer >= 0 && msg.layer < layers.length) {
+            layers[msg.layer].ctx.clearRect(0, 0, layers[msg.layer].canvas.width, layers[msg.layer].canvas.height);
+          }
+          break;
+        case 'request_sync':
+          if (isHost()) {
+            sendSyncData();
+          }
+          break;
+        case 'sync_data':
+          if (!isHost()) {
+            applySyncData(msg.data);
+          }
+          break;
+      }
+    }
+
+    // Only the creator is host (party creator)
+    function isHost() {
+      return parties[currentPartyCode] !== undefined;
+    }
+
+    function sendSyncData() {
+      // Serialize layers as images (base64)
+      const data = layers.map(layer => layer.canvas.toDataURL());
+      channel.postMessage({type: 'sync_data', data});
+    }
+
+    function applySyncData(data) {
+      if (!data || !Array.isArray(data)) return;
+      data.forEach((dataURL, i) => {
+        if (i < layers.length) {
+          const img = new Image();
+          img.onload = () => {
+            const ctx = layers[i].ctx;
+            ctx.clearRect(0, 0, layers[i].canvas.width, layers[i].canvas.height);
+            ctx.drawImage(img, 0, 0);
+          };
+          img.src = dataURL;
+        }
+      });
+    }
+
+    function setupPartyUI(code, isHostParty) {
+      const content = document.getElementById('multiplayerContent');
+      content.innerHTML = '';
+
+      // Show party code with copy button
+      const partyCodeDiv = document.createElement('div');
+      partyCodeDiv.style.fontWeight = '700';
+      partyCodeDiv.style.letterSpacing = '0.25em';
+      partyCodeDiv.style.textAlign = 'center';
+      partyCodeDiv.style.userSelect = 'all';
+      partyCodeDiv.textContent = `Party Code: ${code}`;
+      content.appendChild(partyCodeDiv);
+
+      const leaveBtn = document.createElement('button');
+      leaveBtn.textContent = 'Leave Party';
+      leaveBtn.addEventListener('click', leaveParty);
+      content.appendChild(leaveBtn);
+
+      showStatus(isHostParty ? 'You are hosting this party.' : 'You are connected to this party.');
+    }
+
+    function leaveParty() {
+      if (channel) {
+        channel.close();
+        channel = null;
+      }
+      isInParty = false;
+      currentPartyCode = null;
+      resetMultiplayerMenu();
+      showStatus('Left the party.');
+    }
+
+    function showStatus(msg) {
+      let status = document.getElementById('statusMsg');
+      if (!status) {
+        status = document.createElement('div');
+        status.id = 'statusMsg';
+        const content = document.getElementById('multiplayerContent');
+        content.appendChild(status);
+      }
+      status.textContent = msg;
+    }
+
+    // Init on load
+    init();
+
+  </script>
 </body>
 </html>

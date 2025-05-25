@@ -1,831 +1,243 @@
 <!DOCTYPE html>
-<html lang="en" >
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>⚪ Neon Mono Whiteboard with Multiplayer</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Neon Whiteboard</title>
   <style>
-    /* (Keep all previous styles from the last snippet) */
-    @import url('https://fonts.googleapis.com/css2?family=Orbitron:wght@500&display=swap');
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600&display=swap');
-
-    * {
-      box-sizing: border-box;
-      transition: background-color 0.3s ease, color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-    }
-    body {
+    html, body {
       margin: 0;
-      font-family: 'Poppins', sans-serif;
-      background: #fefefe;
-      color: #222;
-      display: flex;
-      flex-direction: column;
-      height: 100vh;
-      overflow: hidden;
-      user-select: none;
-      -webkit-font-smoothing: antialiased;
-      -moz-osx-font-smoothing: grayscale;
-      background: linear-gradient(135deg, #fff 0%, #f1f1f1 100%);
-    }
-    header {
-      font-family: 'Orbitron', monospace;
-      font-weight: 500;
-      font-size: 2.8rem;
-      padding: 1.25rem 2rem;
-      text-align: center;
-      color: #111;
-      text-shadow:
-        0 0 6px #555,
-        0 0 14px #aaa;
-      letter-spacing: 2px;
-      user-select: none;
-      background: rgba(255 255 255 / 0.8);
-      backdrop-filter: blur(12px);
-      border-bottom: 1px solid #ccc;
-      z-index: 20;
-      position: relative;
-    }
-    #toolbar {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 1.6rem;
-      padding: 1rem 2rem;
-      background: rgba(255 255 255 / 0.85);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid #ddd;
-      box-shadow:
-        0 0 16px #aaa3;
-      user-select: none;
-      flex-wrap: wrap;
-      z-index: 20;
-      position: relative;
-    }
-    #toolbar > * {
-      display: flex;
-      align-items: center;
-      gap: 0.5rem;
-      color: #444;
-      font-weight: 600;
-      font-size: 1.1rem;
-      text-shadow:
-        0 0 8px #bbb8;
-    }
-    #toolbar label {
-      user-select: none;
-      letter-spacing: 0.5px;
-    }
-    #toolbar input[type=color],
-    #toolbar input[type=range],
-    #toolbar button {
-      border-radius: 12px;
-      border: none;
-      outline: none;
-      cursor: pointer;
-      font-size: 1.1rem;
-      padding: 0.4rem 1rem;
-      background: rgba(0 0 0 / 0.04);
-      color: #222;
-      box-shadow:
-        0 0 8px #4443;
-      font-weight: 700;
-      user-select: none;
-      text-shadow:
-        0 0 6px #0004;
-      transition: background-color 0.3s ease, box-shadow 0.3s ease, transform 0.2s ease;
-      backdrop-filter: blur(10px);
-      border: 1px solid #bbb;
-      min-width: 100px;
-      text-align: center;
-    }
-    #toolbar input[type=color] {
-      width: 44px;
-      height: 38px;
       padding: 0;
-      border-radius: 14px;
-      border: 2px solid #666;
-      box-shadow:
-        0 0 12px #444a inset;
-      filter: grayscale(100%);
-    }
-    #toolbar input[type=range] {
-      width: 140px;
-      accent-color: #222;
-    }
-    #toolbar input[type=color]:hover,
-    #toolbar input[type=range]:hover,
-    #toolbar button:hover {
-      background: rgba(0 0 0 / 0.1);
-      box-shadow:
-        0 0 16px #222,
-        0 0 30px #0008;
-      transform: scale(1.08);
-      color: #111;
-    }
-    #toolbar button:focus-visible {
-      outline: 2px solid #222;
-      outline-offset: 2px;
-    }
-
-    #layersPanel {
-      position: absolute;
-      bottom: 18px;
-      left: 50%;
-      transform: translateX(-50%);
-      display: flex;
-      gap: 0.8rem;
-      padding: 0.8rem 1rem;
-      background: rgba(255 255 255 / 0.75);
-      backdrop-filter: blur(14px);
-      border-radius: 14px;
-      box-shadow: 0 0 24px #0003;
-      max-width: 90vw;
-      overflow-x: auto;
-      z-index: 30;
-      user-select: none;
-      scrollbar-width: thin;
-      scrollbar-color: #888 #eee;
-    }
-    #layersPanel::-webkit-scrollbar {
-      height: 8px;
-    }
-    #layersPanel::-webkit-scrollbar-thumb {
-      background-color: #888;
-      border-radius: 10px;
-    }
-    .layerItem {
-      flex-shrink: 0;
-      background: rgba(0,0,0,0.05);
-      border-radius: 12px;
-      padding: 0.5rem 1.2rem;
-      color: #333;
-      font-weight: 700;
-      font-size: 1rem;
-      cursor: pointer;
-      position: relative;
-      text-shadow: 0 0 4px #0003;
-      user-select: none;
-      box-shadow:
-        inset 0 0 10px #0004,
-        0 0 6px transparent;
-      transition: box-shadow 0.3s ease, color 0.3s ease, transform 0.2s ease;
-    }
-    .layerItem.active {
-      color: #000;
-      box-shadow:
-        inset 0 0 18px #222,
-        0 0 12px #2228;
-      transform: scale(1.12);
-      font-weight: 800;
-    }
-    .layerItem:hover:not(.active) {
-      color: #111;
-      box-shadow:
-        inset 0 0 12px #1117,
-        0 0 8px #1119;
-      transform: scale(1.05);
-    }
-    .layerRemove {
-      position: absolute;
-      top: 6px;
-      right: 8px;
-      color: #666;
-      font-weight: 900;
-      font-size: 1.3rem;
-      cursor: pointer;
-      user-select: none;
-      padding: 0 4px;
-      line-height: 1;
-      transition: color 0.3s ease;
-    }
-    .layerRemove:hover {
-      color: #000;
-    }
-
-    #container {
-      position: relative;
-      flex-grow: 1;
-      overflow: hidden;
+      height: 100%;
       background: #fff;
-      cursor: crosshair;
+      font-family: 'Segoe UI', sans-serif;
+      overflow: hidden;
+      user-select: none;
     }
     canvas {
       position: absolute;
       top: 0;
       left: 0;
-      background: transparent;
-      border-radius: 0;
-      box-shadow: none;
-      cursor: crosshair;
-      image-rendering: auto;
-      transition: box-shadow 0.3s ease;
+      width: 100vw;
+      height: 100vh;
     }
-    canvas.activeLayer {
-      box-shadow:
-        0 0 18px 4px #222;
-      cursor: crosshair;
-    }
-
-    /* Multiplayer UI */
-    #menuBtn {
+    #menu {
       position: absolute;
-      top: 14px;
-      right: 14px;
-      background: rgba(0,0,0,0.05);
-      border-radius: 14px;
-      padding: 8px 18px;
-      font-weight: 700;
-      font-size: 1.1rem;
-      color: #222;
-      cursor: pointer;
-      user-select: none;
-      box-shadow:
-        0 0 10px #6664;
-      transition: background-color 0.3s ease, color 0.3s ease;
-      z-index: 40;
-      border: 2px solid transparent;
+      top: 10px;
+      left: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: #fff;
+      padding: 10px;
+      border-radius: 8px;
+      z-index: 10;
     }
-    #menuBtn:hover {
-      background: rgba(0,0,0,0.1);
-      color: #000;
-      border-color: #555;
-    }
-    #multiplayerMenu {
-      position: absolute;
-      top: 54px;
-      right: 14px;
-      background: rgba(255 255 255 / 0.98);
-      backdrop-filter: blur(14px);
-      border-radius: 16px;
-      padding: 18px 24px;
-      box-shadow: 0 0 30px #aaa8;
-      width: 260px;
-      font-weight: 600;
-      font-size: 1.1rem;
-      color: #111;
-      user-select: none;
+    #partyControls {
       display: none;
       flex-direction: column;
-      gap: 14px;
-      z-index: 45;
-      border: 1.5px solid #ddd;
+      margin-top: 10px;
     }
-    #multiplayerMenu.show {
+    button, input {
+      margin: 5px 0;
+      padding: 6px 10px;
+      border: none;
+      border-radius: 4px;
+      font-size: 14px;
+    }
+    input {
+      width: 140px;
+    }
+    .btn {
+      background-color: #333;
+      color: white;
+      cursor: pointer;
+    }
+    #chatBox {
+      position: absolute;
+      right: 10px;
+      bottom: 10px;
+      background: rgba(0, 0, 0, 0.8);
+      color: white;
+      padding: 10px;
+      border-radius: 8px;
+      width: 250px;
+      max-height: 200px;
+      display: flex;
+      flex-direction: column;
+      z-index: 20;
+    }
+    #chatMessages {
+      flex: 1;
+      overflow-y: auto;
+      margin-bottom: 5px;
+      font-size: 13px;
+    }
+    #chatInput {
       display: flex;
     }
-    #multiplayerMenu button {
-      width: 100%;
-      background: #e0e0e0;
-      border: 1.5px solid #ccc;
-      border-radius: 12px;
-      padding: 0.6rem 0;
-      font-weight: 700;
-      cursor: pointer;
-      transition: background-color 0.3s ease;
-      color: #333;
+    #chatInput input {
+      flex: 1;
+      padding: 4px;
     }
-    #multiplayerMenu button:hover {
-      background: #ccc;
-      color: #111;
-    }
-    #partyCodeInput {
-      padding: 0.5rem 1rem;
-      font-size: 1.05rem;
-      border-radius: 12px;
-      border: 1.5px solid #ccc;
-      outline: none;
-      box-shadow: inset 0 0 8px #ccc;
-      transition: border-color 0.3s ease;
-      font-family: monospace;
-      letter-spacing: 0.15em;
-      color: #444;
-      user-select: text;
-    }
-    #partyCodeInput:focus {
-      border-color: #999;
-      box-shadow: inset 0 0 14px #aaa;
-    }
-
-    #statusMsg {
-      font-size: 0.9rem;
-      color: #666;
-      text-align: center;
-      margin-top: -8px;
-      min-height: 20px;
-      font-weight: 600;
-      user-select: none;
+    #chatInput button {
+      margin-left: 4px;
     }
   </style>
 </head>
 <body>
-  <header>Neon Mono Whiteboard</header>
-
-  <div id="toolbar">
-    <label for="brushSizeInput">Brush Size:</label>
-    <input id="brushSizeInput" type="range" min="1" max="60" value="10" />
-    <label for="colorPicker">Color:</label>
-    <input id="colorPicker" type="color" value="#222222" />
-    <button id="eraserBtn" aria-pressed="false" aria-label="Toggle eraser">Eraser: Off</button>
-    <button id="clearBtn" aria-label="Clear active layer">Clear Layer</button>
-    <button id="addLayerBtn" aria-label="Add new layer">Add Layer</button>
-    <button id="saveBtn" aria-label="Save drawing as image">Save PNG</button>
-    <button id="fullscreenBtn" aria-label="Toggle fullscreen">Fullscreen</button>
+  <canvas id="canvas"></canvas>
+  <div id="menu">
+    <input type="text" id="guestName" placeholder="Your Name" />
+    <button class="btn" onclick="togglePartyMenu()">Multiplayer</button>
+    <div id="partyControls">
+      <button class="btn" onclick="createParty()">Create Party</button>
+      <input type="text" id="joinCode" placeholder="Enter Code" />
+      <button class="btn" onclick="joinParty(document.getElementById('joinCode').value)">Join Party</button>
+    </div>
+    <div id="status"></div>
   </div>
 
-  <div id="container" role="main" tabindex="0"></div>
-
-  <div id="layersPanel" role="list" aria-label="Layers"></div>
-
-  <button id="menuBtn" aria-haspopup="true" aria-expanded="false" aria-controls="multiplayerMenu">Menu</button>
-
-  <div id="multiplayerMenu" role="dialog" aria-modal="true" aria-labelledby="multiplayerTitle">
-    <div id="multiplayerContent" style="display:flex; flex-direction: column; gap: 12px;">
-      <button id="multiplayerBtn">Multiplayer</button>
+  <div id="chatBox">
+    <div id="chatMessages"></div>
+    <div id="chatInput">
+      <input type="text" id="chatMsg" placeholder="Type a message..." />
+      <button onclick="sendChatMessage()">Send</button>
     </div>
   </div>
 
   <script>
-    // Base drawing and layers code (from your snippet)
-    const container = document.getElementById('container');
-    const brushSizeInput = document.getElementById('brushSizeInput');
-    const colorPicker = document.getElementById('colorPicker');
-    const eraserBtn = document.getElementById('eraserBtn');
-    const clearBtn = document.getElementById('clearBtn');
-    const addLayerBtn = document.getElementById('addLayerBtn');
-    const saveBtn = document.getElementById('saveBtn');
-    const fullscreenBtn = document.getElementById('fullscreenBtn');
-    const layersList = document.getElementById('layersPanel');
+    const canvas = document.getElementById('canvas');
+    const ctx = canvas.getContext('2d');
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
 
-    let layers = [];
-    let activeLayerIndex = 0;
-    let drawing = false;
+    let painting = false;
     let lastX = 0;
     let lastY = 0;
-    let eraserOn = false;
+    let brushSize = 5;
+    let currentColor = '#000000';
+    let isErasing = false;
 
-    function createLayer(name) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
-      const dpr = window.devicePixelRatio || 1;
-      canvas.width = container.clientWidth * dpr;
-      canvas.height = container.clientHeight * dpr;
-      canvas.style.width = container.clientWidth + 'px';
-      canvas.style.height = container.clientHeight + 'px';
-
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-
-      canvas.classList.add('layerCanvas');
-      if (layers.length === 0) {
-        canvas.classList.add('activeLayer');
-      }
-      container.appendChild(canvas);
-
-      const layerObj = {canvas, ctx, name};
-      layers.push(layerObj);
-      addLayerToPanel(layerObj, layers.length - 1);
-      setActiveLayer(layers.length - 1);
+    function drawLine(context, x1, y1, x2, y2, color, size, eraser) {
+      context.strokeStyle = eraser ? '#ffffff' : color;
+      context.lineWidth = size;
+      context.lineCap = 'round';
+      context.beginPath();
+      context.moveTo(x1, y1);
+      context.lineTo(x2, y2);
+      context.stroke();
     }
 
-    function addLayerToPanel(layer, index) {
-      const item = document.createElement('div');
-      item.classList.add('layerItem');
-      item.textContent = layer.name;
-      item.setAttribute('role', 'listitem');
-      if (index === activeLayerIndex) item.classList.add('active');
-
-      // Remove button
-      const removeBtn = document.createElement('span');
-      removeBtn.classList.add('layerRemove');
-      removeBtn.innerHTML = '&times;';
-      removeBtn.title = 'Remove layer';
-      removeBtn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        removeLayer(index);
-      });
-      item.appendChild(removeBtn);
-
-      item.addEventListener('click', () => {
-        setActiveLayer(index);
-      });
-
-      layersList.appendChild(item);
-    }
-
-    function setActiveLayer(index) {
-      if (index < 0 || index >= layers.length) return;
-      activeLayerIndex = index;
-
-      layers.forEach((layer, i) => {
-        if (i === index) {
-          layer.canvas.classList.add('activeLayer');
-        } else {
-          layer.canvas.classList.remove('activeLayer');
-        }
-      });
-
-      // Update layers panel active class
-      [...layersList.children].forEach((el, i) => {
-        el.classList.toggle('active', i === index);
-      });
-    }
-
-    function removeLayer(index) {
-      if (layers.length <= 1) return alert("Can't remove the last layer");
-      const layer = layers[index];
-      container.removeChild(layer.canvas);
-      layers.splice(index, 1);
-      // Remove layer item UI
-      layersList.removeChild(layersList.children[index]);
-      if (activeLayerIndex >= layers.length) activeLayerIndex = layers.length - 1;
-      setActiveLayer(activeLayerIndex);
-    }
-
-    function resizeContainer() {
-      const dpr = window.devicePixelRatio || 1;
-      layers.forEach(layer => {
-        const canvas = layer.canvas;
-        const ctx = layer.ctx;
-        // Save current content
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-
-        canvas.width = container.clientWidth * dpr;
-        canvas.height = container.clientHeight * dpr;
-        canvas.style.width = container.clientWidth + 'px';
-        canvas.style.height = container.clientHeight + 'px';
-
-        ctx.putImageData(imageData, 0, 0);
-        ctx.lineCap = 'round';
-        ctx.lineJoin = 'round';
-      });
-    }
-
-    function drawLine(ctx, x1, y1, x2, y2, color, size, eraser) {
-      ctx.save();
-      ctx.lineCap = 'round';
-      ctx.lineJoin = 'round';
-      ctx.strokeStyle = color;
-      ctx.lineWidth = size;
-
-      if (eraser) {
-        ctx.globalCompositeOperation = 'destination-out';
-      } else {
-        ctx.globalCompositeOperation = 'source-over';
-      }
-
-      ctx.beginPath();
-      ctx.moveTo(x1, y1);
-      ctx.lineTo(x2, y2);
-      ctx.stroke();
-      ctx.restore();
-    }
-
-    function getPointerPos(e, canvas) {
-      const rect = canvas.getBoundingClientRect();
-      const dpr = window.devicePixelRatio || 1;
-      return {
-        x: (e.clientX - rect.left) * dpr,
-        y: (e.clientY - rect.top) * dpr,
-      };
-    }
-
-    function pointerDown(e) {
-      e.preventDefault();
-      drawing = true;
-      const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
-      lastX = pos.x;
-      lastY = pos.y;
-    }
-
-    function pointerMove(e) {
-      if (!drawing) return;
-      e.preventDefault();
-      const ctx = layers[activeLayerIndex].ctx;
-      const pos = getPointerPos(e, layers[activeLayerIndex].canvas);
-
-      const size = parseInt(brushSizeInput.value, 10);
-      const color = eraserOn ? 'rgba(0,0,0,1)' : colorPicker.value;
-
-      drawLine(ctx, lastX, lastY, pos.x, pos.y, color, size, eraserOn);
-
-      // Multiplayer send drawing data if connected
-      if (isInParty && channel) {
-        channel.postMessage({
-          type: 'draw',
-          layer: activeLayerIndex,
-          fromX: lastX,
-          fromY: lastY,
-          toX: pos.x,
-          toY: pos.y,
-          color: eraserOn ? null : color,
-          size,
-          eraser: eraserOn,
-        });
-      }
-
-      lastX = pos.x;
-      lastY = pos.y;
-    }
-
-    function pointerUp(e) {
-      drawing = false;
-    }
-
-    function toggleEraser() {
-      eraserOn = !eraserOn;
-      eraserBtn.textContent = eraserOn ? 'Eraser: On' : 'Eraser: Off';
-      eraserBtn.setAttribute('aria-pressed', eraserOn);
-    }
-
-    function clearActiveLayer() {
-      const ctx = layers[activeLayerIndex].ctx;
-      const canvas = layers[activeLayerIndex].canvas;
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-      if (isInParty && channel) {
-        channel.postMessage({
-          type: 'clear',
-          layer: activeLayerIndex
-        });
-      }
-    }
-
-    function saveImage() {
-      // Combine all layers onto a single canvas
-      const exportCanvas = document.createElement('canvas');
-      const dpr = window.devicePixelRatio || 1;
-      exportCanvas.width = container.clientWidth * dpr;
-      exportCanvas.height = container.clientHeight * dpr;
-      const exportCtx = exportCanvas.getContext('2d');
-
-      // White background for whiteboard
-      exportCtx.fillStyle = '#fff';
-      exportCtx.fillRect(0, 0, exportCanvas.width, exportCanvas.height);
-
-      layers.forEach(layer => {
-        exportCtx.drawImage(layer.canvas, 0, 0);
-      });
-
-      const dataURL = exportCanvas.toDataURL('image/png');
-
-      const link = document.createElement('a');
-      link.download = 'whiteboard_drawing.png';
-      link.href = dataURL;
-      link.click();
-    }
-
-    function toggleFullscreen() {
-      if (!document.fullscreenElement) {
-        container.requestFullscreen().catch(console.error);
-      } else {
-        document.exitFullscreen();
-      }
-    }
-
-    function init() {
-      createLayer('Layer 1');
-      resizeContainer();
-    }
-
-    container.addEventListener('pointerdown', pointerDown);
-    container.addEventListener('pointermove', pointerMove);
-    window.addEventListener('pointerup', pointerUp);
-    eraserBtn.addEventListener('click', toggleEraser);
-    clearBtn.addEventListener('click', clearActiveLayer);
-    addLayerBtn.addEventListener('click', () => {
-      createLayer(`Layer ${layers.length + 1}`);
-    });
-    saveBtn.addEventListener('click', saveImage);
-    fullscreenBtn.addEventListener('click', toggleFullscreen);
-    window.addEventListener('resize', resizeContainer);
-
-    // Multiplayer UI & logic
-    const menuBtn = document.getElementById('menuBtn');
-    const multiplayerMenu = document.getElementById('multiplayerMenu');
-    let isMenuOpen = false;
-
-    menuBtn.addEventListener('click', () => {
-      isMenuOpen = !isMenuOpen;
-      multiplayerMenu.classList.toggle('show', isMenuOpen);
-      menuBtn.setAttribute('aria-expanded', isMenuOpen);
-      // Reset multiplayer menu content to just the multiplayer button on open
-      resetMultiplayerMenu();
+    canvas.addEventListener('mousedown', (e) => {
+      painting = true;
+      lastX = e.clientX;
+      lastY = e.clientY;
     });
 
-    function resetMultiplayerMenu() {
-      const content = document.getElementById('multiplayerContent');
-      content.innerHTML = '';
-      const multiplayerBtn = document.createElement('button');
-      multiplayerBtn.textContent = 'Multiplayer';
-      multiplayerBtn.id = 'multiplayerBtn';
-      multiplayerBtn.addEventListener('click', () => showMultiplayerOptions());
-      content.appendChild(multiplayerBtn);
-      document.getElementById('statusMsg')?.remove();
-    }
+    canvas.addEventListener('mouseup', () => painting = false);
+    canvas.addEventListener('mouseout', () => painting = false);
 
-    function showMultiplayerOptions() {
-      const content = document.getElementById('multiplayerContent');
-      content.innerHTML = '';
+    canvas.addEventListener('mousemove', (e) => {
+      if (!painting) return;
+      handleDrawing(lastX, lastY, e.clientX, e.clientY);
+      lastX = e.clientX;
+      lastY = e.clientY;
+    });
 
-      // Party code input
-      const input = document.createElement('input');
-      input.type = 'text';
-      input.placeholder = 'Enter Party Code';
-      input.id = 'partyCodeInput';
-      input.maxLength = 6;
-      input.autocomplete = 'off';
-      input.spellcheck = false;
-      content.appendChild(input);
-
-      // Create Party Button
-      const createBtn = document.createElement('button');
-      createBtn.textContent = 'Create Party';
-      createBtn.addEventListener('click', () => createParty());
-      content.appendChild(createBtn);
-
-      // Join Party Button
-      const joinBtn = document.createElement('button');
-      joinBtn.textContent = 'Join Party';
-      joinBtn.addEventListener('click', () => {
-        const code = input.value.trim().toUpperCase();
-        joinParty(code);
-      });
-      content.appendChild(joinBtn);
-
-      // Status message
-      const status = document.createElement('div');
-      status.id = 'statusMsg';
-      content.appendChild(status);
-    }
-
-    // Multiplayer channel and state
-    let channel = null;
+    // === Multiplayer logic ===
+    let socket = null;
     let isInParty = false;
     let currentPartyCode = null;
+    let guestName = 'Guest';
 
-    // Create a random 6 letter party code (A-Z)
     function generatePartyCode() {
-      const chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
-      let code = '';
-      for (let i = 0; i < 6; i++) {
-        code += chars.charAt(Math.floor(Math.random() * chars.length));
-      }
-      return code;
+      return Math.random().toString(36).substring(2, 8).toUpperCase();
     }
 
-    // Using BroadcastChannel for demo only (works same-origin, multiple tabs)
-    // In real app, swap with WebSocket or other backend channel
-    const parties = {}; // In-memory parties (host tab only)
-
     function createParty() {
-      if (isInParty) {
-        showStatus('Already in a party. Leave first.');
-        return;
-      }
+      if (isInParty) return;
       const code = generatePartyCode();
       currentPartyCode = code;
-      // Mark this tab as host and create channel
-      channel = new BroadcastChannel('whiteboard_' + code);
+      connectToWebSocket(code);
       isInParty = true;
-
-      // Store parties on host tab only
-      parties[code] = {members: 1};
-
-      channel.onmessage = handleChannelMessage;
-
-      showStatus(`Party created: ${code}`);
-      setupPartyUI(code, true);
+      showStatus(`Created party: ${code}`);
     }
 
     function joinParty(code) {
-      if (!code || code.length !== 6) {
-        showStatus('Invalid code!');
-        return;
-      }
-      if (isInParty) {
-        showStatus('Already in a party. Leave first.');
-        return;
-      }
-      // For demo: allow joining any code since no real server
-      // In real scenario, validate code with server
+      if (isInParty) return;
       currentPartyCode = code.toUpperCase();
-      channel = new BroadcastChannel('whiteboard_' + currentPartyCode);
+      connectToWebSocket(currentPartyCode);
       isInParty = true;
-
-      channel.onmessage = handleChannelMessage;
-
       showStatus(`Joined party: ${currentPartyCode}`);
-      setupPartyUI(currentPartyCode, false);
-
-      // Clear current canvas layers to sync
-      layers.forEach(layer => {
-        layer.ctx.clearRect(0, 0, layer.canvas.width, layer.canvas.height);
-      });
-
-      // Request sync from others
-      channel.postMessage({type: 'request_sync'});
     }
 
-    function handleChannelMessage(e) {
-      const msg = e.data;
-      if (!msg || !msg.type) return;
-      switch(msg.type) {
-        case 'draw':
-          if (msg.layer >= 0 && msg.layer < layers.length) {
-            const ctx = layers[msg.layer].ctx;
-            drawLine(ctx, msg.fromX, msg.fromY, msg.toX, msg.toY, msg.color || '#fff', msg.size, msg.eraser);
-          }
-          break;
-        case 'clear':
-          if (msg.layer >= 0 && msg.layer < layers.length) {
-            layers[msg.layer].ctx.clearRect(0, 0, layers[msg.layer].canvas.width, layers[msg.layer].canvas.height);
-          }
-          break;
-        case 'request_sync':
-          if (isHost()) {
-            sendSyncData();
-          }
-          break;
-        case 'sync_data':
-          if (!isHost()) {
-            applySyncData(msg.data);
-          }
-          break;
-      }
-    }
-
-    // Only the creator is host (party creator)
-    function isHost() {
-      return parties[currentPartyCode] !== undefined;
-    }
-
-    function sendSyncData() {
-      // Serialize layers as images (base64)
-      const data = layers.map(layer => layer.canvas.toDataURL());
-      channel.postMessage({type: 'sync_data', data});
-    }
-
-    function applySyncData(data) {
-      if (!data || !Array.isArray(data)) return;
-      data.forEach((dataURL, i) => {
-        if (i < layers.length) {
-          const img = new Image();
-          img.onload = () => {
-            const ctx = layers[i].ctx;
-            ctx.clearRect(0, 0, layers[i].canvas.width, layers[i].canvas.height);
-            ctx.drawImage(img, 0, 0);
-          };
-          img.src = dataURL;
+    function connectToWebSocket(code) {
+      guestName = document.getElementById('guestName').value || 'Guest';
+      socket = new WebSocket('wss://whiteboard-party.fly.dev');
+      socket.onopen = () => {
+        socket.send(JSON.stringify({ type: 'join', code }));
+      };
+      socket.onmessage = (event) => {
+        const msg = JSON.parse(event.data);
+        if (msg.type === 'draw') {
+          drawLine(ctx, msg.fromX, msg.fromY, msg.toX, msg.toY, msg.color, msg.size, msg.eraser);
+        } else if (msg.type === 'chat') {
+          appendChat(`${msg.name}: ${msg.text}`);
         }
-      });
+      };
     }
 
-    function setupPartyUI(code, isHostParty) {
-      const content = document.getElementById('multiplayerContent');
-      content.innerHTML = '';
-
-      // Show party code with copy button
-      const partyCodeDiv = document.createElement('div');
-      partyCodeDiv.style.fontWeight = '700';
-      partyCodeDiv.style.letterSpacing = '0.25em';
-      partyCodeDiv.style.textAlign = 'center';
-      partyCodeDiv.style.userSelect = 'all';
-      partyCodeDiv.textContent = `Party Code: ${code}`;
-      content.appendChild(partyCodeDiv);
-
-      const leaveBtn = document.createElement('button');
-      leaveBtn.textContent = 'Leave Party';
-      leaveBtn.addEventListener('click', leaveParty);
-      content.appendChild(leaveBtn);
-
-      showStatus(isHostParty ? 'You are hosting this party.' : 'You are connected to this party.');
-    }
-
-    function leaveParty() {
-      if (channel) {
-        channel.close();
-        channel = null;
+    function sendPartyMessage(data) {
+      if (socket && socket.readyState === WebSocket.OPEN) {
+        socket.send(JSON.stringify(data));
       }
-      isInParty = false;
-      currentPartyCode = null;
-      resetMultiplayerMenu();
-      showStatus('Left the party.');
+    }
+
+    function handleDrawing(fromX, fromY, toX, toY) {
+      drawLine(ctx, fromX, fromY, toX, toY, currentColor, brushSize, isErasing);
+      if (isInParty) {
+        sendPartyMessage({
+          type: 'draw',
+          fromX, fromY, toX, toY,
+          color: currentColor,
+          size: brushSize,
+          eraser: isErasing
+        });
+      }
+    }
+
+    function togglePartyMenu() {
+      const el = document.getElementById('partyControls');
+      el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
     }
 
     function showStatus(msg) {
-      let status = document.getElementById('statusMsg');
-      if (!status) {
-        status = document.createElement('div');
-        status.id = 'statusMsg';
-        const content = document.getElementById('multiplayerContent');
-        content.appendChild(status);
-      }
-      status.textContent = msg;
+      document.getElementById('status').innerText = msg;
     }
 
-    // Init on load
-    init();
+    function sendChatMessage() {
+      const input = document.getElementById('chatMsg');
+      const text = input.value.trim();
+      if (text && isInParty) {
+        sendPartyMessage({ type: 'chat', name: guestName, text });
+        appendChat(`You: ${text}`);
+        input.value = '';
+      }
+    }
 
+    function appendChat(msg) {
+      const box = document.getElementById('chatMessages');
+      const p = document.createElement('div');
+      p.textContent = msg;
+      box.appendChild(p);
+      box.scrollTop = box.scrollHeight;
+    }
+
+    window.addEventListener('resize', () => {
+      const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+      ctx.putImageData(img, 0, 0);
+    });
   </script>
 </body>
 </html>

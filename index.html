@@ -1,243 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Ahmads Website</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-      height: 100%;
-      background: #fff;
-      font-family: 'Segoe UI', sans-serif;
-      overflow: hidden;
-      user-select: none;
-    }
-    canvas {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-    }
-    #menu {
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      color: #fff;
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Enhanced UI Example</title>
+<!-- Google Fonts for better typography -->
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+<style>
+  /* Reset some default styles */
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Montserrat', sans-serif;
+    background-color: #f0f4f8;
+    color: #333;
+    line-height: 1.6;
+    padding: 20px;
+  }
+
+  /* Container for the main content */
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    padding: 30px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  /* Header styles */
+  h1 {
+    font-size: 2.5rem;
+    color: #2c3e50;
+    text-align: center;
+    font-weight: 600;
+  }
+
+  /* Button styles */
+  button {
+    background-color: #3498db;
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+  }
+
+  button:hover {
+    background-color: #2980b9;
+    transform: translateY(-2px);
+  }
+
+  /* Input styles */
+  input[type="text"], input[type="email"], textarea {
+    width: 100%;
+    padding: 12px 15px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    font-family: 'Montserrat', sans-serif;
+    font-size: 1rem;
+    transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
+    border-color: #3498db;
+    box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
+    outline: none;
+  }
+
+  /* Card or section styles */
+  .card {
+    background-color: #fafafa;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    transition: box-shadow 0.3s ease;
+  }
+
+  .card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
+  }
+
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    body {
       padding: 10px;
-      border-radius: 8px;
-      z-index: 10;
     }
-    #partyControls {
-      display: none;
-      flex-direction: column;
-      margin-top: 10px;
+
+    .container {
+      padding: 20px;
     }
-    button, input {
-      margin: 5px 0;
-      padding: 6px 10px;
-      border: none;
-      border-radius: 4px;
-      font-size: 14px;
+
+    h1 {
+      font-size: 2rem;
     }
-    input {
-      width: 140px;
-    }
-    .btn {
-      background-color: #333;
-      color: white;
-      cursor: pointer;
-    }
-    #chatBox {
-      position: absolute;
-      right: 10px;
-      bottom: 10px;
-      background: rgba(0, 0, 0, 0.8);
-      color: white;
-      padding: 10px;
-      border-radius: 8px;
-      width: 250px;
-      max-height: 200px;
-      display: flex;
-      flex-direction: column;
-      z-index: 20;
-    }
-    #chatMessages {
-      flex: 1;
-      overflow-y: auto;
-      margin-bottom: 5px;
-      font-size: 13px;
-    }
-    #chatInput {
-      display: flex;
-    }
-    #chatInput input {
-      flex: 1;
-      padding: 4px;
-    }
-    #chatInput button {
-      margin-left: 4px;
-    }
-  </style>
+  }
+</style>
 </head>
 <body>
-  <canvas id="canvas"></canvas>
-  <div id="menu">
-    <input type="text" id="guestName" placeholder="Your Name" />
-    <button class="btn" onclick="togglePartyMenu()">Multiplayer</button>
-    <div id="partyControls">
-      <button class="btn" onclick="createParty()">Create Party</button>
-      <input type="text" id="joinCode" placeholder="Enter Code" />
-      <button class="btn" onclick="joinParty(document.getElementById('joinCode').value)">Join Party</button>
-    </div>
-    <div id="status"></div>
+
+<div class="container">
+  <h1>Welcome to Your Improved UI</h1>
+  
+  <div class="card">
+    <h2>Contact Us</h2>
+    <form>
+      <div style="margin-bottom:15px;">
+        <label for="name" style="display:block; margin-bottom:5px;">Name</label>
+        <input type="text" id="name" name="name" placeholder="Your Name" />
+      </div>
+      <div style="margin-bottom:15px;">
+        <label for="email" style="display:block; margin-bottom:5px;">Email</label>
+        <input type="email" id="email" name="email" placeholder="you@example.com" />
+      </div>
+      <div style="margin-bottom:15px;">
+        <label for="message" style="display:block; margin-bottom:5px;">Message</label>
+        <textarea id="message" name="message" rows="4" placeholder="Your message..."></textarea>
+      </div>
+      <button type="submit">Send Message</button>
+    </form>
   </div>
 
-  <div id="chatBox">
-    <div id="chatMessages"></div>
-    <div id="chatInput">
-      <input type="text" id="chatMsg" placeholder="Type a message..." />
-      <button onclick="sendChatMessage()">Send</button>
-    </div>
+  <div class="card" style="margin-top:20px;">
+    <h2>Features</h2>
+    <ul style="list-style: disc inside; padding-left:0;">
+      <li>Beautiful typography with Montserrat</li>
+      <li>Clean and modern design</li>
+      <li>Responsive layout</li>
+      <li>Hover effects and smooth transitions</li>
+      <li>Accessible and easy to use</li>
+    </ul>
   </div>
+</div>
 
-  <script>
-    const canvas = document.getElementById('canvas');
-    const ctx = canvas.getContext('2d');
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-
-    let painting = false;
-    let lastX = 0;
-    let lastY = 0;
-    let brushSize = 5;
-    let currentColor = '#000000';
-    let isErasing = false;
-
-    function drawLine(context, x1, y1, x2, y2, color, size, eraser) {
-      context.strokeStyle = eraser ? '#ffffff' : color;
-      context.lineWidth = size;
-      context.lineCap = 'round';
-      context.beginPath();
-      context.moveTo(x1, y1);
-      context.lineTo(x2, y2);
-      context.stroke();
-    }
-
-    canvas.addEventListener('mousedown', (e) => {
-      painting = true;
-      lastX = e.clientX;
-      lastY = e.clientY;
-    });
-
-    canvas.addEventListener('mouseup', () => painting = false);
-    canvas.addEventListener('mouseout', () => painting = false);
-
-    canvas.addEventListener('mousemove', (e) => {
-      if (!painting) return;
-      handleDrawing(lastX, lastY, e.clientX, e.clientY);
-      lastX = e.clientX;
-      lastY = e.clientY;
-    });
-
-    // === Multiplayer logic ===
-    let socket = null;
-    let isInParty = false;
-    let currentPartyCode = null;
-    let guestName = 'Guest';
-
-    function generatePartyCode() {
-      return Math.random().toString(36).substring(2, 8).toUpperCase();
-    }
-
-    function createParty() {
-      if (isInParty) return;
-      const code = generatePartyCode();
-      currentPartyCode = code;
-      connectToWebSocket(code);
-      isInParty = true;
-      showStatus(`Created party: ${code}`);
-    }
-
-    function joinParty(code) {
-      if (isInParty) return;
-      currentPartyCode = code.toUpperCase();
-      connectToWebSocket(currentPartyCode);
-      isInParty = true;
-      showStatus(`Joined party: ${currentPartyCode}`);
-    }
-
-    function connectToWebSocket(code) {
-      guestName = document.getElementById('guestName').value || 'Guest';
-      socket = new WebSocket('wss://whiteboard-party.fly.dev');
-      socket.onopen = () => {
-        socket.send(JSON.stringify({ type: 'join', code }));
-      };
-      socket.onmessage = (event) => {
-        const msg = JSON.parse(event.data);
-        if (msg.type === 'draw') {
-          drawLine(ctx, msg.fromX, msg.fromY, msg.toX, msg.toY, msg.color, msg.size, msg.eraser);
-        } else if (msg.type === 'chat') {
-          appendChat(`${msg.name}: ${msg.text}`);
-        }
-      };
-    }
-
-    function sendPartyMessage(data) {
-      if (socket && socket.readyState === WebSocket.OPEN) {
-        socket.send(JSON.stringify(data));
-      }
-    }
-
-    function handleDrawing(fromX, fromY, toX, toY) {
-      drawLine(ctx, fromX, fromY, toX, toY, currentColor, brushSize, isErasing);
-      if (isInParty) {
-        sendPartyMessage({
-          type: 'draw',
-          fromX, fromY, toX, toY,
-          color: currentColor,
-          size: brushSize,
-          eraser: isErasing
-        });
-      }
-    }
-
-    function togglePartyMenu() {
-      const el = document.getElementById('partyControls');
-      el.style.display = el.style.display === 'flex' ? 'none' : 'flex';
-    }
-
-    function showStatus(msg) {
-      document.getElementById('status').innerText = msg;
-    }
-
-    function sendChatMessage() {
-      const input = document.getElementById('chatMsg');
-      const text = input.value.trim();
-      if (text && isInParty) {
-        sendPartyMessage({ type: 'chat', name: guestName, text });
-        appendChat(`You: ${text}`);
-        input.value = '';
-      }
-    }
-
-    function appendChat(msg) {
-      const box = document.getElementById('chatMessages');
-      const p = document.createElement('div');
-      p.textContent = msg;
-      box.appendChild(p);
-      box.scrollTop = box.scrollHeight;
-    }
-
-    window.addEventListener('resize', () => {
-      const img = ctx.getImageData(0, 0, canvas.width, canvas.height);
-      canvas.width = window.innerWidth;
-      canvas.height = window.innerHeight;
-      ctx.putImageData(img, 0, 0);
-    });
-  </script>
 </body>
 </html>

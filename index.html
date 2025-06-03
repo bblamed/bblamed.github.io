@@ -3,144 +3,86 @@
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Enhanced UI Example</title>
-<!-- Google Fonts for better typography -->
-<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet" />
+<title>Simple Drawing Canvas</title>
 <style>
-  /* Reset some default styles */
-  * {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-  }
-
   body {
-    font-family: 'Montserrat', sans-serif;
-    background-color: #f0f4f8;
-    color: #333;
-    line-height: 1.6;
-    padding: 20px;
-  }
-
-  /* Container for the main content */
-  .container {
-    max-width: 1200px;
-    margin: 0 auto;
-    background-color: #fff;
-    border-radius: 10px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-    padding: 30px;
+    margin: 0;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    align-items: center;
   }
-
-  /* Header styles */
-  h1 {
-    font-size: 2.5rem;
-    color: #2c3e50;
-    text-align: center;
-    font-weight: 600;
+  #drawingCanvas {
+    border: 1px solid #000;
+    cursor: crosshair;
   }
-
-  /* Button styles */
-  button {
-    background-color: #3498db;
-    color: #fff;
-    border: none;
-    padding: 12px 25px;
-    border-radius: 8px;
-    font-size: 1rem;
-    cursor: pointer;
-    transition: background-color 0.3s ease, transform 0.2s ease;
-  }
-
-  button:hover {
-    background-color: #2980b9;
-    transform: translateY(-2px);
-  }
-
-  /* Input styles */
-  input[type="text"], input[type="email"], textarea {
-    width: 100%;
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 1px solid #ccc;
-    font-family: 'Montserrat', sans-serif;
-    font-size: 1rem;
-    transition: border-color 0.3s ease, box-shadow 0.3s ease;
-  }
-
-  input[type="text"]:focus, input[type="email"]:focus, textarea:focus {
-    border-color: #3498db;
-    box-shadow: 0 0 8px rgba(52, 152, 219, 0.2);
-    outline: none;
-  }
-
-  /* Card or section styles */
-  .card {
-    background-color: #fafafa;
-    padding: 20px;
-    border-radius: 10px;
-    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
-    transition: box-shadow 0.3s ease;
-  }
-
-  .card:hover {
-    box-shadow: 0 4px 16px rgba(0,0,0,0.1);
-  }
-
-  /* Responsive adjustments */
-  @media (max-width: 768px) {
-    body {
-      padding: 10px;
-    }
-
-    .container {
-      padding: 20px;
-    }
-
-    h1 {
-      font-size: 2rem;
-    }
+  #controls {
+    margin: 10px;
   }
 </style>
 </head>
 <body>
 
-<div class="container">
-  <h1>Welcome to Your Improved UI</h1>
-  
-  <div class="card">
-    <h2>Contact Us</h2>
-    <form>
-      <div style="margin-bottom:15px;">
-        <label for="name" style="display:block; margin-bottom:5px;">Name</label>
-        <input type="text" id="name" name="name" placeholder="Your Name" />
-      </div>
-      <div style="margin-bottom:15px;">
-        <label for="email" style="display:block; margin-bottom:5px;">Email</label>
-        <input type="email" id="email" name="email" placeholder="you@example.com" />
-      </div>
-      <div style="margin-bottom:15px;">
-        <label for="message" style="display:block; margin-bottom:5px;">Message</label>
-        <textarea id="message" name="message" rows="4" placeholder="Your message..."></textarea>
-      </div>
-      <button type="submit">Send Message</button>
-    </form>
-  </div>
-
-  <div class="card" style="margin-top:20px;">
-    <h2>Features</h2>
-    <ul style="list-style: disc inside; padding-left:0;">
-      <li>Beautiful typography with Montserrat</li>
-      <li>Clean and modern design</li>
-      <li>Responsive layout</li>
-      <li>Hover effects and smooth transitions</li>
-      <li>Accessible and easy to use</li>
-    </ul>
-  </div>
+<h1>Simple Drawing Website</h1>
+<div id="controls">
+  <label for="colorPicker">Color:</label>
+  <input type="color" id="colorPicker" value="#000000" />
+  <label for="brushSize">Size:</label>
+  <input type="range" id="brushSize" min="1" max="50" value="5" />
+  <button id="clearBtn">Clear</button>
 </div>
+<canvas id="drawingCanvas" width="800" height="600"></canvas>
+
+<script>
+  const canvas = document.getElementById('drawingCanvas');
+  const ctx = canvas.getContext('2d');
+
+  const colorPicker = document.getElementById('colorPicker');
+  const brushSize = document.getElementById('brushSize');
+  const clearBtn = document.getElementById('clearBtn');
+
+  let drawing = false;
+
+  // Start drawing
+  canvas.addEventListener('mousedown', (e) => {
+    drawing = true;
+    ctx.lineWidth = brushSize.value;
+    ctx.strokeStyle = colorPicker.value;
+    ctx.lineCap = 'round';
+    ctx.beginPath();
+    ctx.moveTo(e.offsetX, e.offsetY);
+  });
+
+  // Draw
+  canvas.addEventListener('mousemove', (e) => {
+    if (drawing) {
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+    }
+  });
+
+  // Stop drawing
+  canvas.addEventListener('mouseup', () => {
+    if (drawing) {
+      ctx.stroke();
+      ctx.closePath();
+      drawing = false;
+    }
+  });
+
+  // Handle mouse leaving the canvas
+  canvas.addEventListener('mouseleave', () => {
+    if (drawing) {
+      ctx.stroke();
+      ctx.closePath();
+      drawing = false;
+    }
+  });
+
+  // Clear canvas
+  clearBtn.addEventListener('click', () => {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  });
+</script>
 
 </body>
 </html>
